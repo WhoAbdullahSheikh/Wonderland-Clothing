@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ELibrary</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      margin: 0;
+      margin-right: 1%;
+      padding: 1%;
+      background: linear-gradient(#000000, #5c2b2b);
+    }
+
+
+    .container {
+      width: 100%;
+      max-width: 110%;
+      margin: 0 auto;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.4) url(pics/lib.jpg);
+      border-radius: 20px;
+      box-shadow: 0 0 110px rgba(255, 248, 248, 0.1);
+      border: 3px solid #251f1f; 
+      outline: none; 
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-top: 0;
+      color: #fff;
+    }
+
+    .header ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header ul li {
+      display: inline-block;
+      margin-right: 1px;
+      margin-left: 1px;
+      margin-bottom: 31px;
+    }
+
+    .header ul li a {
+      color: #fff;
+      text-decoration: none;
+      background-color: #440000;
+      padding: 8px 15px;
+      border-radius: 15px;
+      transition: background-color 0.3s ease;
+      border: 3px solid #000000;
+      outline: none;
+      
+    }
+
+    .header ul li a:hover {
+      background-color: #45a049;
+      border-color: #45a049;
+    }
+
+    
+    
+
+    .search-button {
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .search-button:hover {
+      background-color: #45a049;
+    }
+
+    
+
+    .area {
+      color: #fff;
+      margin: 0 auto;
+      text-align: ce;
+      margin-top: 70px;
+      width: 50%;
+      padding-left: 5%;
+      padding-right: 5%;
+      border: 2px solid #ffffff;
+      border-radius: 30px;
+      
+    }
+    .area p
+    {
+      margin-bottom: 7%;
+    }
+    .area h1
+    {
+      margin-top: 7%;
+    }
+  
+    .footer {
+      text-align: center;
+      color: #fff;
+      background: black;
+      margin-top: 15%;
+      padding: 5px;
+      
+      border-radius: 10px;
+      border: 2px solid #424242;
+    }
+
+    .header-bar
+    {
+      text-align: center;
+      color: #fff;
+      background: linear-gradient(#000000, #575151);
+      margin-bottom: 1%;
+      padding: 5px;
+      background-color: rgba(107, 55, 55, 0.8);
+      border-radius: 10px;
+      border: 2px solid #424242;
+      
+    }
+    
+  </style>
+
+  <script>
+    function updateTime() {
+      var today = new Date();
+      var date = today.toLocaleDateString();
+      var time = today.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      document.getElementById("header-date").textContent = date;
+      document.getElementById("header-time").textContent = time;
+    }
+
+    setInterval(updateTime, 1000);
+  </script>
+
+
+  
+</head>
+<body>
+  <div class="header-bar">
+    <strong>
+      <span id="header-time" class="header-time"></span>
+      <span id="header-date" class="header-date"></span>
+    </strong>
+  </div>
+
+  <div class="container">
+    <header class="header">
+      <ul>   
+        <h1>E-Library</h1>
+        <br>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="register.php">Register</a></li>
+        <li><a href="adminlogin.php">Admin Login</a></li>
+        <li><a href="studentlogin.php">Student Login</a></li>
+        <li><a href="facultylogin.php">Faculty Login</a></li>
+        <li><a href="#">Search</a></li>
+      </ul>
+    </header>
+  </div>
+
+  <div class="area">
+    <h1 style="color: white;">About Us:</h1>
+    <p style="text-align: justify;">Welcome to our e-library! We're dedicated to providing a vast collection of digital books and resources for readers of all ages. Explore our curated selection across various genres, access it anytime from any device, and engage with our vibrant reading community. Join us in promoting literacy and unlocking the power of knowledge. Happy reading!</p>
+  </div>
+  
+  <div class="footer">
+    <strong>
+    Abdullah &copy; 2023
+    </strong>
+  </div>
+
+  <!-- Bootstrap JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+     
