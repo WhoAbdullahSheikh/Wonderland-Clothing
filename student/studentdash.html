@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome CSS -->
+<style>
+body {
+  font-family: 'Raleway', Arial, sans-serif; /* Add Raleway font */
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+}
+
+.sidebar {
+  position: relative; /* Add relative positioning */
+  width: 200px; /* Decreased width */
+  background: linear-gradient(45deg, #000000, #4a0a0a); /* Gradient background */
+  color: #fff;
+  padding: 20px;
+  overflow-y: auto;
+  transition: width 0.5s ease;
+  height: 100vh; /* Set height to 100% of the viewport height */
+}
+
+.menu-icon {
+  position: absolute; /* Position the icon absolutely */
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.menu-icon:hover {
+  background-color: #915b5b;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin-bottom: 10px;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #fff;
+  display: flex; /* Use flexbox to align icon and text */
+  align-items: center; /* Center items vertically */
+  padding: 10px; /* Adjust padding */
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar a:hover {
+  background-color: #915b5b;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.profile {
+  width: 250px;
+  background: linear-gradient(45deg, #000000, #4a0a0a);
+  color: #fff;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.header {
+  background: linear-gradient(45deg, #000000, #630f0f);
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="sidebar" id="sidebar">
+    <div class="menu-icon" onclick="toggleSidebar()">
+      <i class="fas fa-bars"></i> <!-- Font Awesome menu icon -->
+    </div>
+    <h2>TutorFinder</h2>
+    <ul>
+      <li><a href="#"><i class="fas fa-home"></i> <span style="margin-left: 17px;">Home</span></a></li> <!-- Add icon of home behind Home button -->
+      <li><a href="#"><i class="fas fa-book"></i> <span style="margin-left: 17px;">Subjects</span></a></li> <!-- Add icon of book behind Subjects button -->
+      <li><a href="#"><i class="fas fa-calendar-alt"></i> <span style="margin-left: 17px;">Appointments</span></a></li> <!-- Add icon of calendar behind Appointments button -->
+      <li><a href="#"><i class="fas fa-star"></i> <span style="margin-left: 15px;">Review and Ratings</span></a></li> <!-- Add icon of star behind Review and Ratings button -->
+      <li><a href="/Tutorfinder/startups/register.php"><i class="fas fa-sign-out-alt"></i> <span style="margin-left: 15px;">Logout</span></a></li> <!-- Add icon of sign-out-alt behind Logout button -->
+    </ul>
+  </div>
+  <div class="main-content" id="main-content">
+    <div class="header">
+      <h1>Welcome to the TutorFinder</h1>
+    </div>
+    <p>This is the main content area of your dashboard. You can place various widgets, charts, or other content here.</p>
+  </div>
+  <div class="profile">
+    <h2>Profile</h2>
+    <p>This is the profile screen. You can display user information or additional details here.</p>
+  </div>
+</div>
+
+<script>
+function toggleSidebar() {
+  var sidebar = document.getElementById("sidebar");
+  var mainContent = document.getElementById("main-content");
+  
+  if (sidebar.style.width === "200px") {
+    sidebar.style.width = "0";
+    mainContent.style.marginLeft = "0";
+  } else {
+    sidebar.style.width = "200px";
+    mainContent.style.marginLeft = "0";
+  }
+}
+</script>
+</body>
+</html>

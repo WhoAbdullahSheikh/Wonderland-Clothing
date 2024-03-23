@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "elibrary";
+$dbname = "tutorfinder";
 
 // Create a database connection
 $conn = new mysqli($servername, $username, $password, $dbname);

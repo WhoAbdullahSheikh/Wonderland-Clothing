@@ -3,7 +3,7 @@
 $host = "localhost";
 $username = "root";
 $password = "";
-$database = "elibrary";
+$database = "tutorfinder";
 
 $connection = mysqli_connect($host, $username, $password, $database);
 
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $option = sanitize($_POST["Option"]);
 
     if ($option == "faculty") {
-        $query = "INSERT INTO faculty (id, firstname, lastname, username, email, password) VALUES ('$id', '$firstName', '$lastName', '$userName', '$email', '$password')";
+        $query = "INSERT INTO tutors (id, firstname, lastname, username, email, password) VALUES ('$id', '$firstName', '$lastName', '$userName', '$email', '$password')";
     } else if ($option == "student") {
         $query = "INSERT INTO students (id, firstname, lastname, username, email, password) VALUES ('$id', '$firstName', '$lastName', '$userName', '$email', '$password')";
     }
@@ -332,3 +332,6 @@ mysqli_close($connection);
 </body>
 
 </html>
+
+
+

@@ -3,10 +3,10 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "elibrary";
+$dbname = "tutorfinder";
 
 // Create a database connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname); 
 
 // Check if the connection was successful
 if ($conn->connect_error) {
@@ -20,14 +20,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = $_POST["password"];
 
     // Prepare a SQL query to select the user from the database
-    $query = "SELECT * FROM students WHERE username = '$username' AND password = '$password'";
+    $query = "SELECT * FROM tutors WHERE username = '$username' AND password = '$password'";
     $result = $conn->query($query);
 
     // Check if the query returned any rows
     if ($result->num_rows > 0) {
         // User credentials are correct
         echo "<div class='success-message'>Login successful!</div>";
-        echo "<script>window.location.href = 'studentdash.html';</script>";
+        echo "<script>window.location.href = 'facultydash.html';</script>";
     } else {
         // User credentials are incorrect
         echo "<div class='error-message'>Incorrect username or password.</div>";
@@ -182,12 +182,12 @@ $conn->close();
         .show>.btn-success.dropdown-toggle:focus {
             box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
         }
-
+        
         .success-message {
             color: #28a745;
             margin-top: 10px;
         }
-
+        
         .error-message {
             color: #fc0019;
             margin-top: 10px;
@@ -198,15 +198,14 @@ $conn->close();
         function updateTime() {
             var today = new Date();
             var date = today.toLocaleDateString();
-            var time = today.toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
+            var time = today.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             document.getElementById("header-date").textContent = date;
             document.getElementById("header-time").textContent = time;
         }
 
         setInterval(updateTime, 1000);
+        
+        
     </script>
 </head>
 
@@ -221,24 +220,26 @@ $conn->close();
     <div class="container">
         <header class="header">
             <ul>
-                <h1>E-Library</h1>
-                <li><a href="home.html">Back</a></li>
+            <h1>E-Library</h1>
+                <li><a href="home.html">Back</a></li>            
             </ul>
         </header>
     </div>
 
     <div class="area">
-        <h1 style="color: white;">Student Login</h1>
-        <form action="studentlogin.php" method="POST">
+        
+        <h1 style="color: white;">Faculty Login</h1>
+        <form action="facultylogin.php" method="POST">
             <input type="text" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
             <br>
-
+        
 
             <button type="submit" class="btn-success">Login</button>
             <p id="error-message" class="error-message"></p>
             <p id="success-message" class="success-message" style="display: none;">Login successful!</p>
 
+            
         </form>
     </div>
 
