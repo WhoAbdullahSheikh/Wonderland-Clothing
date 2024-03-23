@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wonderland Clothing</title>
+  <!-- Add your CSS stylesheet link here -->
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Add Font Awesome CDN -->
+ 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    /* Your existing CSS styles */
+    body {
+      font-family: 'Raleway', sans-serif;
+      margin: 0;
+      padding: 0;
+      padding-left: 5%;
+      padding-right: 5%;
+      padding-top: 1%;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #f8f9fa;
+      padding: 10px 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo img {
+      height: 100px;
+    }
+
+    .navigation ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navigation ul li {
+      display: inline-block;
+      margin-left: 20px;
+    }
+
+    .navigation ul li:first-child {
+      margin-left: 0;
+    }
+
+    .navigation ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center; /* Align text and icon vertically */
+    }
+
+    .navigation ul li a:hover {
+      color: #f55f24;
+    }
+
+    .navigation ul li a i {
+      margin-right: 5px; /* Adjust icon spacing */
+      color: black; /* Set icon color to black */
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    footer {
+      background-color: #f8f9fa;
+      padding: 10px 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #333;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .section-break {
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .section-break hr {
+      width: 100%;
+      border: none;
+      height: 2px;
+      background-color: #333;
+    }
+
+    .section-break p {
+      color: #666;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <!-- Logo on the left top side -->
+    <div class="logo">
+      <img src="./images/immg.png" alt="Wonderland Logo" />
+    </div>
+    <!-- Navigation on the right top side -->
+    <nav class="navigation">
+      <ul>
+        <li><a href="#home"><i class="fa fa-home" style="font-size:22px;color: black"></i> Home</a></li>
+        <li><a href="#shop"><i class="fa fa-shopping-bag" style="font-size:22px;color: black"></i> Shop</a></li>
+        <li><a href="#sale"><i class="fa fa-tags" style="font-size:22px;color: black"></i> Sale</a></li>
+        <li><a href="#about"><i class="fa fa-info-circle" style="font-size:22px;color: black"></i> About</a></li>
+        <li><a href="#account"><i class="fa fa-user" style="font-size:22px;color: black"></i> Account</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Content of your homepage goes here -->
+    <div class="section-break">
+      <hr />
+      <p>Explore our latest collection</p>
+    </div>
+
+    <!-- Placeholder animations -->
+    
+  </main>
+
+  <footer class="footer">
+    <!-- Footer content goes here -->
+    <p>&copy; 2024 Wonderland Clothing. All rights reserved.</p>
+  </footer>
+
+  <!-- Add your JavaScript files here if needed -->
+  <script src="scripts.js"></script>
+  <script>
+    // Placeholder animation using JavaScript
+    const animationElement = document.getElementById("animation");
+
+    function animateElement() {
+      const startPosition = 100;
+      let position = startPosition;
+
+      const animationInterval = setInterval(() => {
+        animationElement.style.transform = `translateX(${position}px)`;
+        position--;
+
+        if (position === -startPosition) {
+          clearInterval(animationInterval);
+          animationElement.style.transform = `translateX(0)`;
+        }
+      }, 10);
+    }
+
+    animateElement();
+  </script>
+</body>
+</html>

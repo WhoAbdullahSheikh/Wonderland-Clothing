@@ -51,7 +51,7 @@ mysqli_close($connection);
 
 <head>
     <meta charset="utf-8">
-    <title>ELibrary</title>
+    <title>TutorFinder</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/css/bootstrap.min.css">
     <style>
         body {
@@ -253,7 +253,7 @@ mysqli_close($connection);
     <div class="container">
         <header class="header">
             <ul>
-            <h1>E-Library</h1>
+            <h1>TutorFinder</h1>
                 <li><a href="home.html">Back</a></li> 
             </ul>
         </header>
@@ -325,7 +325,7 @@ mysqli_close($connection);
 
     <br>
     <div class="footer">
-        &copy; 2023 ELibrary. All rights reserved
+        &copy; 2024 TutorFinder. All rights reserved
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/js/bootstrap.bundle.min.js"></script>
