@@ -12,23 +12,37 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
+// Define an empty variable to hold the alert message
+$alert_message = "";
+
 // Step 2: Retrieve form data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $fullname = $_POST['fullname'];
   $email = $_POST['email'];
   $password = $_POST['password'];
 
-  // Step 4: Insert data into database table
-  $sql = "INSERT INTO users (fullname, email, password) VALUES ('$fullname', '$email', '$password')";
+  // Step 3: Check if email already exists in the database
+  $check_email_sql = "SELECT * FROM users WHERE email='$email'";
+  $result = $conn->query($check_email_sql);
 
-  if ($conn->query($sql) === TRUE) {
-    $message = "Registration successful!";
+  if ($result->num_rows > 0) {
+    // Email already exists
+    $alert_message = '<div class="alert"><strong>Already Registered!</strong> Please press login sign in yourself</div>';
   } else {
-    $message = "Error: " . $sql . "<br>" . $conn->error;
+    // Step 4: Insert data into database table
+    $sql = "INSERT INTO users (fullname, email, password) VALUES ('$fullname', '$email', '$password')";
+
+    if ($conn->query($sql) === TRUE) {
+      // Registration successful
+      $alert_message = '<div class="alert success"><strong>Success!</strong> You are logged in successfully</div>';
+    } else {
+      // Error occurred during registration
+      $alert_message = '<div class="alert"><strong>Error!</strong> ' . $sql . '<br>' . $conn->error . '</div>';
+    }
   }
 }
 
-// Step 5: Close the database connection
+// Close the database connection
 $conn->close();
 ?>
 
@@ -693,38 +707,33 @@ $conn->close();
       display: flex;
     }
 
-    .circle-card {
-      text-align: center;
-      font-size: 30px;
-      padding: 2%;
-      transition: opacity 0.3s ease;
+    /* The alert message box */
+    .alert {
+      padding: 15px;
+      background-color: #f44336;
+      color: white;
+      opacity: 1;
+      transition: opacity 0.6s;
+      margin-bottom: 15px;
     }
 
-    .circle-card:hover {
-      color: rgb(158, 129, 0);
-      opacity: 0.8;
-      /* Reduce opacity on hover */
+    .alert.success {
+      background-color: #04AA6D;
     }
 
-    .circle-image img {
-      width: 330px;
-      /* adjust size as needed */
-      height: 450px;
-      /* adjust size as needed */
-      border-radius: 20%;
-      border: 2px solid black;
-      border-width: 2px;
-      /* Remove any existing border */
-      box-shadow: 20px 25px 15px 5px rgba(77, 76, 76, 0.5);
-      /* Adjust color and size as needed */
+    .alert.info {
+      background-color: #2196F3;
     }
+
+    .alert.warning {
+      background-color: #ff9800;
+    }
+
   </style>
 </head>
 
 <body>
-  <?php if (isset($message)) { ?>
-    <div><?php echo $message; ?></div>
-  <?php } ?>
+
   <header>
     <div class="logo"><a href="#">Wonderland</a></div>
 
@@ -759,7 +768,13 @@ $conn->close();
       </div>
     </div>
   </header>
+
+
+
+
+
   <section>
+    <?php echo $alert_message; ?>
     <div class="section">
       <div class="section1">
         <div class="register-container">
@@ -844,6 +859,20 @@ $conn->close();
     </div>
   </footer>
   <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var alerts = document.querySelectorAll(".alert");
+
+      alerts.forEach(function(alert) {
+        setTimeout(function() {
+          alert.style.opacity = "0";
+          setTimeout(function() {
+            alert.style.display = "none";
+          }, 600);
+        }, 3000); // Fade out after 5 seconds
+      });
+    });
+  </script>
 </body>
 
 </html>
