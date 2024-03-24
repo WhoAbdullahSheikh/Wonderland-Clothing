@@ -27,6 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if ($result->num_rows > 0) {
     // User exists, login successful
     $alert_message = '<div class="alert success"><strong>Success!</strong> Login successful</div>';
+    header("Location: profilescreen.html");
+    exit();
   } else {
     // User not found or password incorrect
     $alert_message = '<div class="alert"><strong>Error!</strong> Invalid email or password</div>';
