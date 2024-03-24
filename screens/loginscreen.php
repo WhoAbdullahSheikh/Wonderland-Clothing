@@ -17,34 +17,26 @@ $alert_message = "";
 
 // Step 2: Retrieve form data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $fullname = $_POST['fullname'];
   $email = $_POST['email'];
   $password = $_POST['password'];
 
-  // Step 3: Check if email already exists in the database
-  $check_email_sql = "SELECT * FROM users WHERE email='$email'";
-  $result = $conn->query($check_email_sql);
+  // Step 3: Check if user exists in the database
+  $check_user_sql = "SELECT * FROM users WHERE email='$email' AND password='$password'";
+  $result = $conn->query($check_user_sql);
 
   if ($result->num_rows > 0) {
-    // Email already exists
-    $alert_message = '<div class="alert"><strong>Already Registered!</strong> Please press login sign in yourself</div>';
+    // User exists, login successful
+    $alert_message = '<div class="alert success"><strong>Success!</strong> Login successful</div>';
   } else {
-    // Step 4: Insert data into database table
-    $sql = "INSERT INTO users (fullname, email, password) VALUES ('$fullname', '$email', '$password')";
-
-    if ($conn->query($sql) === TRUE) {
-      // Registration successful
-      $alert_message = '<div class="alert success"><strong>Success!</strong> You are logged in successfully</div>';
-    } else {
-      // Error occurred during registration
-      $alert_message = '<div class="alert"><strong>Error!</strong> ' . $sql . '<br>' . $conn->error . '</div>';
-    }
+    // User not found or password incorrect
+    $alert_message = '<div class="alert"><strong>Error!</strong> Invalid email or password</div>';
   }
 }
 
 // Close the database connection
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -512,96 +504,60 @@ $conn->close();
       }
     }
 
-    .register-container {
+    .login-container {
+
       margin: 0 auto;
       max-width: 400px;
       padding: 20px;
       border: 2px solid black;
       border-radius: 30px;
       background-color: white;
+
     }
 
-    .register-container h2 {
+    .login-container h2 {
       text-align: center;
       margin-bottom: 20px;
     }
 
-    .register-container p {
+    .login-container p {
       margin-top: 10px;
+      /* Adjust spacing between the form and the paragraph */
       font-size: 14px;
+      /* Adjust font size */
       color: #888;
+      /* Adjust text color */
       text-align: center;
       font-weight: bold;
     }
 
-    .register-container p a {
+    .login-container p a {
       color: #887419;
+      /* Adjust link color */
       text-decoration: none;
+      /* Remove default underline */
     }
 
-    .register-container p a:hover {
+    .login-container p a:hover {
       color: #f3a807;
+      /* Adjust link color on hover */
       text-decoration: underline;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button[type="submit"] {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      background-color: rgb(240, 197, 6);
-      color: rgb(0, 0, 0);
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button[type="submit"]:hover {
-      background-color: rgb(243, 168, 7);
-    }
-
-    .register-container p a {
-      color: #887419;
-      text-decoration: none;
-    }
-
-    .register-container p a:hover {
-      color: #f3a807;
-      text-decoration: underline;
+      /* Add underline on hover */
     }
 
     @media screen and (max-width: 550px) {
-      .register-container {
+      .login-container {
         max-width: 90%;
         /* Adjust max-width for smaller screens */
       }
 
-      input[type="text"],
+
       input[type="email"],
       input[type="password"] {
         width: calc(100% - 20px);
         /* Adjust input width for smaller screens */
       }
     }
-
 
     .form-group {
       margin-bottom: 20px;
@@ -707,7 +663,6 @@ $conn->close();
       display: flex;
     }
 
-    /* The alert message box */
     .alert {
       padding: 15px;
       background-color: #f44336;
@@ -728,14 +683,14 @@ $conn->close();
     .alert.warning {
       background-color: #ff9800;
     }
-
   </style>
 </head>
 
 <body>
-
   <header>
     <div class="logo"><a href="#">Wonderland</a></div>
+
+
     </div>
 
     <div class="heading">
@@ -743,7 +698,7 @@ $conn->close();
         <li><a href="../home.html" class="under">HOME</a></li>
         <li><a href="#" class="under">SHOP</a></li>
         <li><a href="#" class="under">OUR PRODUCTS</a></li>
-        <li><a href="./loginscreen.php" class="under">LOGIN/REGISTER</a></li>
+        <li><a href="#" class="under">LOGIN/REGISTER</a></li>
         <li><a href="#" class="under">ABOUT US</a></li>
         <li><a href="#home"><i class="fa fa-search" style="font-size:20px;color: white"></i></a></li>
         <li><a href="#home"><i class="fa fa-user" style="font-size:20px;color: white"></i></a></li>
@@ -766,42 +721,29 @@ $conn->close();
       </div>
     </div>
   </header>
-
-
-
-
-
   <section>
-    <?php echo $alert_message; ?>
+  <?php echo $alert_message; ?>
     <div class="section">
       <div class="section1">
-        <div class="register-container">
-          <h2>Register</h2>
-          <form id="register-form" action="registerscreen.php" method="POST">
-            <div class="form-group">
-              <label for="fullname">Full Name:</label>
-              <input type="text" id="fullname" name="fullname" required />
-            </div>
+        <div class="login-container">
+          <h2>Login</h2>
+          <form id="login-form" action="loginscreen.php" method="POST">
             <div class="form-group">
               <label for="email">Email:</label>
-              <input type="email" id="email" name="email" required />
+              <input type="text" id="email" name="email" required />
             </div>
             <div class="form-group">
               <label for="password">Password:</label>
               <input type="password" id="password" name="password" required />
             </div>
-            <div class="form-group">
-              <label for="password">Re-Password:</label>
-              <input type="password" id="password" name="password" required />
-            </div>
-            <button type="submit">Register</button>
+
+            <button type="submit">Login</button>
           </form>
-          <p>Already have an account? <a href="./loginscreen.php">Login</a></p>
+          <p>Don't have an account? <a href="./registerscreen.php">Register</a></p>
         </div>
       </div>
     </div>
   </section>
-
 
   <footer>
     <div class="footer0">
