@@ -164,43 +164,7 @@
             border: 2.5px solid black;
             border-radius: 12px;
           }
-          .section2 .container .items .name {
-            text-align: center;
-            background-color: rgb(240, 197, 6);
-            height: 25px;
-            padding-top: 4px;
-            color: white;
-            margin: 0;
-          }
-          .section2 .container .items .price {
-            float: left;
-            padding-left: 10px;
-            display: block;
-            width: 100%;
-            color: rgb(255, 0, 0);
-            font-weight: 650;
-          }
-          .section2 .container .items .info {
-            padding-left: 10px;
-            color: rgb(243, 168, 7);
-          }
-          .section2 .container .items .img img {
-            width: 200px;
-            height: 200px;
-            margin: 0;
-            padding: 0;
-            border-radius: 12px;
-            transition-duration: 0.8s;
-          }
-          .section2 .container .items .img {
-            overflow: hidden;
-            margin: 0;
-          }
-          .section2 .container .items:hover .img img {
-            transform: scale(1.2);
-            transition-duration: 0.8s;
-            border-radius: 12px;
-          }
+          
           footer {
             margin-top: 3%;
             padding-top: 3%;
@@ -466,14 +430,7 @@
             }
           }
           
-          
-          .section-break hr {
-            width: 85%; /* Adjust the width as needed */
-            border: none;
-            height: 1px;
-            margin: 0 auto; /* Center the line horizontally */
-            background-color: #333;
-          }
+        
           .section2 {
             width: 100%;
             display: flex;
@@ -496,23 +453,56 @@
             display: flex;
           }
           
-          .circle-card {
+         
+          
+          .section-break {
+            padding-top: 2%;
             text-align: center;
-            font-size: 30px;
-            padding: 2%;
-            transition: opacity 0.3s ease;
+            margin: 5px 0;
+            padding-bottom: 1%;
           }
-          .circle-card:hover {
-            color: rgb(158, 129, 0);
-            opacity: 0.8; /* Reduce opacity on hover */
+          
+          .section-break hr {
+            width: 57%; /* Adjust the width as needed */
+            border: none;
+            height: 1px;
+            margin: 0 auto; /* Center the line horizontally */
+            background-color: #333;
           }
-          .circle-image img {
-            width: 330px; /* adjust size as needed */
-            height: 450px; /* adjust size as needed */
-            border-radius: 20%;
-            border: 2px solid black;
-            border-width: 2px; /* Remove any existing border */
-            box-shadow: 20px 25px 15px 5px rgba(77, 76, 76, 0.5); /* Adjust color and size as needed */
+          .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            margin: auto;
+            text-align: center;
+            font-family: arial;
+            padding-bottom: 5%;
+          }
+
+         
+          
+          .price {
+            color: grey;
+            font-size: 22px;
+          }
+          
+          .card button {
+            border: none;
+            outline: 0;
+            padding: 12px;
+            color: white;
+            background-color: #000;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+          }
+          
+          .card button:hover {
+          
+              color: rgb(158, 129, 0);
+              opacity: 0.8; /* Reduce opacity on hover */
+            
+          
           }
           
     </style>
@@ -520,9 +510,8 @@
 
   <body>
     <header>
-      <div class="logo"><a href="#">Wonderland</a></div>
-      
-        
+      <div class="logo">
+        <a href="#">Wonderland</a></div>
       </div>
       
       <div class="heading">
@@ -550,53 +539,175 @@
             <li><a href="#" class="under">LOGIN/REGISTER</a></li>
             <li><a href="#" class="under">ABOUT US</a></li>
           </ul>
+          
         </div>
       </div>
     </header>
     <section>
-      <div class="section">
-        <div class="section1">
-          <div class="slideshow-container">
-            
-          </div>
-        </div>
-
-        
+     
+    
         <div class="category-heading">
-          <h1>Clothing Categories</h1>
+          <h1>Mens Clothing</h1>
         </div> 
         <div class="section2">
           <div class="container">
-            <div class="circle-card">
-              <div class="circle-image">
-                <img
-                  src="./images/0043_2S24P3P164-052A4096_540x.webp"
-                  alt=""
-                />
-                <br />
-                <br />
-                <p>Women</p>
-              </div>
+            <div class="card">
+              <img src="../collection/men/a71e89720939743a3614ac096f67bab3.jpg" alt="Denim Jeans" style="width:100%">
+              
+              
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
             </div>
-            <div class="circle-card">
-              <div class="circle-image">
-                <img src="./images/product-detail-02.jpg" alt="" />
-                <br />
-                <br />
-                <p>Men</p>
-              </div>
+           
+            <div class="card">
+              <img src="../collection/men/CB-18.jpg" alt="Denim Jeans" style="width:100%">
+              
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
             </div>
-            <div class="circle-card">
-              <div class="circle-image">
-                <img src="./images/product-12.jpg" alt="" />
-                <br />
-                <br />
-                <p>Accessories</p>
-              </div>
+            <div class="card">
+              <img src="../collection/men/DS-41.jpg" alt="Denim Jeans" style="width:100%">
+              
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
             </div>
+            <div class="card">
+              <img src="../collection/men/6cd89aa0a4f5332635198f49b1d8a453.jpg" alt="Denim Jeans" style="width:100%">
+              
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
+            </div>
+            <div class="card">
+              <img src="../collection/men/CB-22_d079669b-6d50-4f25-a6d8-87ffa64f76d8.jpg" alt="Denim Jeans" style="width:100%">
+              
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
+            </div>
+            <div class="card">
+              <img src="../collection/men/CB-22_d079669b-6d50-4f25-a6d8-87ffa64f76d8.jpg" alt="Denim Jeans" style="width:100%">
+              
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
+            </div>
+            <div class="card">
+              <img src="../collection/men/CB-26.jpg" alt="Denim Jeans" style="width:100%">
+             
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
+            </div>
+            <div class="card">
+              <img src="../collection/men/CB-39_e6cf4c45-1f72-4fc4-a6e0-5b2e9ede057b.jpg" alt="Denim Jeans" style="width:100%">
+             
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
+            </div>
+            <div class="card">
+              <img src="../collection/men/DS-26.jpg" alt="Denim Jeans" style="width:100%">
+              
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
+            </div>
+            <div class="card">
+              <img src="../collection/men/DS-17_04d00459-4a48-4f18-b012-22a58311ca16.jpg" alt="Denim Jeans" style="width:100%">
+              
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
+            </div>
+           
           </div>
         </div>
-      </div>
+        
+        <div class="section-break">
+          <hr />
+        </div>
+       
+        <div class="category-heading">
+          <h1>Women Clothing</h1>
+        </div> 
+        <div class="section2">
+          <div class="container">
+            <div class="card">
+              <img src="../collection/women/MF-114.jpg" alt="Denim Jeans" style="width:100%">
+              
+              <p class="price">$19.99</p>
+              <h2>Condtion:</h2><p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
+            </div>
+            <div class="card">
+              <img src="../collection/women/MF-128.jpg" alt="Denim Jeans" style="width:100%">
+              
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
+            </div>
+            <div class="card">
+              <img src="../collection/women/MF-27.jpg" alt="Denim Jeans" style="width:100%">
+              
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
+            </div>
+            <div class="card">
+              <img src="../collection/women/MF-31.jpg" alt="Denim Jeans" style="width:100%">
+              
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
+            </div>
+            <div class="card">
+              <img src="../collection/women/MF-80.jpg" alt="Denim Jeans" style="width:100%">
+             
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
+            </div>
+            <div class="card">
+              <img src="../collection/women/MF-89.jpg" alt="Denim Jeans" style="width:100%">
+             
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
+            </div>
+            <div class="card">
+              <img src="../collection/women/MF-98.jpg" alt="Denim Jeans" style="width:100%">
+              
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
+            </div>
+            <div class="card">
+              <img src="../collection/women/NL-97.jpg" alt="Denim Jeans" style="width:100%">
+              
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
+            </div>
+            <div class="card">
+              <img src="../collection/women/SWT-1269_13edd3ca-07e8-4ef3-9b0e-e7cc10f3097d.jpg" alt="Denim Jeans" style="width:100%">
+             
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
+            </div>
+            <div class="card">
+              <img src="../collection/women/SWT-1367_32e30ebe-791b-4c5a-a1bd-0fd21fb656b7.jpg" alt="Denim Jeans" style="width:100%">
+             
+              <p class="price">$19.99</p>
+              <p>Some text about the jeans..</p>
+              <p><button>Add to Cart</button></p>
+            </div>
+          </div>
+       
     </section>
     <footer>
       <div class="footer0">
