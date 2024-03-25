@@ -395,6 +395,7 @@ footer {
 .menu {
   visibility: hidden;
   display: none;
+  padding-right: 15%;
   
 }
 
