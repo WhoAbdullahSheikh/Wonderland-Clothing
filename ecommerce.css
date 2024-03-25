@@ -23,6 +23,10 @@ header {
   background: black;
   padding-right: 3%;
 }
+.heading1 {
+  opacity: 1;
+  bottom: 8px;
+}
 
 .heading ul {
   display: flex;
@@ -44,6 +48,7 @@ header {
 }
 .heading ul li {
     list-style-type: none;
+    margin: 0 10px;
  
 }
 .heading ul li a {
@@ -389,7 +394,10 @@ footer {
 }
 .menu {
   visibility: hidden;
+  display: none;
+  
 }
+
 .heading1 .ham:active {
   color: red;
 }
@@ -417,10 +425,12 @@ footer {
     color: red;
   }
   .menu {
-    display: flex;
+    display:block;
     flex-direction: column;
     align-items: center;
+    
   }
+
   .menu a ion-icon {
     position: absolute;
   }
@@ -468,15 +478,15 @@ footer {
     flex-direction: column;
     position: absolute;
     width: 100vw;
-    height: 100vh;
-    background-color: black;
+    height: 70vh;
+    background-color: rgba(0, 0, 0, 0.8); /* Adjust alpha value to make it slightly transparent */
     left: 0;
     top: 0;
     z-index: 11;
     align-items: center;
     justify-content: center;
-    opacity: 1;
   }
+  
   .close {
     z-index: 34;
 
@@ -499,7 +509,8 @@ footer {
     text-decoration: none;
     padding-top: 10px;
     color: white;
-    font-weight: 900;
+    font-weight: 90;
+
   }
   .menu ul li a:hover {
     color: rgb(240, 197, 6);
@@ -527,7 +538,6 @@ footer {
 
   .heading1 {
     opacity: 1;
-    position: relative;
     bottom: 8px;
   }
   .search a {
@@ -548,18 +558,19 @@ footer {
   }
 }
 
+
+
 @media screen and (max-width: 550px) {
   .heading ul li {
     display: none;
   }
   .heading1 {
     opacity: 1;
-
     bottom: 8px;
   }
 
   header {
-    height: 250px;
+    height: 200px;
     flex-wrap: wrap;
     display: flex;
     flex-direction: column;
