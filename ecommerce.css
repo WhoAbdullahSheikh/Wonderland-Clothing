@@ -20,7 +20,7 @@ header {
   height: 60px;
   width: 100%;
   background: black;
-  padding-right: 0%;
+  padding-right: 3%;
 }
 .heading1 {
   opacity: 1;
@@ -45,7 +45,7 @@ header {
 }
 .heading ul li {
   list-style-type: none;
-  margin: 0 10px;
+ 
 }
 .heading ul li a {
   margin: 5px;
@@ -471,13 +471,8 @@ footer {
     flex-direction: column;
     position: absolute;
     width: 100vw;
-    height: 70vh;
-    background-color: rgba(
-      0,
-      0,
-      0,
-      0.8
-    ); /* Adjust alpha value to make it slightly transparent */
+    height: 1000vh;
+    background-color: black; /* Adjust alpha value to make it slightly transparent */
     left: 0;
     top: 0;
     z-index: 11;
@@ -534,6 +529,7 @@ footer {
 
   .heading1 {
     opacity: 1;
+    position: relative;
     bottom: 8px;
   }
   .search a {
