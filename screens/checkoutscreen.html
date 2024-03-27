@@ -28,7 +28,9 @@
         padding: 0;
         box-sizing: border-box;
         font-family: "Raleway", sans-serif;
-        box-sizing: border-box;
+      }
+      body {
+        font-size: 17px;
       }
       header {
         display: flex;
@@ -144,23 +146,6 @@
         justify-content: center;
         align-items: center;
         margin: 0px auto;
-      }
-
-      .section2 .container {
-        display: flex;
-        width: 100%;
-        height: max-content;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin: 10px auto;
-      }
-      .section2 .container .items {
-        margin: 10px;
-        width: 200px;
-        height: 300px;
-        background-color: white;
-        border: 2.5px solid black;
-        border-radius: 12px;
       }
 
       footer {
@@ -427,18 +412,7 @@
           flex-wrap: nowrap;
         }
       }
-
-      .section2 {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .container {
-        max-width: 1200px;
-        padding: 20px;
-      }
+      
 
       .category-heading {
         text-align: center;
@@ -464,51 +438,98 @@
         margin: 0 auto; /* Center the line horizontally */
         background-color: #333;
       }
-      .card {
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        max-width: 300px;
-        margin: auto;
-        text-align: center;
-        padding-bottom: 7%;
+
+      /*********************************************************************************/
+      .row {
+        display: -ms-flexbox; /* IE10 */
+        display: flex;
+        -ms-flex-wrap: wrap; /* IE10 */
+        flex-wrap: wrap;
+        margin: 0 -16px;
       }
 
-      .card img:hover {
-        color: rgb(155, 155, 155);
-        opacity: 0.8; /* Reduce opacity on hover */
-        transition: 0.3s ease;
+      .col-25 {
+        -ms-flex: 25%; /* IE10 */
+        flex: 25%;
       }
 
-      .price {
-        color: rgb(0, 0, 0);
-        font-size: 22px;
-        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-          "Lucida Sans", Arial, sans-serif;
+      .col-50 {
+        -ms-flex: 50%; /* IE10 */
+        flex: 50%;
       }
 
-      .card button {
-        border: none;
-        outline: 0;
-        padding: 12px;
-        color: white;
-        background-color: #000;
-        text-align: center;
-        cursor: pointer;
+      .col-75 {
+        -ms-flex: 75%; /* IE10 */
+        flex: 75%;
+      }
+
+      .col-25,
+      .col-50,
+      .col-75 {
+        margin-top: 1%;
+        padding: 0 16px;
+      }
+
+      .container {
+        background-color: #f2f2f2;
+        padding: 5px 20px 15px 20px;
+        border: 1px solid lightgrey;
+        border-radius: 3px;
+      }
+
+      input[type="text"] {
         width: 100%;
-        font-size: 18px;
-        margin-top: 6%;
+        margin-bottom: 20px;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
       }
 
-      .card button:hover {
-        color: rgb(192, 157, 4);
-        opacity: 1; /* Reduce opacity on hover */
-        transition: 0.3s ease;
+      label {
+        margin-bottom: 10px;
+        display: block;
       }
-   
+
+      .icon-container {
+        margin-bottom: 20px;
+        padding: 7px 0;
+        font-size: 24px;
+      }
+
+      .btn {
+        background-color: #04aa6d;
+        color: white;
+        padding: 12px;
+        margin: 10px 0;
+        border: none;
+        width: 100%;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 17px;
+      }
+
+      .btn:hover {
+        background-color: #45a049;
+      }
+
+      span.price {
+        float: right;
+        color: grey;
+      }
+
+      /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (and change the direction - make the "cart" column go on top) */
+      @media (max-width: 800px) {
+        .row {
+          flex-direction: column-reverse;
+        }
+        .col-25 {
+          margin-bottom: 20px;
+        }
+      }
     </style>
   </head>
 
   <body>
-    
     <header>
       <div class="logo">
         <a href="#">Wonderland</a>
@@ -517,7 +538,7 @@
       <div class="heading">
         <ul>
           <li><a href="../home.html" class="under">HOME</a></li>
-          <li><a href="#" class="under">SHOP</a></li>
+          <li><a href="./shopscreen.html" class="under">SHOP</a></li>
           <li><a href="#" class="under">OUR PRODUCTS</a></li>
           <li><a href="#" class="under">LOGIN/REGISTER</a></li>
           <li><a href="#" class="under">ABOUT US</a></li>
@@ -551,270 +572,157 @@
       </div>
     </header>
     <section>
-      
-      <div class="category-heading">
-        <h1>Mens Clothing</h1>
-      </div>
-      <div class="section2">
-        <div class="container">
-          <div class="card">
-            <img
-              src="../collection/men/a71e89720939743a3614ac096f67bab3.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
+      <div class="row">
+        <div class="col-75">
+          <div class="container">
+            <form action="/screens/checkoutscreen.html">
+              <div class="row">
+                <div class="col-50">
+                  <h3>Billing Address</h3>
+                  <br />
+                  <label for="fname"
+                    ><i class="fa fa-user"></i> Full Name</label
+                  >
+                  <input
+                    type="text"
+                    id="fname"
+                    name="firstname"
+                    placeholder="John M. Doe"
+                  />
+                  <label for="email"
+                    ><i class="fa fa-envelope"></i> Email</label
+                  >
+                  <input
+                    type="text"
+                    id="email"
+                    name="email"
+                    placeholder="john@example.com"
+                  />
+                  <label for="adr"
+                    ><i class="fa fa-address-card-o"></i> Address</label
+                  >
+                  <input
+                    type="text"
+                    id="adr"
+                    name="address"
+                    placeholder="542 W. 15th Street"
+                  />
+                  <label for="city"
+                    ><i class="fa fa-institution"></i> City</label
+                  >
+                  <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    placeholder="New York"
+                  />
 
-            <p class="price">Rs. 360/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
+                  <div class="row">
+                    <div class="col-50">
+                      <label for="state">State</label>
+                      <input
+                        type="text"
+                        id="state"
+                        name="state"
+                        placeholder="NY"
+                      />
+                    </div>
+                    <div class="col-50">
+                      <label for="zip">Zip</label>
+                      <input
+                        type="text"
+                        id="zip"
+                        name="zip"
+                        placeholder="10001"
+                      />
+                    </div>
+                  </div>
+                </div>
 
-          <div class="card">
-            <img
-              src="../collection/men/CB-18.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
+                <div class="col-50">
+                  <h3>Payment</h3>
+                  <br />
+                  <label for="fname">Accepted Cards</label>
+                  <div class="icon-container">
+                    <i class="fa fa-cc-visa" style="color: navy"></i>
+                    <i class="fa fa-cc-amex" style="color: blue"></i>
+                    <i class="fa fa-cc-mastercard" style="color: red"></i>
+                    <i class="fa fa-cc-discover" style="color: orange"></i>
+                  </div>
+                  <label for="cname">Name on Card</label>
+                  <input
+                    type="text"
+                    id="cname"
+                    name="cardname"
+                    placeholder="John More Doe"
+                  />
+                  <label for="ccnum">Credit card number</label>
+                  <input
+                    type="text"
+                    id="ccnum"
+                    name="cardnumber"
+                    placeholder="1111-2222-3333-4444"
+                  />
+                  <label for="expmonth">Exp Month</label>
+                  <input
+                    type="text"
+                    id="expmonth"
+                    name="expmonth"
+                    placeholder="September"
+                  />
 
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/men/DS-41.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 360/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/men/6cd89aa0a4f5332635198f49b1d8a453.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 360/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/men/CB-22_d079669b-6d50-4f25-a6d8-87ffa64f76d8.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/men/CB-22_d079669b-6d50-4f25-a6d8-87ffa64f76d8.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/men/CB-26.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/men/CB-39_e6cf4c45-1f72-4fc4-a6e0-5b2e9ede057b.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/men/DS-26.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 360/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/men/DS-17_04d00459-4a48-4f18-b012-22a58311ca16.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 360/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+                  <div class="row">
+                    <div class="col-50">
+                      <label for="expyear">Exp Year</label>
+                      <input
+                        type="text"
+                        id="expyear"
+                        name="expyear"
+                        placeholder="2018"
+                      />
+                    </div>
+                    <div class="col-50">
+                      <label for="cvv">CVV</label>
+                      <input
+                        type="text"
+                        id="cvv"
+                        name="cvv"
+                        placeholder="352"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <label>
+                <input type="checkbox" checked="checked" name="sameadr" />
+                Shipping address same as billing
+              </label>
+              <input type="submit" value="Continue to checkout" class="btn" />
+            </form>
           </div>
         </div>
-      </div>
-
-      <div class="section-break">
-        <hr />
-      </div>
-
-      <div class="category-heading">
-        <h1>Women Clothing</h1>
-      </div>
-      <div class="section2">
-        <div class="container">
-          <div class="card">
-            <img
-              src="../collection/women/MF-114.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/MF-128.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/MF-27.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/MF-31.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/MF-80.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/MF-89.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/MF-98.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/NL-97.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/SWT-1269_13edd3ca-07e8-4ef3-9b0e-e7cc10f3097d.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/SWT-1367_32e30ebe-791b-4c5a-a1bd-0fd21fb656b7.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+        <div class="col-25">
+          <div class="container">
+            <h4>
+              Cart
+              <span class="price" style="color: black"
+                ><i class="fa fa-shopping-cart"></i>
+                <b id="cartItemCount">0</b></span
+              >
+            </h4>
+            <div id="cartItems"></div>
+            <hr />
+            <p>
+              Total
+              <span class="price" style="color: black"
+                ><b>$<span id="totalPrice">0</span></b></span
+              >
+            </p>
+            <button onclick="clearCart()" class="btn">Clear Cart</button>
           </div>
         </div>
       </div>
     </section>
- 
 
     <footer>
       <div class="footer0">
@@ -872,13 +780,34 @@
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
     <script src="./JS/cartscreen.js"></script>
     <script>
-      function addToCartAndRedirect(productName, price) {
-          let cart = JSON.parse(localStorage.getItem('cart')) || [];
-          cart.push({ name: productName, price: price });
-          localStorage.setItem('cart', JSON.stringify(cart));
-          window.location.href = './checkoutscreen.html'; // Redirect to the checkout page
+      document.addEventListener("DOMContentLoaded", function () {
+        displayCart();
+      });
+
+      function displayCart() {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let cartItemsContainer = document.getElementById("cartItems");
+        let totalPrice = 0;
+
+        cartItemsContainer.innerHTML = ""; // Clear previous items
+
+        cart.forEach(function (item) {
+          cartItemsContainer.innerHTML +=
+            "<p>" +
+            item.name +
+            ' <span class="price">$' +
+            item.price +
+            "</span></p>";
+          totalPrice += item.price;
+        });
+
+        document.getElementById("cartItemCount").textContent = cart.length;
+        document.getElementById("totalPrice").textContent = totalPrice;
       }
-  </script>
-  
+      function clearCart() {
+        localStorage.removeItem("cart");
+        displayCart(); // Update the cart display after clearing
+      }
+    </script>
   </body>
 </html>
