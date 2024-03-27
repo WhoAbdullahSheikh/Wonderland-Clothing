@@ -86,11 +86,17 @@ $conn->close();
       height: 60px;
       width: 100%;
       background: black;
-      padding-right: 2%;
+      padding-right: 3%;
+    }
+
+    .heading1 {
+      opacity: 1;
+      bottom: 8px;
     }
 
     .heading ul {
       display: flex;
+
 
     }
 
@@ -199,7 +205,144 @@ $conn->close();
 
     }
 
+    @keyframes slide {
+      0% {
+        left: 0px;
+      }
 
+      15% {
+        left: 0px;
+      }
+
+      20% {
+        left: -1080px;
+      }
+
+      32% {
+        left: -1080px;
+      }
+
+      35% {
+        left: -2160px;
+      }
+
+      47% {
+        left: -2160px;
+      }
+
+      50% {
+        left: -3240px;
+      }
+
+      63% {
+        left: -3240px;
+      }
+
+      66% {
+        left: -4320px;
+      }
+
+      79% {
+        left: -4320px;
+      }
+
+      82% {
+        left: -5400px;
+      }
+
+      100% {
+        left: 0px;
+      }
+    }
+
+    .slideshow-container {
+      max-width: 1000px;
+      position: relative;
+      margin: auto;
+      padding-top: 3%;
+
+
+    }
+
+    /* Hide the images by default */
+    .mySlides {
+      display: none;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+
+    }
+
+    /* Next & previous buttons */
+    .prev,
+    .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      margin-top: -22px;
+      padding: 16px;
+      color: rgb(8, 8, 8);
+      font-weight: bold;
+      font-size: 18px;
+      transition: 0.6s ease;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* Position the "next button" to the right */
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
+
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(151, 148, 148, 0.8);
+    }
+
+    /* The dots/bullets/indicators */
+    .dot {
+      cursor: pointer;
+      height: 10px;
+      width: 10px;
+      margin: 0 2px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.6s ease;
+    }
+
+    .active,
+    .dot:hover {
+      background-color: #717171;
+    }
+
+    /* Fading animation */
+    .fade {
+      animation-name: fade;
+      animation-duration: 1.5s;
+    }
+
+    @keyframes fade {
+      from {
+        opacity: 0.4;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .img-slider {
+      display: flex;
+      float: left;
+      position: relative;
+      width: 1080px;
+      height: 720px;
+      animation-name: slide;
+      animation-duration: 10s;
+      animation-iteration-count: infinite;
+      transition-duration: 2s;
+    }
 
     .heading1 {
       opacity: 0;
@@ -216,8 +359,6 @@ $conn->close();
       justify-content: center;
       align-items: center;
       margin: 0px auto;
-      padding-top: 5%;
-      padding-bottom: 4.5%;
     }
 
     .section2 .container {
@@ -373,6 +514,7 @@ $conn->close();
 
     .menu {
       visibility: hidden;
+
     }
 
     .heading1 .ham:active {
@@ -407,29 +549,79 @@ $conn->close();
       }
 
       .menu {
-        display: flex;
+        display: block;
         flex-direction: column;
         align-items: center;
+
       }
 
       .menu a ion-icon {
         position: absolute;
       }
 
+      @keyframes slide1 {
+        0% {
+          left: 0vw;
+        }
+
+        15% {
+          left: 0vw;
+        }
+
+        20% {
+          left: -80vw;
+        }
+
+        32% {
+          left: -80vw;
+        }
+
+        35% {
+          left: -160vw;
+        }
+
+        47% {
+          left: -160vw;
+        }
+
+        50% {
+          left: -240vw;
+        }
+
+        63% {
+          left: -240vw;
+        }
+
+        66% {
+          left: -320vw;
+        }
+
+        79% {
+          left: -320vw;
+        }
+
+        82% {
+          left: -400vw;
+        }
+
+        100% {
+          left: 0vw;
+        }
+      }
 
       .menu ul {
         display: flex;
         flex-direction: column;
         position: absolute;
         width: 100vw;
-        height: 100vh;
-        background-color: black;
+        height: 70vh;
+        background-color: rgb(0, 0, 0, 0.8);
         left: 0;
         top: 0;
         z-index: 11;
         align-items: center;
         justify-content: center;
-        opacity: 1;
+
       }
 
       .close {
@@ -457,7 +649,7 @@ $conn->close();
         text-decoration: none;
         padding-top: 10px;
         color: white;
-        font-weight: 900;
+        font-weight: 90;
       }
 
       .menu ul li a:hover {
@@ -482,13 +674,11 @@ $conn->close();
         justify-content: center;
         align-items: center;
         margin: 0px auto;
-
       }
 
 
       .heading1 {
         opacity: 1;
-        position: relative;
         bottom: 8px;
       }
 
@@ -510,6 +700,77 @@ $conn->close();
       header {
         height: 150px;
       }
+    }
+
+    @media screen and (max-width: 550px) {
+      .heading ul li {
+        display: none;
+      }
+
+      .heading1 {
+        opacity: 1;
+
+        bottom: 8px;
+      }
+
+      header {
+        height: 250px;
+        flex-wrap: wrap;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #input {
+        width: 150px;
+      }
+
+      .close {
+        z-index: 34;
+      }
+
+      .search a {
+        display: flex;
+        flex-wrap: nowrap;
+      }
+    }
+
+    .section-break {
+      padding-top: 2%;
+      text-align: center;
+      margin: 5px 0;
+      padding-bottom: 1%;
+    }
+
+    .section-break hr {
+      width: 85%;
+      /* Adjust the width as needed */
+      border: none;
+      height: 1px;
+      margin: 0 auto;
+      /* Center the line horizontally */
+      background-color: #333;
+    }
+
+    .section2 {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 1200px;
+      padding: 20px;
+    }
+
+    .category-heading {
+      text-align: center;
+      font-size: 30px;
+      padding: 1%;
+    }
+
+    .items {
+      display: flex;
     }
 
     .register-container {
@@ -728,7 +989,6 @@ $conn->close();
     .alert.warning {
       background-color: #ff9800;
     }
-
   </style>
 </head>
 
@@ -736,7 +996,7 @@ $conn->close();
 
   <header>
     <div class="logo"><a href="#">Wonderland</a></div>
-    </div>
+
 
     <div class="heading">
       <ul>

@@ -28,9 +28,7 @@
         padding: 0;
         box-sizing: border-box;
         font-family: "Raleway", sans-serif;
-      }
-      body {
-        font-size: 17px;
+        box-sizing: border-box;
       }
       header {
         display: flex;
@@ -39,6 +37,7 @@
         height: 60px;
         width: 100%;
         background: black;
+       
       }
       .heading {
         display: flex;
@@ -48,6 +47,11 @@
         width: 100%;
         background: black;
         padding-right: 3%;
+      }
+      .heading1 {
+        opacity: 1;
+        bottom: 8px;
+       
       }
 
       .heading ul {
@@ -133,6 +137,134 @@
         right: 3px;
       }
 
+      .img-slider img {
+        width: 100%; /* Ensure the image takes up the full width of the slider */
+        height: 100%; /* Ensure the image takes up the full height of the slider */
+        object-fit: cover; /* Ensure the image covers the entire container */
+      }
+
+      @keyframes slide {
+        0% {
+          left: 0px;
+        }
+        15% {
+          left: 0px;
+        }
+        20% {
+          left: -1080px;
+        }
+        32% {
+          left: -1080px;
+        }
+        35% {
+          left: -2160px;
+        }
+        47% {
+          left: -2160px;
+        }
+        50% {
+          left: -3240px;
+        }
+        63% {
+          left: -3240px;
+        }
+        66% {
+          left: -4320px;
+        }
+        79% {
+          left: -4320px;
+        }
+        82% {
+          left: -5400px;
+        }
+        100% {
+          left: 0px;
+        }
+      }
+      .slideshow-container {
+        max-width: 1000px;
+        position: relative;
+        margin: auto;
+        padding-top: 3%;
+      }
+
+      /* Hide the images by default */
+      .mySlides {
+        display: none;
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+      }
+
+      /* Next & previous buttons */
+      .prev,
+      .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        margin-top: -22px;
+        padding: 16px;
+        color: rgb(8, 8, 8);
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+      }
+
+      /* Position the "next button" to the right */
+      .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+      }
+
+      /* On hover, add a black background color with a little bit see-through */
+      .prev:hover,
+      .next:hover {
+        background-color: rgba(151, 148, 148, 0.8);
+      }
+
+      /* The dots/bullets/indicators */
+      .dot {
+        cursor: pointer;
+        height: 10px;
+        width: 10px;
+        margin: 0 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.6s ease;
+      }
+
+      .active,
+      .dot:hover {
+        background-color: #717171;
+      }
+
+      /* Fading animation */
+      .fade {
+        animation-name: fade;
+        animation-duration: 1.5s;
+      }
+
+      @keyframes fade {
+        from {
+          opacity: 0.4;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .img-slider {
+        display: flex;
+        float: left;
+        position: relative;
+        width: 1080px;
+        height: 720px;
+        animation-name: slide;
+        animation-duration: 10s;
+        animation-iteration-count: infinite;
+        transition-duration: 2s;
+      }
+
       .heading1 {
         opacity: 0;
       }
@@ -148,6 +280,59 @@
         margin: 0px auto;
       }
 
+      .section2 .container {
+        display: flex;
+        width: 100%;
+        height: max-content;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 10px auto;
+      }
+      .section2 .container .items {
+        margin: 10px;
+        width: 200px;
+        height: 300px;
+        background-color: white;
+        border: 2.5px solid black;
+        border-radius: 12px;
+      }
+      .section2 .container .items .name {
+        text-align: center;
+        background-color: rgb(240, 197, 6);
+        height: 25px;
+        padding-top: 4px;
+        color: white;
+        margin: 0;
+      }
+      .section2 .container .items .price {
+        float: left;
+        padding-left: 10px;
+        display: block;
+        width: 100%;
+        color: rgb(255, 0, 0);
+        font-weight: 650;
+      }
+      .section2 .container .items .info {
+        padding-left: 10px;
+        color: rgb(243, 168, 7);
+      }
+      .section2 .container .items .img img {
+        width: 200px;
+        height: 200px;
+        margin: 0;
+        padding: 0;
+        border-radius: 12px;
+        transition-duration: 0.8s;
+      }
+      .section2 .container .items .img {
+        overflow: hidden;
+        margin: 0;
+      }
+      .section2 .container .items:hover .img img {
+        transform: scale(1.2);
+        transition-duration: 0.8s;
+        border-radius: 12px;
+      }
       footer {
         margin-top: 3%;
         padding-top: 3%;
@@ -227,6 +412,7 @@
       .menu {
         visibility: hidden;
       }
+
       .heading1 .ham:active {
         color: red;
       }
@@ -254,10 +440,11 @@
           color: red;
         }
         .menu {
-          display: flex;
+          display: block;
           flex-direction: column;
           align-items: center;
         }
+
         .menu a ion-icon {
           position: absolute;
         }
@@ -305,14 +492,13 @@
           flex-direction: column;
           position: absolute;
           width: 100vw;
-          height: 100vh;
-          background-color: black;
+          height: 70vh;
+          background-color: rgb(0, 0, 0, 0.8);
           left: 0;
           top: 0;
           z-index: 11;
           align-items: center;
           justify-content: center;
-          opacity: 1;
         }
         .close {
           z-index: 34;
@@ -363,7 +549,6 @@
 
         .heading1 {
           opacity: 1;
-          position: relative;
           bottom: 8px;
         }
         .search a {
@@ -412,7 +597,31 @@
           flex-wrap: nowrap;
         }
       }
-      
+      .section-break {
+        padding-top: 2%;
+        text-align: center;
+        margin: 5px 0;
+        padding-bottom: 1%;
+      }
+
+      .section-break hr {
+        width: 85%; /* Adjust the width as needed */
+        border: none;
+        height: 1px;
+        margin: 0 auto; /* Center the line horizontally */
+        background-color: #333;
+      }
+      .section2 {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .container {
+        max-width: 1200px;
+        padding: 20px;
+      }
 
       .category-heading {
         text-align: center;
@@ -423,22 +632,6 @@
       .items {
         display: flex;
       }
-
-      .section-break {
-        padding-top: 2%;
-        text-align: center;
-        margin: 5px 0;
-        padding-bottom: 1%;
-      }
-
-      .section-break hr {
-        width: 57%; /* Adjust the width as needed */
-        border: none;
-        height: 1px;
-        margin: 0 auto; /* Center the line horizontally */
-        background-color: #333;
-      }
-
       /*********************************************************************************/
       .row {
         display: -ms-flexbox; /* IE10 */
@@ -446,6 +639,7 @@
         -ms-flex-wrap: wrap; /* IE10 */
         flex-wrap: wrap;
         margin: 0 -16px;
+        margin-left: auto;
       }
 
       .col-25 {
@@ -488,6 +682,7 @@
       label {
         margin-bottom: 10px;
         display: block;
+        font-weight: bold;
       }
 
       .icon-container {
@@ -573,133 +768,46 @@
     </header>
     <section>
       <div class="row">
-        <div class="col-75">
-          <div class="container">
-            <form action="/screens/checkoutscreen.html">
-              <div class="row">
-                <div class="col-50">
-                  <h3>Billing Address</h3>
-                  <br />
-                  <label for="fname"
-                    ><i class="fa fa-user"></i> Full Name</label
-                  >
-                  <input
-                    type="text"
-                    id="fname"
-                    name="firstname"
-                    placeholder="John M. Doe"
-                  />
-                  <label for="email"
-                    ><i class="fa fa-envelope"></i> Email</label
-                  >
-                  <input
-                    type="text"
-                    id="email"
-                    name="email"
-                    placeholder="john@example.com"
-                  />
-                  <label for="adr"
-                    ><i class="fa fa-address-card-o"></i> Address</label
-                  >
-                  <input
-                    type="text"
-                    id="adr"
-                    name="address"
-                    placeholder="542 W. 15th Street"
-                  />
-                  <label for="city"
-                    ><i class="fa fa-institution"></i> City</label
-                  >
-                  <input
-                    type="text"
-                    id="city"
-                    name="city"
-                    placeholder="New York"
-                  />
-
-                  <div class="row">
-                    <div class="col-50">
-                      <label for="state">State</label>
-                      <input
-                        type="text"
-                        id="state"
-                        name="state"
-                        placeholder="NY"
-                      />
-                    </div>
-                    <div class="col-50">
-                      <label for="zip">Zip</label>
-                      <input
-                        type="text"
-                        id="zip"
-                        name="zip"
-                        placeholder="10001"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-50">
-                  <h3>Payment</h3>
-                  <br />
-                  <label for="fname">Accepted Cards</label>
-                  <div class="icon-container">
-                    <i class="fa fa-cc-visa" style="color: navy"></i>
-                    <i class="fa fa-cc-amex" style="color: blue"></i>
-                    <i class="fa fa-cc-mastercard" style="color: red"></i>
-                    <i class="fa fa-cc-discover" style="color: orange"></i>
-                  </div>
-                  <label for="cname">Name on Card</label>
-                  <input
-                    type="text"
-                    id="cname"
-                    name="cardname"
-                    placeholder="John More Doe"
-                  />
-                  <label for="ccnum">Credit card number</label>
-                  <input
-                    type="text"
-                    id="ccnum"
-                    name="cardnumber"
-                    placeholder="1111-2222-3333-4444"
-                  />
-                  <label for="expmonth">Exp Month</label>
-                  <input
-                    type="text"
-                    id="expmonth"
-                    name="expmonth"
-                    placeholder="September"
-                  />
-
-                  <div class="row">
-                    <div class="col-50">
-                      <label for="expyear">Exp Year</label>
-                      <input
-                        type="text"
-                        id="expyear"
-                        name="expyear"
-                        placeholder="2018"
-                      />
-                    </div>
-                    <div class="col-50">
-                      <label for="cvv">CVV</label>
-                      <input
-                        type="text"
-                        id="cvv"
-                        name="cvv"
-                        placeholder="352"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <label>
-                <input type="checkbox" checked="checked" name="sameadr" />
-                Shipping address same as billing
-              </label>
-              <input type="submit" value="Continue to checkout" class="btn" />
-            </form>
+        <div class="col-50">
+          <h1>Delivery Address</h1>
+          <br />
+          <label for="dfname"><i class="fa fa-user"></i> Full Name</label>
+          <input
+            type="text"
+            id="dfname"
+            name="dfirstname"
+            placeholder="Your Full Name"
+          />
+          <label for="demail"><i class="fa fa-envelope"></i> Email</label>
+          <input
+            type="text"
+            id="demail"
+            name="demail"
+            placeholder="abc@example.com"
+          />
+          <label for="dadr"><i class="fa fa-address-card-o"></i> Address</label>
+          <input
+            type="text"
+            id="dadr"
+            name="daddress"
+            placeholder="Your delivery address"
+          />
+          <label for="dcity"><i class="fa fa-institution"></i> City</label>
+          <input type="text" id="dcity" name="dcity" placeholder="New York" />
+          <div class="row">
+            <div class="col-50">
+              <label for="dstate">State</label>
+              <input type="text" id="dstate" name="dstate" placeholder="Name of state" />
+            </div>
+            <div class="col-50">
+              <label for="dzip">Zip</label>
+              <input type="text" id="dzip" name="dzip" placeholder="12345" />
+            </div>
           </div>
+          <br />
+          <input type="checkbox" name="cashondelivery" id="cashondelivery" /> 
+          <label for="cashondelivery"> Cash on Delivery</label>
+          <button onclick="clearCart()" class="btn">Confirm Order</button>
         </div>
         <div class="col-25">
           <div class="container">
