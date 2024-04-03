@@ -4,9 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wonderland</title>
-    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" href="./home.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap"
@@ -21,15 +27,24 @@
     <header>
       <div class="logo"><a href="#">Wonderland</a></div>
 
-      
       <div class="heading">
         <ul>
           <li><a href="home.html" class="under">HOME</a></li>
           <li><a href="./screens/shopscreen.html" class="under">SHOP</a></li>
-          <li><a href="screens/loginscreen.php" class="under">LOGIN/REGISTER</a></li>
+          <li>
+            <a href="screens/loginscreen.php" class="under">LOGIN/REGISTER</a>
+          </li>
           <li><a href="./screens/about.html" class="under">ABOUT US</a></li>
-          <li><a href="#home"><i class="fa fa-search" style="font-size:20px;color: white"></i></a></li>
-          <li><a href="./screens/profilescreen.html"><i class="fa fa-user" style="font-size:20px;color: white"></i></a></li>
+          <li>
+            <a href="./screens/about.html"
+              ><i class="fa fa-search" style="font-size: 20px; color: white"></i
+            ></a>
+          </li>
+          <li>
+            <a href="./screens/profilescreen.html"
+              ><i class="fa fa-user" style="font-size: 20px; color: white"></i
+            ></a>
+          </li>
         </ul>
       </div>
       <div class="heading1">
@@ -38,14 +53,15 @@
           <a href="#">
             <ion-icon name="close" class="close"></ion-icon>
           </a>
-  
+
           <ul>
             <li><a href="home.html" class="under">HOME</a></li>
             <li><a href="#" class="under">SHOP</a></li>
             <li><a href="#" class="under">OUR PRODUCTS</a></li>
-            <li><a href="screens/loginscreen.php" class="under">LOGIN/REGISTER</a></li>
+            <li>
+              <a href="screens/loginscreen.php" class="under">LOGIN/REGISTER</a>
+            </li>
             <li><a href="#" class="under">ABOUT US</a></li>
-            
           </ul>
         </div>
       </div>
@@ -55,13 +71,25 @@
         <div class="section1">
           <div class="slideshow-container">
             <div class="mySlides fade">
-              <img src="./collection/banners/Made_for_comfort.webp" style="width: 100%" alt="" />
+              <img
+                src="./collection/banners/Made_for_comfort.webp"
+                style="width: 100%"
+                alt=""
+              />
             </div>
             <div class="mySlides fade">
-              <img src="./collection/banners/Made_for_comfort.webp" style="width: 100%" alt="" />
+              <img
+                src="./collection/banners/Made_for_comfort.webp"
+                style="width: 100%"
+                alt=""
+              />
             </div>
             <div class="mySlides fade">
-              <img src="./collection/banners/Made_for_comfort.webp" style="width: 100%" alt="" />
+              <img
+                src="./collection/banners/Made_for_comfort.webp"
+                style="width: 100%"
+                alt=""
+              />
             </div>
 
             <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -85,31 +113,26 @@
         </div>
         <div class="section2">
           <div class="container">
-           
-            <div class="circle-card"  id="women-card">
+            <div class="circle-card" id="men-card">
               <div class="circle-image">
                 <img
-                  src="./collection/women/MF-114.jpg"
+                  src="./collection/men/6cd89aa0a4f5332635198f49b1d8a453.jpg"
                   alt=""
                 />
-                <br />
-                <br />
-                <p>Women</p>
-              </div>
-            </div>
-            
-           
-            <div class="circle-card"  id="men-card">
-              <div class="circle-image">
-                <img src="./collection/men/6cd89aa0a4f5332635198f49b1d8a453.jpg" alt="" />
                 <br />
                 <br />
                 <p>Men</p>
               </div>
             </div>
-            
-           
-            <div class="circle-card"  id="kids-card">
+            <div class="circle-card" id="women-card">
+              <div class="circle-image">
+                <img src="./collection/women/MF-114.jpg" alt="" />
+                <br />
+                <br />
+                <p>Women</p>
+              </div>
+            </div>
+            <div class="circle-card" id="kids-card">
               <div class="circle-image">
                 <img src="./collection/kid/KT-1066.jpg" alt="" />
                 <br />
@@ -117,7 +140,6 @@
                 <p>Kids</p>
               </div>
             </div>
-           
           </div>
         </div>
       </div>
@@ -160,7 +182,7 @@
           <div class="div">Complaint</div>
           <div class="div">Others</div>
         </div>
-        
+
         <div class="Get Help">
           <div class="heading-footer">Get Help</div>
           <div class="div">Help Center</div>
@@ -213,26 +235,25 @@
     </script>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
         // Get references to the cards
         const womenCard = document.getElementById("women-card");
         const menCard = document.getElementById("men-card");
         const kidsCard = document.getElementById("kids-card");
-      
+
         // Add click event listeners to each card
-        womenCard.addEventListener("click", function() {
+        womenCard.addEventListener("click", function () {
           window.location.href = "./screens/shopscreen.html";
         });
-      
-        menCard.addEventListener("click", function() {
+
+        menCard.addEventListener("click", function () {
           window.location.href = "./screens/shopscreen.html";
         });
-      
-        kidsCard.addEventListener("click", function() {
+
+        kidsCard.addEventListener("click", function () {
           window.location.href = "./screens/shopscreen.html";
         });
       });
-      
     </script>
   </body>
 </html>
