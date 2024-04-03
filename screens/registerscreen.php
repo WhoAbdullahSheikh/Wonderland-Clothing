@@ -96,8 +96,6 @@ $conn->close();
 
     .heading ul {
       display: flex;
-
-
     }
 
     .logo {
@@ -1001,12 +999,9 @@ $conn->close();
     <div class="heading">
       <ul>
         <li><a href="../home.html" class="under">HOME</a></li>
-        <li><a href="#" class="under">SHOP</a></li>
-        <li><a href="#" class="under">OUR PRODUCTS</a></li>
-        <li><a href="./loginscreen.php" class="under">LOGIN/REGISTER</a></li>
-        <li><a href="#" class="under">ABOUT US</a></li>
-        <li><a href="#home"><i class="fa fa-search" style="font-size:20px;color: white"></i></a></li>
-        <li><a href="#home"><i class="fa fa-user" style="font-size:20px;color: white"></i></a></li>
+        <li><a href="./shopscreen.html" class="under">SHOP</a></li>
+        <li><a href="./about.html" class="under">ABOUT US</a></li>
+        <li><a href="./profilescreen.html"><i class="fa fa-user" style="font-size:20px;color: white"></i></a></li>
       </ul>
     </div>
     <div class="heading1">
