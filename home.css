@@ -12,6 +12,7 @@ header {
   height: 60px;
   width: 100%;
   background: black;
+  
 }
 .heading {
   display: flex;
@@ -29,22 +30,25 @@ header {
 
 .heading ul {
   display: flex;
+
+  
 }
 
-.logo {
-  margin: 5%;
+.logo{
+    margin: 5%;
 }
 .logo a {
   color: white;
   transition-duration: 1s;
   font-weight: 800;
+  
 }
 .logo a:hover {
   color: rgb(240, 197, 6);
   transition-duration: 1s;
 }
 .heading ul li {
-  list-style-type: none;
+    list-style-type: none;
  
 }
 .heading ul li a {
@@ -57,6 +61,7 @@ header {
   margin: 2px 14px;
   font-size: 10px;
   transition-duration: 1s;
+  
 }
 .heading ul li a:active {
   color: red;
@@ -115,6 +120,7 @@ header a ion-icon {
   width: 100%; /* Ensure the image takes up the full width of the slider */
   height: 100%; /* Ensure the image takes up the full height of the slider */
   object-fit: cover; /* Ensure the image covers the entire container */
+  
 }
 
 @keyframes slide {
@@ -156,19 +162,20 @@ header a ion-icon {
   }
 }
 .slideshow-container {
-  max-width: 95%;
+  max-width: 1000px;
   position: relative;
   margin: auto;
-  padding-top: 1%;
+  padding-top: 3%;
+ 
+  
 }
 
 /* Hide the images by default */
 .mySlides {
   display: none;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
-
+  
 }
-
 
 /* Next & previous buttons */
 .prev,
@@ -183,14 +190,13 @@ header a ion-icon {
   font-weight: bold;
   font-size: 18px;
   transition: 0.6s ease;
-  border-radius: 0 30px 30px 0;
-
+  border-radius: 0 3px 3px 0;
 }
 
 /* Position the "next button" to the right */
 .next {
   right: 0;
-  border-radius: 30px 0 0 30px;
+  border-radius: 3px 0 0 3px;
 }
 
 /* On hover, add a black background color with a little bit see-through */
@@ -388,8 +394,7 @@ footer {
 }
 .menu {
   visibility: hidden;
-  display: none;
-  padding-right: 15%;
+  
 }
 
 .heading1 .ham:active {
@@ -412,16 +417,17 @@ footer {
     transform: scale(0.9);
   }
   .img-slider img {
-    height: 60vw;
+    height: 60vh;
     width: 80vw;
   }
   .ham:active {
     color: red;
   }
   .menu {
-    display: block;
+    display:block;
     flex-direction: column;
     align-items: center;
+    
   }
 
   .menu a ion-icon {
@@ -471,15 +477,15 @@ footer {
     flex-direction: column;
     position: absolute;
     width: 100vw;
-    height: 1000vh;
-    background-color: black; /* Adjust alpha value to make it slightly transparent */
+    height: 70vh;
+    background-color: rgb(0, 0, 0, 0.8);
     left: 0;
     top: 0;
     z-index: 11;
     align-items: center;
     justify-content: center;
+    
   }
-
   .close {
     z-index: 34;
 
@@ -526,10 +532,10 @@ footer {
     align-items: center;
     margin: 0px auto;
   }
+  
 
   .heading1 {
     opacity: 1;
-    position: relative;
     bottom: 8px;
   }
   .search a {
@@ -556,11 +562,12 @@ footer {
   }
   .heading1 {
     opacity: 1;
+
     bottom: 8px;
   }
 
   header {
-    height: 200px;
+    height: 250px;
     flex-wrap: wrap;
     display: flex;
     flex-direction: column;
@@ -631,3 +638,7 @@ footer {
   border-width: 2px; /* Remove any existing border */
   box-shadow: 20px 25px 15px 5px rgba(77, 76, 76, 0.5); /* Adjust color and size as needed */
 }
+
+
+
+

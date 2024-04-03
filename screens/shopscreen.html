@@ -47,6 +47,10 @@
         background: black;
         padding-right: 3%;
       }
+      .heading1 {
+        opacity: 1;
+        bottom: 8px;
+      }
 
       .heading ul {
         display: flex;
@@ -131,6 +135,134 @@
         right: 3px;
       }
 
+      .img-slider img {
+        width: 100%; /* Ensure the image takes up the full width of the slider */
+        height: 100%; /* Ensure the image takes up the full height of the slider */
+        object-fit: cover; /* Ensure the image covers the entire container */
+      }
+
+      @keyframes slide {
+        0% {
+          left: 0px;
+        }
+        15% {
+          left: 0px;
+        }
+        20% {
+          left: -1080px;
+        }
+        32% {
+          left: -1080px;
+        }
+        35% {
+          left: -2160px;
+        }
+        47% {
+          left: -2160px;
+        }
+        50% {
+          left: -3240px;
+        }
+        63% {
+          left: -3240px;
+        }
+        66% {
+          left: -4320px;
+        }
+        79% {
+          left: -4320px;
+        }
+        82% {
+          left: -5400px;
+        }
+        100% {
+          left: 0px;
+        }
+      }
+      .slideshow-container {
+        max-width: 1000px;
+        position: relative;
+        margin: auto;
+        padding-top: 3%;
+      }
+
+      /* Hide the images by default */
+      .mySlides {
+        display: none;
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+      }
+
+      /* Next & previous buttons */
+      .prev,
+      .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        margin-top: -22px;
+        padding: 16px;
+        color: rgb(8, 8, 8);
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+      }
+
+      /* Position the "next button" to the right */
+      .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+      }
+
+      /* On hover, add a black background color with a little bit see-through */
+      .prev:hover,
+      .next:hover {
+        background-color: rgba(151, 148, 148, 0.8);
+      }
+
+      /* The dots/bullets/indicators */
+      .dot {
+        cursor: pointer;
+        height: 10px;
+        width: 10px;
+        margin: 0 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.6s ease;
+      }
+
+      .active,
+      .dot:hover {
+        background-color: #717171;
+      }
+
+      /* Fading animation */
+      .fade {
+        animation-name: fade;
+        animation-duration: 1.5s;
+      }
+
+      @keyframes fade {
+        from {
+          opacity: 0.4;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .img-slider {
+        display: flex;
+        float: left;
+        position: relative;
+        width: 1080px;
+        height: 720px;
+        animation-name: slide;
+        animation-duration: 10s;
+        animation-iteration-count: infinite;
+        transition-duration: 2s;
+      }
+
       .heading1 {
         opacity: 0;
       }
@@ -162,7 +294,43 @@
         border: 2.5px solid black;
         border-radius: 12px;
       }
-
+      .section2 .container .items .name {
+        text-align: center;
+        background-color: rgb(240, 197, 6);
+        height: 25px;
+        padding-top: 4px;
+        color: white;
+        margin: 0;
+      }
+      .section2 .container .items .price {
+        float: left;
+        padding-left: 10px;
+        display: block;
+        width: 100%;
+        color: rgb(255, 0, 0);
+        font-weight: 650;
+      }
+      .section2 .container .items .info {
+        padding-left: 10px;
+        color: rgb(243, 168, 7);
+      }
+      .section2 .container .items .img img {
+        width: 200px;
+        height: 200px;
+        margin: 0;
+        padding: 0;
+        border-radius: 12px;
+        transition-duration: 0.8s;
+      }
+      .section2 .container .items .img {
+        overflow: hidden;
+        margin: 0;
+      }
+      .section2 .container .items:hover .img img {
+        transform: scale(1.2);
+        transition-duration: 0.8s;
+        border-radius: 12px;
+      }
       footer {
         margin-top: 3%;
         padding-top: 3%;
@@ -242,6 +410,7 @@
       .menu {
         visibility: hidden;
       }
+
       .heading1 .ham:active {
         color: red;
       }
@@ -269,10 +438,11 @@
           color: red;
         }
         .menu {
-          display: flex;
+          display: block;
           flex-direction: column;
           align-items: center;
         }
+
         .menu a ion-icon {
           position: absolute;
         }
@@ -320,14 +490,13 @@
           flex-direction: column;
           position: absolute;
           width: 100vw;
-          height: 100vh;
-          background-color: black;
+          height: 70vh;
+          background-color: rgb(0, 0, 0, 0.8);
           left: 0;
           top: 0;
           z-index: 11;
           align-items: center;
           justify-content: center;
-          opacity: 1;
         }
         .close {
           z-index: 34;
@@ -378,7 +547,6 @@
 
         .heading1 {
           opacity: 1;
-          position: relative;
           bottom: 8px;
         }
         .search a {
@@ -427,7 +595,20 @@
           flex-wrap: nowrap;
         }
       }
+      .section-break {
+        padding-top: 2%;
+        text-align: center;
+        margin: 5px 0;
+        padding-bottom: 1%;
+      }
 
+      .section-break hr {
+        width: 85%; /* Adjust the width as needed */
+        border: none;
+        height: 1px;
+        margin: 0 auto; /* Center the line horizontally */
+        background-color: #333;
+      }
       .section2 {
         width: 100%;
         display: flex;
@@ -448,21 +629,6 @@
 
       .items {
         display: flex;
-      }
-
-      .section-break {
-        padding-top: 2%;
-        text-align: center;
-        margin: 5px 0;
-        padding-bottom: 1%;
-      }
-
-      .section-break hr {
-        width: 57%; /* Adjust the width as needed */
-        border: none;
-        height: 1px;
-        margin: 0 auto; /* Center the line horizontally */
-        background-color: #333;
       }
       .card {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -503,12 +669,10 @@
         opacity: 1; /* Reduce opacity on hover */
         transition: 0.3s ease;
       }
-   
     </style>
   </head>
 
   <body>
-    
     <header>
       <div class="logo">
         <a href="#">Wonderland</a>
@@ -551,7 +715,6 @@
       </div>
     </header>
     <section>
-      
       <div class="category-heading">
         <h1>Mens Clothing</h1>
       </div>
@@ -567,7 +730,11 @@
             <p class="price">Rs. 360/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
 
           <div class="card">
@@ -581,7 +748,11 @@
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
 
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
           <div class="card">
             <img
@@ -593,7 +764,11 @@
             <p class="price">Rs. 360/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
           <div class="card">
             <img
@@ -605,7 +780,11 @@
             <p class="price">Rs. 360/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
           <div class="card">
             <img
@@ -617,7 +796,11 @@
             <p class="price">Rs. 560/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
           <div class="card">
             <img
@@ -629,7 +812,11 @@
             <p class="price">Rs. 560/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
           <div class="card">
             <img
@@ -641,7 +828,11 @@
             <p class="price">Rs. 560/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
           <div class="card">
             <img
@@ -653,7 +844,11 @@
             <p class="price">Rs. 560/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
           <div class="card">
             <img
@@ -665,7 +860,11 @@
             <p class="price">Rs. 360/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
           <div class="card">
             <img
@@ -677,7 +876,11 @@
             <p class="price">Rs. 360/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
         </div>
       </div>
@@ -701,7 +904,11 @@
             <p class="price">Rs. 560/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
           <div class="card">
             <img
@@ -713,7 +920,11 @@
             <p class="price">Rs. 560/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
           <div class="card">
             <img
@@ -725,7 +936,11 @@
             <p class="price">Rs. 560/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
           <div class="card">
             <img
@@ -737,7 +952,11 @@
             <p class="price">Rs. 560/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
           <div class="card">
             <img
@@ -749,7 +968,11 @@
             <p class="price">Rs. 560/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
           <div class="card">
             <img
@@ -761,7 +984,11 @@
             <p class="price">Rs. 560/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
           <div class="card">
             <img
@@ -773,7 +1000,11 @@
             <p class="price">Rs. 560/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
           <div class="card">
             <img
@@ -785,7 +1016,11 @@
             <p class="price">Rs. 560/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
           <div class="card">
             <img
@@ -797,7 +1032,11 @@
             <p class="price">Rs. 560/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
           <div class="card">
             <img
@@ -809,12 +1048,15 @@
             <p class="price">Rs. 560/-</p>
             <h3 style="display: inline">Condition:</h3>
             <p style="display: inline">Excellent</p>
-            <p><button onclick="addToCartAndRedirect('Product 1', 15)">Add to Cart</button></p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
           </div>
         </div>
       </div>
     </section>
- 
 
     <footer>
       <div class="footer0">
@@ -873,12 +1115,11 @@
     <script src="./JS/cartscreen.js"></script>
     <script>
       function addToCartAndRedirect(productName, price) {
-          let cart = JSON.parse(localStorage.getItem('cart')) || [];
-          cart.push({ name: productName, price: price });
-          localStorage.setItem('cart', JSON.stringify(cart));
-          window.location.href = './checkoutscreen.html'; // Redirect to the checkout page
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        cart.push({ name: productName, price: price });
+        localStorage.setItem("cart", JSON.stringify(cart));
+        window.location.href = "./checkoutscreen.html"; // Redirect to the checkout page
       }
-  </script>
-  
+    </script>
   </body>
 </html>
