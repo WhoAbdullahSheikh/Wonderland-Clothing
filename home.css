@@ -162,7 +162,7 @@ header a ion-icon {
   }
 }
 .slideshow-container {
-  max-width: 1000px;
+  width: 90%;
   position: relative;
   margin: auto;
   padding-top: 3%;
@@ -260,7 +260,7 @@ header a ion-icon {
   overflow: hidden;
   justify-content: center;
   align-items: center;
-  margin: 0px auto;
+
 }
 
 .section2 .container {
@@ -530,7 +530,7 @@ footer {
     overflow: hidden;
     justify-content: center;
     align-items: center;
-    margin: 0px auto;
+
   }
   
 
