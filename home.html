@@ -20,9 +20,7 @@
   <body>
     <header>
       <div class="logo"><a href="#">Wonderland</a></div>
-      
-        
-      </div>
+
       
       <div class="heading">
         <ul>
@@ -87,7 +85,8 @@
         </div>
         <div class="section2">
           <div class="container">
-            <div class="circle-card">
+           
+            <div class="circle-card"  id="women-card">
               <div class="circle-image">
                 <img
                   src="./collection/women/MF-114.jpg"
@@ -98,7 +97,9 @@
                 <p>Women</p>
               </div>
             </div>
-            <div class="circle-card">
+            
+           
+            <div class="circle-card"  id="men-card">
               <div class="circle-image">
                 <img src="./collection/men/6cd89aa0a4f5332635198f49b1d8a453.jpg" alt="" />
                 <br />
@@ -106,7 +107,9 @@
                 <p>Men</p>
               </div>
             </div>
-            <div class="circle-card">
+            
+           
+            <div class="circle-card"  id="kids-card">
               <div class="circle-image">
                 <img src="./collection/kid/KT-1066.jpg" alt="" />
                 <br />
@@ -114,6 +117,7 @@
                 <p>Kids</p>
               </div>
             </div>
+           
           </div>
         </div>
       </div>
@@ -206,6 +210,29 @@
         slides[slideIndex - 1].style.display = "block";
         dots[slideIndex - 1].className += " active";
       }
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // Get references to the cards
+        const womenCard = document.getElementById("women-card");
+        const menCard = document.getElementById("men-card");
+        const kidsCard = document.getElementById("kids-card");
+      
+        // Add click event listeners to each card
+        womenCard.addEventListener("click", function() {
+          window.location.href = "./screens/shopscreen.html";
+        });
+      
+        menCard.addEventListener("click", function() {
+          window.location.href = "./screens/shopscreen.html";
+        });
+      
+        kidsCard.addEventListener("click", function() {
+          window.location.href = "./screens/shopscreen.html";
+        });
+      });
+      
     </script>
   </body>
 </html>

@@ -617,8 +617,9 @@
       }
 
       .container {
-        max-width: 1200px;
-        padding: 20px;
+        display: flex;
+        justify-content: center;
+       
       }
 
       .category-heading {
@@ -633,9 +634,9 @@
       .card {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         max-width: 300px;
-        margin: auto;
+        margin: 3%;
         text-align: center;
-        padding-bottom: 7%;
+        padding-bottom: 2%;
       }
 
       .card img:hover {
@@ -669,6 +670,38 @@
         opacity: 1; /* Reduce opacity on hover */
         transition: 0.3s ease;
       }
+      .circle-card {
+        text-align: center;
+        font-size: 30px;
+        padding: 2%;
+        transition: opacity 0.3s ease;
+      }
+      .circle-card:hover {
+        color: rgb(158, 129, 0);
+        opacity: 0.8; /* Reduce opacity on hover */
+      }
+      .circle-image img {
+        width: 330px; /* adjust size as needed */
+        height: 450px; /* adjust size as needed */
+        border-radius: 20%;
+        border: 2px solid black;
+        border-width: 2px; /* Remove any existing border */
+        box-shadow: 20px 25px 15px 5px rgba(77, 76, 76, 0.5); /* Adjust color and size as needed */
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      #womenClothingSection,
+      #menClothingSection {
+        animation: fadeIn 0.8s ease forwards;
+        opacity: 0;
+      }
     </style>
   </head>
 
@@ -680,7 +713,7 @@
 
       <div class="heading">
         <ul>
-          <li><a href="../home.html" class="under">HOME</a></li>       
+          <li><a href="../home.html" class="under">HOME</a></li>
           <li><a href="./loginscreen.php" class="under">LOGIN/REGISTER</a></li>
           <li><a href="./about.html" class="under">ABOUT US</a></li>
           <li>
@@ -699,7 +732,7 @@
 
           <ul>
             <li><a href="#" class="under">HOME</a></li>
-           
+
             <li><a href="#" class="under">LOGIN/REGISTER</a></li>
             <li><a href="#" class="under">ABOUT US</a></li>
           </ul>
@@ -708,343 +741,384 @@
     </header>
     <section>
       <div class="category-heading">
-        <h1>Mens Clothing</h1>
+        <h1>Clothing Categories</h1>
       </div>
       <div class="section2">
         <div class="container">
-          <div class="card">
-            <img
-              src="../collection/men/a71e89720939743a3614ac096f67bab3.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 360/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
+          <div class="circle-card" onclick="toggleCategory('women')">
+            <div class="circle-image">
+              <img src="../collection/women/MF-114.jpg" alt="" />
+              <br />
+              <br />
+              <p>Women</p>
+            </div>
           </div>
-
-          <div class="card">
-            <img
-              src="../collection/men/CB-18.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/men/DS-41.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 360/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/men/6cd89aa0a4f5332635198f49b1d8a453.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 360/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/men/CB-22_d079669b-6d50-4f25-a6d8-87ffa64f76d8.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/men/CB-22_d079669b-6d50-4f25-a6d8-87ffa64f76d8.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/men/CB-26.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/men/CB-39_e6cf4c45-1f72-4fc4-a6e0-5b2e9ede057b.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/men/DS-26.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 360/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/men/DS-17_04d00459-4a48-4f18-b012-22a58311ca16.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
-
-            <p class="price">Rs. 360/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
+          <div class="circle-card" onclick="toggleCategory('men')">
+            <div class="circle-image">
+              <img
+                src="../collection/men/6cd89aa0a4f5332635198f49b1d8a453.jpg"
+                alt=""
+              />
+              <br />
+              <br />
+              <p>Men</p>
+            </div>
           </div>
         </div>
       </div>
+      <div
+        id="menClothingSection"
+        style="display: none"
+        class="container animated-container"
+      >
+        <div class="section-break">
+          <hr />
+        </div>
 
-      <div class="section-break">
-        <hr />
+        <div class="category-heading">
+          <h1>Mens Clothing</h1>
+        </div>
+        <div class="section2">
+          <div class="container">
+            <div class="card">
+              <img
+                src="../collection/men/a71e89720939743a3614ac096f67bab3.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
+
+              <p class="price">Rs. 360/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+
+            <div class="card">
+              <img
+                src="../collection/men/CB-18.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
+
+              <p class="price">Rs. 560/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+            <div class="card">
+              <img
+                src="../collection/men/DS-41.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
+
+              <p class="price">Rs. 360/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+            <div class="card">
+              <img
+                src="../collection/men/6cd89aa0a4f5332635198f49b1d8a453.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
+
+              <p class="price">Rs. 360/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+            <div class="card">
+              <img
+                src="../collection/men/CB-22_d079669b-6d50-4f25-a6d8-87ffa64f76d8.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
+
+              <p class="price">Rs. 560/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+            <div class="card">
+              <img
+                src="../collection/men/CB-22_d079669b-6d50-4f25-a6d8-87ffa64f76d8.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
+
+              <p class="price">Rs. 560/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+            <div class="card">
+              <img
+                src="../collection/men/CB-26.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
+
+              <p class="price">Rs. 560/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+            <div class="card">
+              <img
+                src="../collection/men/CB-39_e6cf4c45-1f72-4fc4-a6e0-5b2e9ede057b.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
+
+              <p class="price">Rs. 560/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+            <div class="card">
+              <img
+                src="../collection/men/DS-26.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
+
+              <p class="price">Rs. 360/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+            <div class="card">
+              <img
+                src="../collection/men/DS-17_04d00459-4a48-4f18-b012-22a58311ca16.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
+
+              <p class="price">Rs. 360/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
+      <div
+        id="womenClothingSection"
+        style="display: none"
+        class="container animated-container"
+      >
+        <div class="section-break">
+          <hr />
+        </div>
 
-      <div class="category-heading">
-        <h1>Women Clothing</h1>
-      </div>
-      <div class="section2">
-        <div class="container">
-          <div class="card">
-            <img
-              src="../collection/women/MF-114.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
+        <div class="category-heading">
+          <h1>Women Clothing</h1>
+        </div>
+        <div class="section2" id="womenClothingSection">
+          <div class="container">
+            <div class="card">
+              <img
+                src="../collection/women/MF-114.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
 
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/MF-128.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
+              <p class="price">Rs. 560/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+            <div class="card">
+              <img
+                src="../collection/women/MF-128.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
 
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/MF-27.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
+              <p class="price">Rs. 560/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+            <div class="card">
+              <img
+                src="../collection/women/MF-27.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
 
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/MF-31.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
+              <p class="price">Rs. 560/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+            <div class="card">
+              <img
+                src="../collection/women/MF-31.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
 
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/MF-80.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
+              <p class="price">Rs. 560/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+            <div class="card">
+              <img
+                src="../collection/women/MF-80.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
 
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/MF-89.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
+              <p class="price">Rs. 560/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+            <div class="card">
+              <img
+                src="../collection/women/MF-89.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
 
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/MF-98.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
+              <p class="price">Rs. 560/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+            <div class="card">
+              <img
+                src="../collection/women/MF-98.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
 
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/NL-97.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
+              <p class="price">Rs. 560/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+            <div class="card">
+              <img
+                src="../collection/women/NL-97.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
 
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/SWT-1269_13edd3ca-07e8-4ef3-9b0e-e7cc10f3097d.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
+              <p class="price">Rs. 560/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+            <div class="card">
+              <img
+                src="../collection/women/SWT-1269_13edd3ca-07e8-4ef3-9b0e-e7cc10f3097d.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
 
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img
-              src="../collection/women/SWT-1367_32e30ebe-791b-4c5a-a1bd-0fd21fb656b7.jpg"
-              alt="Denim Jeans"
-              style="width: 100%"
-            />
+              <p class="price">Rs. 560/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
+            <div class="card">
+              <img
+                src="../collection/women/SWT-1367_32e30ebe-791b-4c5a-a1bd-0fd21fb656b7.jpg"
+                alt="Denim Jeans"
+                style="width: 100%"
+              />
 
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
+              <p class="price">Rs. 560/-</p>
+              <h3 style="display: inline">Condition:</h3>
+              <p style="display: inline">Excellent</p>
+              <p>
+                <button onclick="addToCartAndRedirect('Product 1', 15)">
+                  Add to Cart
+                </button>
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -1111,6 +1185,20 @@
         cart.push({ name: productName, price: price });
         localStorage.setItem("cart", JSON.stringify(cart));
         window.location.href = "./checkoutscreen.html"; // Redirect to the checkout page
+      }
+    </script>
+    <script>
+      // Function to toggle visibility of category sections
+      function toggleCategory(category) {
+        if (category === "women") {
+          document.getElementById("womenClothingSection").style.display =
+            "block";
+          document.getElementById("menClothingSection").style.display = "none";
+        } else if (category === "men") {
+          document.getElementById("womenClothingSection").style.display =
+            "none";
+          document.getElementById("menClothingSection").style.display = "block";
+        }
       }
     </script>
   </body>
