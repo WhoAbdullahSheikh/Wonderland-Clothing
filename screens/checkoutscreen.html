@@ -37,7 +37,6 @@
         height: 60px;
         width: 100%;
         background: black;
-       
       }
       .heading {
         display: flex;
@@ -51,7 +50,6 @@
       .heading1 {
         opacity: 1;
         bottom: 8px;
-       
       }
 
       .heading ul {
@@ -137,133 +135,6 @@
         right: 3px;
       }
 
-      .img-slider img {
-        width: 100%; /* Ensure the image takes up the full width of the slider */
-        height: 100%; /* Ensure the image takes up the full height of the slider */
-        object-fit: cover; /* Ensure the image covers the entire container */
-      }
-
-      @keyframes slide {
-        0% {
-          left: 0px;
-        }
-        15% {
-          left: 0px;
-        }
-        20% {
-          left: -1080px;
-        }
-        32% {
-          left: -1080px;
-        }
-        35% {
-          left: -2160px;
-        }
-        47% {
-          left: -2160px;
-        }
-        50% {
-          left: -3240px;
-        }
-        63% {
-          left: -3240px;
-        }
-        66% {
-          left: -4320px;
-        }
-        79% {
-          left: -4320px;
-        }
-        82% {
-          left: -5400px;
-        }
-        100% {
-          left: 0px;
-        }
-      }
-      .slideshow-container {
-        max-width: 1000px;
-        position: relative;
-        margin: auto;
-        padding-top: 3%;
-      }
-
-      /* Hide the images by default */
-      .mySlides {
-        display: none;
-        box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
-      }
-
-      /* Next & previous buttons */
-      .prev,
-      .next {
-        cursor: pointer;
-        position: absolute;
-        top: 50%;
-        width: auto;
-        margin-top: -22px;
-        padding: 16px;
-        color: rgb(8, 8, 8);
-        font-weight: bold;
-        font-size: 18px;
-        transition: 0.6s ease;
-        border-radius: 0 3px 3px 0;
-      }
-
-      /* Position the "next button" to the right */
-      .next {
-        right: 0;
-        border-radius: 3px 0 0 3px;
-      }
-
-      /* On hover, add a black background color with a little bit see-through */
-      .prev:hover,
-      .next:hover {
-        background-color: rgba(151, 148, 148, 0.8);
-      }
-
-      /* The dots/bullets/indicators */
-      .dot {
-        cursor: pointer;
-        height: 10px;
-        width: 10px;
-        margin: 0 2px;
-        background-color: #bbb;
-        border-radius: 50%;
-        display: inline-block;
-        transition: background-color 0.6s ease;
-      }
-
-      .active,
-      .dot:hover {
-        background-color: #717171;
-      }
-
-      /* Fading animation */
-      .fade {
-        animation-name: fade;
-        animation-duration: 1.5s;
-      }
-
-      @keyframes fade {
-        from {
-          opacity: 0.4;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-      .img-slider {
-        display: flex;
-        float: left;
-        position: relative;
-        width: 1080px;
-        height: 720px;
-        animation-name: slide;
-        animation-duration: 10s;
-        animation-iteration-count: infinite;
-        transition-duration: 2s;
-      }
 
       .heading1 {
         opacity: 0;
@@ -698,7 +569,7 @@
         margin: 10px 0;
         border: none;
         width: 100%;
-        border-radius: 3px;
+        border-radius: 13px;
         cursor: pointer;
         font-size: 17px;
       }
@@ -761,7 +632,7 @@
       </div>
     </header>
     <section>
-      <div class="row">
+      <div class="row" style="margin-left: 1%; margin-right: 1%">
         <div class="col-50">
           <h1>Delivery Address</h1>
           <br />
@@ -787,20 +658,35 @@
             placeholder="Your delivery address"
           />
           <label for="dcity"><i class="fa fa-institution"></i> City</label>
-          <input type="text" id="dcity" name="dcity" placeholder="New York" />
+          <input type="text" id="dcity" name="dcity" placeholder="Your City" />
           <div class="row">
             <div class="col-50">
               <label for="dstate">State</label>
-              <input type="text" id="dstate" name="dstate" placeholder="Name of state" />
+              <input
+                type="text"
+                id="dstate"
+                name="dstate"
+                placeholder="Name of state"
+              />
             </div>
             <div class="col-50">
               <label for="dzip">Zip</label>
-              <input type="text" id="dzip" name="dzip" placeholder="12345" />
+              <input
+                type="text"
+                id="dzip"
+                name="dzip"
+                placeholder="12345"
+                maxlength="5"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 5);"
+              />
             </div>
           </div>
           <br />
-          <input type="checkbox" name="cashondelivery" id="cashondelivery" /> 
-          <label for="cashondelivery"> Cash on Delivery</label>
+
+          <label for="cashondelivery">
+            <input type="checkbox" name="cashondelivery" id="cashondelivery" />
+            Cash on Delivery</label
+          >
           <button onclick="clearCart()" class="btn">Confirm Order</button>
         </div>
         <div class="col-25">
@@ -812,8 +698,9 @@
                 <b id="cartItemCount">0</b></span
               >
             </h4>
-            <div id="cartItems"></div>
+            <div id="cartItems" style="margin-top: 20px; margin-bottom: 20px;"></div>
             <hr />
+            
             <p>
               Total
               <span class="price" style="color: black"
