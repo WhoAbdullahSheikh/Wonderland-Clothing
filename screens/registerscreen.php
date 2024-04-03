@@ -1022,13 +1022,11 @@ $conn->close();
     </div>
   </header>
 
-
-
-
-
   <section>
     <?php echo $alert_message; ?>
     <div class="section">
+      <br>
+      <br>
       <div class="section1">
         <div class="register-container">
           <h2>Register</h2>
