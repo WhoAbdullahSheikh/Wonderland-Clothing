@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wonderland</title>
-    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" href="./ecommerce.css" />
     <link
       rel="stylesheet"
@@ -34,7 +37,6 @@
         height: 60px;
         width: 100%;
         background: black;
-       
       }
       .heading {
         display: flex;
@@ -48,7 +50,6 @@
       .heading1 {
         opacity: 1;
         bottom: 8px;
-       
       }
 
       .heading ul {
@@ -133,7 +134,7 @@
         position: relative;
         right: 3px;
       }
-   
+
       .heading1 {
         opacity: 0;
       }
@@ -449,15 +450,58 @@
         display: flex;
       }
       /*********************************************************************************/
-      .maintenance-message {
-        text-align: center;
-        margin-top: 10%;
-        font-size: 24px;
-        color: rgb(0, 0, 0);
-        font-weight: bold;
-        padding-bottom: 13%;
+      /* Style the navigation drawer sidebar */
+      .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px; /* Adjust based on your header height */
       }
-        
+
+      /* Style the links inside the navigation drawer sidebar */
+      .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+      }
+
+      /* Change the color of links on hover */
+      .sidenav a:hover {
+        color: #f1f1f1;
+      }
+
+      /* Position and style the close button (x) */
+      .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+      }
+
+      /* Style the button to open the sidebar */
+      span.openbtn {
+        font-size: 30px;
+        cursor: pointer;
+        position: fixed;
+        top: 10px; /* Adjust based on your header height */
+        left: 10px;
+        z-index: 2;
+      }
+
+      /* Style the close button (x) on hover */
+      .sidenav .closebtn:hover {
+        color: #f1f1f1;
+      }
     </style>
   </head>
 
@@ -503,11 +547,19 @@
       </div>
     </header>
     <section>
-        
-        <div class="maintenance-message">
-            <i style='font-size:34px; color:rgb(104, 20, 20); ' class='fa'>&#xf06a;</i>
-            This page/component is currently under development. Please check back later.
-          </div>
+      <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+          >&times;</a
+        >
+        <a href="#">Home</a>
+        <a href="#">Shop</a>
+        <a href="#">Our Products</a>
+        <a href="#">Login/Register</a>
+        <a href="#">About Us</a>
+      </div>
+      <span style="font-size: 30px; cursor: pointer" onclick="openNav()"
+        >&#9776; Open Sidebar</span
+      >
     </section>
 
     <footer>
@@ -566,35 +618,13 @@
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
     <script src="./JS/cartscreen.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        displayCart();
-      });
-
-      function displayCart() {
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        let cartItemsContainer = document.getElementById("cartItems");
-        let totalPrice = 0;
-
-        cartItemsContainer.innerHTML = ""; // Clear previous items
-
-        cart.forEach(function (item) {
-          cartItemsContainer.innerHTML +=
-            "<p>" +
-            item.name +
-            ' <span class="price">$' +
-            item.price +
-            "</span></p>";
-          totalPrice += item.price;
-        });
-
-        document.getElementById("cartItemCount").textContent = cart.length;
-        document.getElementById("totalPrice").textContent = totalPrice;
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
       }
-      function clearCart() {
-        localStorage.removeItem("cart");
-        displayCart(); // Update the cart display after clearing
+
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
       }
     </script>
-    
   </body>
 </html>
