@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -20,6 +22,20 @@
     <link
       href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css"
       rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
     />
 
     <style>
@@ -135,134 +151,6 @@
         right: 3px;
       }
 
-      .img-slider img {
-        width: 100%; /* Ensure the image takes up the full width of the slider */
-        height: 100%; /* Ensure the image takes up the full height of the slider */
-        object-fit: cover; /* Ensure the image covers the entire container */
-      }
-
-      @keyframes slide {
-        0% {
-          left: 0px;
-        }
-        15% {
-          left: 0px;
-        }
-        20% {
-          left: -1080px;
-        }
-        32% {
-          left: -1080px;
-        }
-        35% {
-          left: -2160px;
-        }
-        47% {
-          left: -2160px;
-        }
-        50% {
-          left: -3240px;
-        }
-        63% {
-          left: -3240px;
-        }
-        66% {
-          left: -4320px;
-        }
-        79% {
-          left: -4320px;
-        }
-        82% {
-          left: -5400px;
-        }
-        100% {
-          left: 0px;
-        }
-      }
-      .slideshow-container {
-        max-width: 1000px;
-        position: relative;
-        margin: auto;
-        padding-top: 3%;
-      }
-
-      /* Hide the images by default */
-      .mySlides {
-        display: none;
-        box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
-      }
-
-      /* Next & previous buttons */
-      .prev,
-      .next {
-        cursor: pointer;
-        position: absolute;
-        top: 50%;
-        width: auto;
-        margin-top: -22px;
-        padding: 16px;
-        color: rgb(8, 8, 8);
-        font-weight: bold;
-        font-size: 18px;
-        transition: 0.6s ease;
-        border-radius: 0 3px 3px 0;
-      }
-
-      /* Position the "next button" to the right */
-      .next {
-        right: 0;
-        border-radius: 3px 0 0 3px;
-      }
-
-      /* On hover, add a black background color with a little bit see-through */
-      .prev:hover,
-      .next:hover {
-        background-color: rgba(151, 148, 148, 0.8);
-      }
-
-      /* The dots/bullets/indicators */
-      .dot {
-        cursor: pointer;
-        height: 10px;
-        width: 10px;
-        margin: 0 2px;
-        background-color: #bbb;
-        border-radius: 50%;
-        display: inline-block;
-        transition: background-color 0.6s ease;
-      }
-
-      .active,
-      .dot:hover {
-        background-color: #717171;
-      }
-
-      /* Fading animation */
-      .fade {
-        animation-name: fade;
-        animation-duration: 1.5s;
-      }
-
-      @keyframes fade {
-        from {
-          opacity: 0.4;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-      .img-slider {
-        display: flex;
-        float: left;
-        position: relative;
-        width: 1080px;
-        height: 720px;
-        animation-name: slide;
-        animation-duration: 10s;
-        animation-iteration-count: infinite;
-        transition-duration: 2s;
-      }
-
       .heading1 {
         opacity: 0;
       }
@@ -278,59 +166,6 @@
         margin: 0px auto;
       }
 
-      .section2 .container {
-        display: flex;
-        width: 100%;
-        height: max-content;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin: 10px auto;
-      }
-      .section2 .container .items {
-        margin: 10px;
-        width: 200px;
-        height: 300px;
-        background-color: white;
-        border: 2.5px solid black;
-        border-radius: 12px;
-      }
-      .section2 .container .items .name {
-        text-align: center;
-        background-color: rgb(240, 197, 6);
-        height: 25px;
-        padding-top: 4px;
-        color: white;
-        margin: 0;
-      }
-      .section2 .container .items .price {
-        float: left;
-        padding-left: 10px;
-        display: block;
-        width: 100%;
-        color: rgb(255, 0, 0);
-        font-weight: 650;
-      }
-      .section2 .container .items .info {
-        padding-left: 10px;
-        color: rgb(243, 168, 7);
-      }
-      .section2 .container .items .img img {
-        width: 200px;
-        height: 200px;
-        margin: 0;
-        padding: 0;
-        border-radius: 12px;
-        transition-duration: 0.8s;
-      }
-      .section2 .container .items .img {
-        overflow: hidden;
-        margin: 0;
-      }
-      .section2 .container .items:hover .img img {
-        transform: scale(1.2);
-        transition-duration: 0.8s;
-        border-radius: 12px;
-      }
       footer {
         margin-top: 3%;
         padding-top: 3%;
@@ -630,44 +465,128 @@
       .items {
         display: flex;
       }
+      /*********************************************************************************/
 
-      .circle-card {
-        text-align: center;
+      .sidenav {
+        height: 100%;
+        width: 250px; /* Adjust the width as needed */
+        position: fixed;
+        z-index: 1;
+        top: 60px; /* Position at the bottom of the header */
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px; /* Adjust based on your header height */
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      /* Style the links inside the navigation drawer sidebar */
+      .sidenav a {
+        padding: 8px 16px; /* Add equal padding */
+        text-decoration: none;
+        font-size: 20px; /* Adjust the font size as needed */
+        color: #818181;
+        display: flex;
+        align-items: center; /* Center items vertically */
+        transition: 0.3s;
+        margin-left: 5%;
+      }
+
+      /* Change the color of links on hover */
+      .sidenav a:hover {
+        color: #f1f1f1;
+      }
+
+      /* Position and style the close button (x) */
+      .sidenav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+      }
+
+      /* Style the button to open the sidebar */
+      span.openbtn {
         font-size: 30px;
-        padding: 2%;
-        transition: opacity 0.3s ease;
+        cursor: pointer;
+        position: fixed;
+        top: 10px; /* Adjust based on your header height */
+        left: 10px;
+        z-index: 2;
       }
-      .circle-card:hover {
-        color: rgb(158, 129, 0);
-        opacity: 0.8; /* Reduce opacity on hover */
+
+      /* Style the close button (x) on hover */
+      .sidenav .closebtn:hover {
+        color: #f1f1f1;
       }
-      .circle-image img {
-        width: 330px; /* adjust size as needed */
-        height: 450px; /* adjust size as needed */
-        border-radius: 20%;
-        border: 2px solid black;
-        border-width: 2px; /* Remove any existing border */
-        box-shadow: 20px 25px 15px 5px rgba(77, 76, 76, 0.5); /* Adjust color and size as needed */
+
+      .section-break {
+        padding-top: 2%;
+        text-align: center;
+        margin: 5px 0;
+        padding-bottom: 1%;
+        color: white;
       }
     </style>
   </head>
 
   <body>
     <header>
-      <div class="logo"><a href="#">Wonderland</a></div>
+      <div id="mySidenav" class="sidenav">
+        
+
+        <a href="#">
+          <i
+            class="fas fa-user"
+            style="font-size: 20px; color: #818181; margin-right: 30%"
+          ></i>
+          Profile</a
+        >
+        <a href="#">
+          <i
+            class="fa fa-shopping-bag"
+            style="font-size: 20px; color: #818181; margin-right: 30%"
+          ></i>
+          Orders</a
+        >
+        <a href="#">
+          <i
+            class="material-icons"
+            style="font-size: 20px; color: #818181; margin-right: 30%"
+            >favorite</i
+          >
+          Items</a
+        >
+        <a href="#">How to Add</a>
+      </div>
+      
+      <div class="logo">
+        <a href="#">Wonderland</a>
+      </div>
 
       <div class="heading">
         <ul>
           <li><a href="../home.html" class="under">HOME</a></li>
           <li><a href="./shopscreen.html" class="under">SHOP</a></li>
+          <li><a href="./loginscreen.php" class="under">LOGIN/REGISTER</a></li>
           <li><a href="./about.html" class="under">ABOUT US</a></li>
           <li>
-            <a href="./profilescreen.html"
+            <a href="#home"
+              ><i class="fa fa-search" style="font-size: 20px; color: white"></i
+            ></a>
+          </li>
+          <li>
+            <a href="#home"
               ><i class="fa fa-user" style="font-size: 20px; color: white"></i
             ></a>
           </li>
         </ul>
       </div>
+
       <div class="heading1">
         <ion-icon name="menu" class="ham"></ion-icon>
         <div class="menu">
@@ -685,98 +604,18 @@
         </div>
       </div>
     </header>
-    <section>
-      <div class="section">
-        <div class="section1">
-          <div class="slideshow-container"></div>
-        </div>
+    <section></section>
 
-        <div class="category-heading">
-          <h1>Clothing Categories</h1>
-        </div>
-        <div class="section2">
-          <div class="container">
-            <div class="circle-card">
-              <div class="circle-image">
-                <img src="./images/0043_2S24P3P164-052A4096_540x.webp" alt="" />
-                <br />
-                <br />
-                <p>Women</p>
-              </div>
-            </div>
-            <div class="circle-card">
-              <div class="circle-image">
-                <img src="./images/product-detail-02.jpg" alt="" />
-                <br />
-                <br />
-                <p>Men</p>
-              </div>
-            </div>
-            <div class="circle-card">
-              <div class="circle-image">
-                <img src="./images/product-12.jpg" alt="" />
-                <br />
-                <br />
-                <p>Accessories</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <footer>
-      <div class="footer0">
-        <h1>Wonderland</h1>
-      </div>
-      <div class="footer1">
-        Connect with us at
-        <div class="social-media">
-          <a href="#">
-            <ion-icon name="logo-facebook"></ion-icon>
-          </a>
-          <a href="#">
-            <ion-icon name="logo-linkedin"></ion-icon>
-          </a>
-          <a href="#">
-            <ion-icon name="logo-youtube"></ion-icon>
-          </a>
-          <a href="#">
-            <ion-icon name="logo-instagram"></ion-icon>
-          </a>
-          <a href="#">
-            <ion-icon name="logo-twitter"></ion-icon>
-          </a>
-        </div>
-      </div>
-      <div class="footer2">
-        <div class="product">
-          <div class="heading-footer">Products</div>
-          <div class="div">Women Clothing</div>
-          <div class="div">Men Clothing</div>
-          <div class="div">Accessories</div>
-        </div>
-        <div class="services">
-          <div class="heading-footer">Customer Care</div>
-          <div class="div">Return</div>
-          <div class="div">Cash Back</div>
-          <div class="div">Complaint</div>
-          <div class="div">Others</div>
-        </div>
-
-        <div class="Get Help">
-          <div class="heading-footer">Get Help</div>
-          <div class="div">Help Center</div>
-          <div class="div">Privacy Policy</div>
-          <div class="div">Terms</div>
-          <div class="div">Support</div>
-        </div>
-      </div>
-      <div class="footer3">
-        Copyright ©
-        <h4>Wonderland</h4>
-        2024
-      </div>
-    </footer>
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script src="./JS/cartscreen.js"></script>
+    <script>
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+      }
+
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+      }
+    </script>
   </body>
 </html>
