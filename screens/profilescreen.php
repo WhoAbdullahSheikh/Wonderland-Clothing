@@ -1,47 +1,12 @@
-
 <?php
-// Step 1: Connect to your database
-
 session_start();
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "wonderland";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+$userprofile = $_SESSION['email'];
+if ($userprofile == true) {
+} else {
+  header("Location: loginscreen.php");
 }
 
-// Define an empty variable to hold the alert message
-$alert_message = "";
-
-// Step 2: Retrieve form data
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $email = $_POST['email'];
-  $password = $_POST['password'];
-
-  // Step 3: Check if user exists in the database
-  $check_user_sql = "SELECT * FROM users WHERE email='$email' AND password='$password'";
-  $result = $conn->query($check_user_sql);
-
-  if ($result->num_rows > 0) {
-
-    $_SESSION['email'] = $email;
-    $alert_message = '<div class="alert success"><strong>Success!</strong> Login successful</div>';
-    header("Location: profilescreen.php");
-    exit();
-  } else {
-    // User not found or password incorrect
-    $alert_message = '<div class="alert"><strong>Error!</strong> Invalid email or password</div>';
-  }
-}
-
-// Close the database connection
-$conn->close();
 ?>
 
 
@@ -52,11 +17,16 @@ $conn->close();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wonderland</title>
-  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="./ecommerce.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" />
   <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
   <style>
     * {
@@ -74,7 +44,6 @@ $conn->close();
       height: 60px;
       width: 100%;
       background: black;
-
     }
 
     .heading {
@@ -85,12 +54,16 @@ $conn->close();
       height: 60px;
       width: 100%;
       background: black;
-      padding-right: 2%;
+      padding-right: 3%;
+    }
+
+    .heading1 {
+      opacity: 1;
+      bottom: 8px;
     }
 
     .heading ul {
       display: flex;
-
     }
 
     .logo {
@@ -101,7 +74,6 @@ $conn->close();
       color: white;
       transition-duration: 1s;
       font-weight: 800;
-
     }
 
     .logo a:hover {
@@ -111,7 +83,6 @@ $conn->close();
 
     .heading ul li {
       list-style-type: none;
-
     }
 
     .heading ul li a {
@@ -124,7 +95,6 @@ $conn->close();
       margin: 2px 14px;
       font-size: 10px;
       transition-duration: 1s;
-
     }
 
     .heading ul li a:active {
@@ -188,18 +158,6 @@ $conn->close();
       right: 3px;
     }
 
-    .img-slider img {
-      width: 100%;
-      /* Ensure the image takes up the full width of the slider */
-      height: 100%;
-      /* Ensure the image takes up the full height of the slider */
-      object-fit: cover;
-      /* Ensure the image covers the entire container */
-
-    }
-
-
-
     .heading1 {
       opacity: 0;
     }
@@ -215,69 +173,6 @@ $conn->close();
       justify-content: center;
       align-items: center;
       margin: 0px auto;
-      padding-top: 5%;
-      padding-bottom: 4.5%;
-    }
-
-    .section2 .container {
-      display: flex;
-      width: 100%;
-      height: max-content;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 10px auto;
-    }
-
-    .section2 .container .items {
-      margin: 10px;
-      width: 200px;
-      height: 300px;
-      background-color: white;
-      border: 2.5px solid black;
-      border-radius: 12px;
-    }
-
-    .section2 .container .items .name {
-      text-align: center;
-      background-color: rgb(240, 197, 6);
-      height: 25px;
-      padding-top: 4px;
-      color: white;
-      margin: 0;
-    }
-
-    .section2 .container .items .price {
-      float: left;
-      padding-left: 10px;
-      display: block;
-      width: 100%;
-      color: rgb(255, 0, 0);
-      font-weight: 650;
-    }
-
-    .section2 .container .items .info {
-      padding-left: 10px;
-      color: rgb(243, 168, 7);
-    }
-
-    .section2 .container .items .img img {
-      width: 200px;
-      height: 200px;
-      margin: 0;
-      padding: 0;
-      border-radius: 12px;
-      transition-duration: 0.8s;
-    }
-
-    .section2 .container .items .img {
-      overflow: hidden;
-      margin: 0;
-    }
-
-    .section2 .container .items:hover .img img {
-      transform: scale(1.2);
-      transition-duration: 0.8s;
-      border-radius: 12px;
     }
 
     footer {
@@ -406,7 +301,7 @@ $conn->close();
       }
 
       .menu {
-        display: flex;
+        display: block;
         flex-direction: column;
         align-items: center;
       }
@@ -415,20 +310,68 @@ $conn->close();
         position: absolute;
       }
 
+      @keyframes slide1 {
+        0% {
+          left: 0vw;
+        }
+
+        15% {
+          left: 0vw;
+        }
+
+        20% {
+          left: -80vw;
+        }
+
+        32% {
+          left: -80vw;
+        }
+
+        35% {
+          left: -160vw;
+        }
+
+        47% {
+          left: -160vw;
+        }
+
+        50% {
+          left: -240vw;
+        }
+
+        63% {
+          left: -240vw;
+        }
+
+        66% {
+          left: -320vw;
+        }
+
+        79% {
+          left: -320vw;
+        }
+
+        82% {
+          left: -400vw;
+        }
+
+        100% {
+          left: 0vw;
+        }
+      }
 
       .menu ul {
         display: flex;
         flex-direction: column;
         position: absolute;
         width: 100vw;
-        height: 100vh;
-        background-color: black;
+        height: 70vh;
+        background-color: rgb(0, 0, 0, 0.8);
         left: 0;
         top: 0;
         z-index: 11;
         align-items: center;
         justify-content: center;
-        opacity: 1;
       }
 
       .close {
@@ -456,7 +399,7 @@ $conn->close();
         text-decoration: none;
         padding-top: 10px;
         color: white;
-        font-weight: 900;
+        font-weight: 90;
       }
 
       .menu ul li a:hover {
@@ -481,13 +424,10 @@ $conn->close();
         justify-content: center;
         align-items: center;
         margin: 0px auto;
-
       }
-
 
       .heading1 {
         opacity: 1;
-        position: relative;
         bottom: 8px;
       }
 
@@ -509,94 +449,6 @@ $conn->close();
       header {
         height: 150px;
       }
-    }
-
-    .login-container {
-
-      margin: 0 auto;
-      max-width: 400px;
-      padding: 20px;
-      border: 2px solid black;
-      border-radius: 30px;
-      background-color: white;
-
-    }
-
-    .login-container h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .login-container p {
-      margin-top: 10px;
-      /* Adjust spacing between the form and the paragraph */
-      font-size: 14px;
-      /* Adjust font size */
-      color: #888;
-      /* Adjust text color */
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .login-container p a {
-      color: #887419;
-      /* Adjust link color */
-      text-decoration: none;
-      /* Remove default underline */
-    }
-
-    .login-container p a:hover {
-      color: #f3a807;
-      /* Adjust link color on hover */
-      text-decoration: underline;
-      /* Add underline on hover */
-    }
-
-    @media screen and (max-width: 550px) {
-      .login-container {
-        max-width: 90%;
-        /* Adjust max-width for smaller screens */
-      }
-
-
-      input[type="email"],
-      input[type="password"] {
-        width: calc(100% - 20px);
-        /* Adjust input width for smaller screens */
-      }
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    input[type="text"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button[type="submit"] {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      background-color: rgb(240, 197, 6);
-      color: rgb(0, 0, 0);
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button[type="submit"]:hover {
-      background-color: rgb(243, 168, 7);
     }
 
     @media screen and (max-width: 550px) {
@@ -670,44 +522,123 @@ $conn->close();
       display: flex;
     }
 
-    .alert {
-      padding: 15px;
-      background-color: #f44336;
-      color: white;
-      opacity: 1;
-      transition: opacity 0.6s;
-      margin-bottom: 15px;
+    /*********************************************************************************/
+
+    .sidenav {
+      height: 100%;
+      width: 250px;
+      /* Adjust the width as needed */
+      position: fixed;
+      z-index: 1;
+      top: 60px;
+      /* Position at the bottom of the header */
+      left: 0;
+      background-color: #111;
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 60px;
+      /* Adjust based on your header height */
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
 
-    .alert.success {
-      background-color: #04AA6D;
+    /* Style the links inside the navigation drawer sidebar */
+    .sidenav a {
+      padding: 8px 16px;
+      /* Add equal padding */
+      text-decoration: none;
+      font-size: 20px;
+      /* Adjust the font size as needed */
+      color: #818181;
+      display: flex;
+      align-items: center;
+      /* Center items vertically */
+      transition: 0.3s;
+      margin-left: 5%;
     }
 
-    .alert.info {
-      background-color: #2196F3;
+    /* Change the color of links on hover */
+    .sidenav a:hover {
+      color: #f1f1f1;
     }
 
-    .alert.warning {
-      background-color: #ff9800;
+    /* Position and style the close button (x) */
+    .sidenav .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
+
+    /* Style the button to open the sidebar */
+    span.openbtn {
+      font-size: 30px;
+      cursor: pointer;
+      position: fixed;
+      top: 10px;
+      /* Adjust based on your header height */
+      left: 10px;
+      z-index: 2;
+    }
+
+    /* Style the close button (x) on hover */
+    .sidenav .closebtn:hover {
+      color: #f1f1f1;
+    }
+
+
+
+    hr {
+      width: 90%;
+      border: none;
+      height: 1px;
+      margin: 0 auto;
+      /* Center the line horizontally */
+      background-color: #818181;
+      margin-top: 600px;
+      margin-bottom: 10px;
+
     }
   </style>
 </head>
 
 <body>
   <header>
-    <div class="logo"><a href="#">Wonderland</a></div>
+    <div id="mySidenav" class="sidenav">
 
 
+      <a href="#">
+        <i class="fas fa-user" style="font-size: 20px; color: #818181; margin-right: 30%"></i>
+        Profile</a>
+      <a href="#">
+        <i class="fa fa-shopping-bag" style="font-size: 20px; color: #818181; margin-right: 30%"></i>
+        Orders</a>
+      <a href="#">
+        <i class="material-icons" style="font-size: 20px; color: #818181; margin-right: 30%">favorite</i>
+        Items</a>
+      <a href="#">How to Add</a>
+
+      <hr>
+      <a href="./logout.php">
+        <i type="submit" class="fas fa-sign-out-alt" style="font-size: 20px; color: #818181; margin-right: 25%"></i>
+        Signout</a>
+    </div>
+
+    <div class="logo">
+      <a href="../home.html">Wonderland</a>
     </div>
 
     <div class="heading">
       <ul>
-      <li><a href="../home.html" class="under">HOME</a></li>
+        <li><a href="../home.html" class="under">HOME</a></li>
         <li><a href="./shopscreen.html" class="under">SHOP</a></li>
         <li><a href="./about.html" class="under">ABOUT US</a></li>
-        <li><a href="./profilescreen.php"><i class="fa fa-user" style="font-size:20px;color: white"></i></a></li>
+        
       </ul>
     </div>
+
     <div class="heading1">
       <ion-icon name="menu" class="ham"></ion-icon>
       <div class="menu">
@@ -726,96 +657,19 @@ $conn->close();
     </div>
   </header>
   <section>
-  <?php echo $alert_message; ?>
-    <div class="section">
-      <div class="section1">
-        <div class="login-container">
-          <h2>Login</h2>
-          <form id="login-form" action="loginscreen.php" method="POST">
-            <div class="form-group">
-              <label for="email">Email:</label>
-              <input type="text" id="email" name="email" required />
-            </div>
-            <div class="form-group">
-              <label for="password">Password:</label>
-              <input type="password" id="password" name="password" required />
-            </div>
 
-            <button type="submit">Login</button>
-          </form>
-          <p>Don't have an account? <a href="./registerscreen.php">Register</a></p>
-        </div>
-      </div>
-    </div>
   </section>
 
-  <footer>
-    <div class="footer0">
-      <h1>Wonderland</h1>
-    </div>
-    <div class="footer1">
-      Connect with us at
-      <div class="social-media">
-        <a href="#">
-          <ion-icon name="logo-facebook"></ion-icon>
-        </a>
-        <a href="#">
-          <ion-icon name="logo-linkedin"></ion-icon>
-        </a>
-        <a href="#">
-          <ion-icon name="logo-youtube"></ion-icon>
-        </a>
-        <a href="#">
-          <ion-icon name="logo-instagram"></ion-icon>
-        </a>
-        <a href="#">
-          <ion-icon name="logo-twitter"></ion-icon>
-        </a>
-      </div>
-    </div>
-    <div class="footer2">
-      <div class="product">
-        <div class="heading-footer">Products</div>
-        <div class="div">Women Clothing</div>
-        <div class="div">Men Clothing</div>
-        <div class="div">Accessories</div>
-      </div>
-      <div class="services">
-        <div class="heading-footer">Customer Care</div>
-        <div class="div">Return</div>
-        <div class="div">Cash Back</div>
-        <div class="div">Complaint</div>
-        <div class="div">Others</div>
-      </div>
-
-      <div class="Get Help">
-        <div class="heading-footer">Get Help</div>
-        <div class="div">Help Center</div>
-        <div class="div">Privacy Policy</div>
-        <div class="div">Terms</div>
-        <div class="div">Support</div>
-      </div>
-    </div>
-    <div class="footer3">
-      Copyright ©
-      <h4>Wonderland</h4>
-      2024
-    </div>
-  </footer>
   <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+  <script src="./JS/cartscreen.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var alerts = document.querySelectorAll(".alert");
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "250px";
+    }
 
-      alerts.forEach(function(alert) {
-        setTimeout(function() {
-          alert.style.opacity = "0";
-          setTimeout(function() {
-            alert.style.display = "none";
-          }, 600);
-        }, 3000); // Fade out after 5 seconds
-      });
-    });
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+    }
   </script>
 </body>
 
