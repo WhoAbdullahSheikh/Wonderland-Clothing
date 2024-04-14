@@ -4,7 +4,8 @@ session_start();
 $userprofile = $_SESSION['email'];
 if ($userprofile == true) {
 } else {
-  header("Location: loginscreen.php");
+  header("Location: loginscreen.php");  
+  exit(); 
 }
 
 ?>
@@ -611,7 +612,7 @@ if ($userprofile == true) {
 
       <a href="#">
         <i class="fas fa-user" style="font-size: 20px; color: #818181; margin-right: 30%"></i>
-        Profile</a>
+        Profile </a>
       <a href="#">
         <i class="fa fa-shopping-bag" style="font-size: 20px; color: #818181; margin-right: 30%"></i>
         Orders</a>
