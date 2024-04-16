@@ -3,13 +3,38 @@ session_start();
 
 $userprofile = $_SESSION['email'];
 if ($userprofile == true) {
+  // Step 1: Connect to your database
+  $servername = "localhost";
+  $username = "root";
+  $password = "";
+  $dbname = "wonderland";
+
+  $conn = new mysqli($servername, $username, $password, $dbname);
+
+  // Check connection
+  if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+  }
+
+  // Step 2: Retrieve user information from the database
+  $email = $_SESSION['email'];
+  $sql = "SELECT fullname, email FROM users WHERE email = '$email'";
+  $result = $conn->query($sql);
+
+  if ($result->num_rows > 0) {
+    // User found, fetch user details
+    $row = $result->fetch_assoc();
+    $fullname = $row['fullname'];
+    $email = $row['email'];
+  }
+
+  // Close the database connection
+  $conn->close();
 } else {
-  header("Location: loginscreen.php");  
-  exit(); 
+  header("Location: loginscreen.php");
+  exit();
 }
-
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -519,11 +544,6 @@ if ($userprofile == true) {
       padding: 1%;
     }
 
-    .items {
-      display: flex;
-    }
-
-    /*********************************************************************************/
 
     .sidenav {
       height: 100%;
@@ -589,8 +609,6 @@ if ($userprofile == true) {
       color: #f1f1f1;
     }
 
-
-
     hr {
       width: 90%;
       border: none;
@@ -600,7 +618,97 @@ if ($userprofile == true) {
       background-color: #818181;
       margin-top: 600px;
       margin-bottom: 10px;
+    }
 
+    .profile-container {
+      border: 0px solid #ccc;
+      border-radius: 40px;
+      padding: 20px;
+      margin-left: 10%;
+      margin-right: 10%;
+      margin-top: 3%;
+      padding-top: 2%;
+      padding-bottom: 3%;
+      box-shadow: 0 0 70px rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      /* Initially hide the container */
+      animation: fadeIn 0.5s forwards;
+
+      /* Apply fade-in animation */
+    }
+
+    /* Define the fade-in animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        /* Start with opacity 0 */
+      }
+
+      to {
+        opacity: 1;
+        /* End with opacity 1 */
+      }
+    }
+
+
+
+
+    .profile-container h2 {
+      margin-bottom: 10px;
+      font-size: 40px;
+    }
+
+    .profile-container div {
+      margin-top: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    input[type="text"],
+    input[type="email"] {
+      width: 30%;
+      padding: 10px;
+      border: 1px solid black;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+
+    button[type="submit"] {
+      width: 30%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: rgb(240, 197, 6);
+      color: rgb(0, 0, 0);
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: rgb(243, 168, 7);
+    }
+
+    .section-break {
+      padding-top: 3px;
+      text-align: center;
+      margin: 5px 0;
+      padding-bottom: 1%;
+    }
+
+    .section-break hr {
+      width: 100%;
+      /* Adjust the width as needed */
+      border: none;
+      height: 1px;
+      margin: 0 auto;
+      /* Center the line horizontally */
+      background-color: #333;
     }
   </style>
 </head>
@@ -610,7 +718,7 @@ if ($userprofile == true) {
     <div id="mySidenav" class="sidenav">
 
 
-      <a href="#">
+      <a href="#" onclick="toggleProfile()">
         <i class="fas fa-user" style="font-size: 20px; color: #818181; margin-right: 30%"></i>
         Profile </a>
       <a href="#">
@@ -636,7 +744,7 @@ if ($userprofile == true) {
         <li><a href="../home.html" class="under">HOME</a></li>
         <li><a href="./shopscreen.html" class="under">SHOP</a></li>
         <li><a href="./about.html" class="under">ABOUT US</a></li>
-        
+
       </ul>
     </div>
 
@@ -658,6 +766,32 @@ if ($userprofile == true) {
     </div>
   </header>
   <section>
+    <section id="profileSection" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
+      <div class="profile-container">
+        <h2>Personal Information</h2>
+        <div class="section-break">
+          <hr />
+        </div>
+        <div>
+          <?php include './components/updateprofile.php'; ?>
+          <form action="profilescreen.php" method="post">
+            <label for="fullname">Full Name</label>
+            <input type="text" id="fullname" name="fullname" value="<?php echo $fullname; ?>">
+            <br>
+            <br>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" value="<?php echo $email; ?>">
+            <br>
+            <br>
+            <br>
+            <button type="submit">Update</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+
+
 
   </section>
 
@@ -672,6 +806,26 @@ if ($userprofile == true) {
       document.getElementById("mySidenav").style.width = "0";
     }
   </script>
+  <script>
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function toggleProfile() {
+      var profileSection = document.getElementById("profileSection");
+      if (profileSection.style.display === "none") {
+        profileSection.style.display = "block";
+      } else {
+        profileSection.style.display = "none";
+      }
+    }
+  </script>
+
+
 </body>
 
 </html>
