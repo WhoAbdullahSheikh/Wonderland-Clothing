@@ -49,7 +49,7 @@ if ($userprofile == true) {
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" />
   <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
@@ -718,10 +718,10 @@ if ($userprofile == true) {
     <div id="mySidenav" class="sidenav">
 
 
-      <a href="#" onclick="toggleProfile()">
+      <a href="#" id="profileButton" onclick="toggleSections('profile')">
         <i class="fas fa-user" style="font-size: 20px; color: #818181; margin-right: 30%"></i>
         Profile </a>
-      <a href="#">
+      <a href="#" id="itemsButton" onclick="toggleSections('items')">
         <i class="fa fa-shopping-bag" style="font-size: 20px; color: #818181; margin-right: 30%"></i>
         Orders</a>
       <a href="#">
@@ -765,8 +765,10 @@ if ($userprofile == true) {
       </div>
     </div>
   </header>
-  <section>
-    <section id="profileSection" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
+
+  <div id="contentContainer">
+    <section id="profileSection"
+      style="background-color: white; color: black; padding: 20px; padding-left: 15%; ">
       <div class="profile-container">
         <h2>Personal Information</h2>
         <div class="section-break">
@@ -789,11 +791,32 @@ if ($userprofile == true) {
         </div>
       </div>
     </section>
+    <section id="itemsSection"
+      style="background-color: white; color: black; padding: 20px; padding-left: 15%; ">
+      <div class="profile-container">
+        <form action="/submit-product" method="POST" enctype="multipart/form-data">
+          <div class="input-container">
+            <label for="name">Product Name:</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+          <div class="input-container">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+          </div>
+          <div class="input-container">
+            <label for="price">Price:</label>
+            <input type="number" step="0.01" id="price" name="price" required>
+          </div>
+          <div class="input-container image-upload">
+            <label for="image">Upload Image:</label>
+            <input type="file" id="image" name="image" required>
+          </div>
+          <button type="submit">Submit Product</button>
+        </form>
+    </section>
 
 
-
-
-  </section>
+  </div>
 
   <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
   <script src="./JS/cartscreen.js"></script>
@@ -823,6 +846,28 @@ if ($userprofile == true) {
         profileSection.style.display = "none";
       }
     }
+
+    $(document).ready(function () {
+      function toggleSections(section) {
+        var profileSection = $("#profileSection");
+        var itemsSection = $("#itemsSection");
+
+        if (section === "profile") {
+          profileSection.show();
+          itemsSection.hide();
+        } else if (section === "items") {
+          profileSection.hide();
+          itemsSection.show();
+        }
+      }
+
+      $("#profileButton").click(function () {
+        toggleSections("profile");
+      });
+      $("#itemsButton").click(function () {
+        toggleSections("items");
+      });
+    });
   </script>
 
 
