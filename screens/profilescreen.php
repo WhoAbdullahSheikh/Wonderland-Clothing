@@ -96,6 +96,8 @@ if ($userprofile == true) {
     }
 
     header {
+      position: fixed;
+      z-index: 1000;
       display: flex;
       justify-content: space-evenly;
       align-items: center;
@@ -103,6 +105,8 @@ if ($userprofile == true) {
       width: 100%;
       background: black;
     }
+    
+    
 
     .heading {
       display: flex;
@@ -658,7 +662,7 @@ if ($userprofile == true) {
       padding: 20px;
       margin-left: 10%;
       margin-right: 10%;
-      margin-top: 3%;
+      margin-top: 5%;
       padding-top: 2%;
       padding-bottom: 3%;
       box-shadow: 0 0 70px rgba(0, 0, 0, 0.7);
