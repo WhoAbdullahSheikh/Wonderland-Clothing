@@ -55,9 +55,7 @@ if ($userprofile == true) {
     // Now let's move the uploaded image into the folder: image
     if (move_uploaded_file($tempname, $folder)) {
       $alert_message = '<div class="alert success"><strong>Success!</strong> Updated successfully</div>';
-    } else {
-      echo "<h3> Failed to upload image!</h3>";
-    }
+    } 
   }
 
   // Close the database connection
@@ -755,7 +753,7 @@ if ($userprofile == true) {
     }
 
     .price-wrapper {
-      width: 20%;
+      width: 50%;
       align-items: center;
       border: 1px solid black;
       border-radius: 10px;
@@ -776,7 +774,7 @@ if ($userprofile == true) {
     input[type="number"] {
       flex-grow: 1;
       border: none;
-      width: 80%;
+      width: 90%;
       /* Removes focus outline */
       border-radius: 8px;
       padding: 10px;
