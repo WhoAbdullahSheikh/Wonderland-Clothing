@@ -6,7 +6,7 @@ if (isset($_POST['fullname']) && isset($_POST['email'])) {
     $username = "root";
     $password = "";
     $dbname = "wonderland";
-
+    $alert_message = "";
     $conn = new mysqli($servername, $username, $password, $dbname);
 
     // Check connection

@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+error_reporting(0);
 $userprofile = $_SESSION['email'];
 if ($userprofile == true) {
   // Step 1: Connect to your database
@@ -26,6 +26,38 @@ if ($userprofile == true) {
     $row = $result->fetch_assoc();
     $fullname = $row['fullname'];
     $email = $row['email'];
+  }
+
+  $msg = "";
+
+  // If upload button is clicked ...
+  if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['upload'])) {
+
+
+    $filename = $_FILES["uploadfile"]["name"];
+    $tempname = $_FILES["uploadfile"]["tmp_name"];
+    $email = $_SESSION['email']; // Retrieved from session
+    
+    $description = $_POST['description'];
+    $p_name = $_POST['p_name'];
+    $price = $_POST['price'];
+    $folder = "./image/" . $filename;
+
+    $alert_message = "";
+    $db = mysqli_connect("localhost", "root", "", "wonderland");
+
+    // Get all the submitted data from the form
+    $sql = "INSERT INTO products (filename, email, p_name, description, price) VALUES ('$filename', '$email', '$p_name', '$description', '$price')";
+
+    // Execute query
+    mysqli_query($db, $sql);
+
+    // Now let's move the uploaded image into the folder: image
+    if (move_uploaded_file($tempname, $folder)) {
+      $alert_message = '<div class="alert success"><strong>Success!</strong> Updated successfully</div>';
+    } else {
+      echo "<h3> Failed to upload image!</h3>";
+    }
   }
 
   // Close the database connection
@@ -710,6 +742,45 @@ if ($userprofile == true) {
       /* Center the line horizontally */
       background-color: #333;
     }
+
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+
+    }
+
+    .price-wrapper {
+      width: 20%;
+      align-items: center;
+      border: 1px solid black;
+      border-radius: 10px;
+      padding: 2px;
+    }
+
+    .currency-prefix {
+      background-color: #f0f0f0;
+      padding: 10px;
+      border-right: 1px solid black;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+      font-size: 15px;
+      color: #333;
+
+    }
+
+    input[type="number"] {
+      flex-grow: 1;
+      border: none;
+      width: 80%;
+      /* Removes focus outline */
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 15px;
+      border: none;
+      /* Removes border inside the input */
+      outline: none;
+    }
   </style>
 </head>
 
@@ -722,11 +793,12 @@ if ($userprofile == true) {
         <i class="fas fa-user" style="font-size: 20px; color: #818181; margin-right: 30%"></i>
         Profile </a>
       <a href="#" id="itemsButton" onclick="toggleSections('items')">
-        <i class="fa fa-shopping-bag" style="font-size: 20px; color: #818181; margin-right: 30%"></i>
-        Orders</a>
-      <a href="#">
         <i class="material-icons" style="font-size: 20px; color: #818181; margin-right: 30%">favorite</i>
         Items</a>
+      <a href="#">
+        <i class="fa fa-shopping-bag" style="font-size: 20px; color: #818181; margin-right: 30%"></i>
+        Orders</a>
+
       <a href="#">How to Add</a>
 
       <hr>
@@ -796,26 +868,48 @@ if ($userprofile == true) {
         <div class="section-break">
           <hr />
         </div>
-        <form action="/submit-product" method="POST" enctype="multipart/form-data">
+
+        <form action="./profilescreen.php" method="POST" enctype="multipart/form-data">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" value="<?php echo $email; ?>">
           <div class="input-container">
-            <label for="name">Product Name:</label>
-            <input type="text" id="name" name="name" required>
+            <label for="p_name">Product Name:</label>
+            <input type="text" id="p_name" name="p_name" required>
           </div>
           <div class="input-container">
             <label for="description">Description:</label>
-            <textarea id="description" name="description" required style="border-radius: 10px; height: 200px; width: 40%; font-size: 15px;"></textarea>
+            <textarea id="description" name="description" required style="border-radius: 10px; height: 200px; width: 40%; font-size: 15px; padding: 10px"></textarea>
           </div>
           <div class="input-container">
             <label for="price">Price:</label>
-            <input type="number" step="100" id="price" name="price" required style="border-radius: 10px; padding: 10px; font-size: 15px;">
+            <div class="price-wrapper">
+              <span class="currency-prefix">Rs.</span>
+              <input type="number" step="100" id="price" name="price" required style="border-radius: 10px; padding: 10px; font-size: 15px; ">
+            </div>
           </div>
+
           <div class="input-container image-upload">
-            <label for="image">Upload Image:</label>
-            <input type="file" id="image" name="image" required>
+            <input type="file" name="uploadfile" value="" />
+            <br>
+            <button class="btn btn-primary" type="submit" name="upload">Submit Product</button>
           </div>
           <br>
-          <button type="submit">Submit Product</button>
+          
+          <div id="display-image">
+            <?php
+            $query = " select * from products ";
+            $result = mysqli_query($db, $query);
+
+            while ($data = mysqli_fetch_assoc($result)) {
+            ?>
+              <img src="./image/<?php echo $data['filename']; ?>">
+
+            <?php
+            }
+            ?>
+          </div>
         </form>
+
     </section>
 
 
@@ -823,60 +917,60 @@ if ($userprofile == true) {
 
   <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
   <script src="./JS/cartscreen.js"></script>
-  
+
   <script>
-  // Utility function to open/close navigation side panel
-  function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-  }
-
-  function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-  }
-
-  // Function to toggle between profile and items sections
-  function toggleSections(section) {
-    var profileSection = document.getElementById("profileSection");
-    var itemsSection = document.getElementById("itemsSection");
-
-    if (section === 'profile') {
-      profileSection.style.display = "block";
-      itemsSection.style.display = "none";
-    } else if (section === 'items') {
-      profileSection.style.display = "none";
-      itemsSection.style.display = "block";
+    // Utility function to open/close navigation side panel
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "250px";
     }
-    // Save the last opened section in local storage
-    localStorage.setItem("lastOpenedSection", section);
-  }
 
-  // Function to restore the section visibility from local storage
-  function restoreSections() {
-    // Get the last opened section from local storage
-    var lastOpenedSection = localStorage.getItem("lastOpenedSection");
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+    }
 
-    // Default to profile if nothing is stored
-    if (lastOpenedSection) {
-      toggleSections(lastOpenedSection);
-    } else {
+    // Function to toggle between profile and items sections
+    function toggleSections(section) {
+      var profileSection = document.getElementById("profileSection");
+      var itemsSection = document.getElementById("itemsSection");
+
+      if (section === 'profile') {
+        profileSection.style.display = "block";
+        itemsSection.style.display = "none";
+      } else if (section === 'items') {
+        profileSection.style.display = "none";
+        itemsSection.style.display = "block";
+      }
+      // Save the last opened section in local storage
+      localStorage.setItem("lastOpenedSection", section);
+    }
+
+    // Function to restore the section visibility from local storage
+    function restoreSections() {
+      // Get the last opened section from local storage
+      var lastOpenedSection = localStorage.getItem("lastOpenedSection");
+
+      // Default to profile if nothing is stored
+      if (lastOpenedSection) {
+        toggleSections(lastOpenedSection);
+      } else {
+        toggleSections('profile');
+      }
+    }
+
+    // Event listeners for side navigation menu buttons
+    document.getElementById("profileButton").addEventListener("click", function() {
       toggleSections('profile');
-    }
-  }
+    });
 
-  // Event listeners for side navigation menu buttons
-  document.getElementById("profileButton").addEventListener("click", function() {
-    toggleSections('profile');
-  });
+    document.getElementById("itemsButton").addEventListener("click", function() {
+      toggleSections('items');
+    });
 
-  document.getElementById("itemsButton").addEventListener("click", function() {
-    toggleSections('items');
-  });
-
-  // Call restoreSections on page load to apply the saved visibility state
-  document.addEventListener('DOMContentLoaded', function() {
-    restoreSections();
-  });
-</script>
+    // Call restoreSections on page load to apply the saved visibility state
+    document.addEventListener('DOMContentLoaded', function() {
+      restoreSections();
+    });
+  </script>
 
 
 
