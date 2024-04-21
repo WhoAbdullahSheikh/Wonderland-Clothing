@@ -767,8 +767,7 @@ if ($userprofile == true) {
   </header>
 
   <div id="contentContainer">
-    <section id="profileSection"
-      style="background-color: white; color: black; padding: 20px; padding-left: 15%; ">
+    <section id="profileSection" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
       <div class="profile-container">
         <h2>Personal Information</h2>
         <div class="section-break">
@@ -791,9 +790,12 @@ if ($userprofile == true) {
         </div>
       </div>
     </section>
-    <section id="itemsSection"
-      style="background-color: white; color: black; padding: 20px; padding-left: 15%; ">
+    <section id="itemsSection" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
       <div class="profile-container">
+        <h2>Product Details</h2>
+        <div class="section-break">
+          <hr />
+        </div>
         <form action="/submit-product" method="POST" enctype="multipart/form-data">
           <div class="input-container">
             <label for="name">Product Name:</label>
@@ -801,16 +803,17 @@ if ($userprofile == true) {
           </div>
           <div class="input-container">
             <label for="description">Description:</label>
-            <textarea id="description" name="description" required></textarea>
+            <textarea id="description" name="description" required style="border-radius: 10px; height: 200px; width: 40%; font-size: 15px;"></textarea>
           </div>
           <div class="input-container">
             <label for="price">Price:</label>
-            <input type="number" step="0.01" id="price" name="price" required>
+            <input type="number" step="100" id="price" name="price" required style="border-radius: 10px; padding: 10px; font-size: 15px;">
           </div>
           <div class="input-container image-upload">
             <label for="image">Upload Image:</label>
             <input type="file" id="image" name="image" required>
           </div>
+          <br>
           <button type="submit">Submit Product</button>
         </form>
     </section>
@@ -820,55 +823,61 @@ if ($userprofile == true) {
 
   <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
   <script src="./JS/cartscreen.js"></script>
+  
   <script>
-    function openNav() {
-      document.getElementById("mySidenav").style.width = "250px";
+  // Utility function to open/close navigation side panel
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+  }
+
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  }
+
+  // Function to toggle between profile and items sections
+  function toggleSections(section) {
+    var profileSection = document.getElementById("profileSection");
+    var itemsSection = document.getElementById("itemsSection");
+
+    if (section === 'profile') {
+      profileSection.style.display = "block";
+      itemsSection.style.display = "none";
+    } else if (section === 'items') {
+      profileSection.style.display = "none";
+      itemsSection.style.display = "block";
     }
+    // Save the last opened section in local storage
+    localStorage.setItem("lastOpenedSection", section);
+  }
 
-    function closeNav() {
-      document.getElementById("mySidenav").style.width = "0";
+  // Function to restore the section visibility from local storage
+  function restoreSections() {
+    // Get the last opened section from local storage
+    var lastOpenedSection = localStorage.getItem("lastOpenedSection");
+
+    // Default to profile if nothing is stored
+    if (lastOpenedSection) {
+      toggleSections(lastOpenedSection);
+    } else {
+      toggleSections('profile');
     }
-  </script>
-  <script>
-    function openNav() {
-      document.getElementById("mySidenav").style.width = "250px";
-    }
+  }
 
-    function closeNav() {
-      document.getElementById("mySidenav").style.width = "0";
-    }
+  // Event listeners for side navigation menu buttons
+  document.getElementById("profileButton").addEventListener("click", function() {
+    toggleSections('profile');
+  });
 
-    function toggleProfile() {
-      var profileSection = document.getElementById("profileSection");
-      if (profileSection.style.display === "none") {
-        profileSection.style.display = "block";
-      } else {
-        profileSection.style.display = "none";
-      }
-    }
+  document.getElementById("itemsButton").addEventListener("click", function() {
+    toggleSections('items');
+  });
 
-    $(document).ready(function () {
-      function toggleSections(section) {
-        var profileSection = $("#profileSection");
-        var itemsSection = $("#itemsSection");
+  // Call restoreSections on page load to apply the saved visibility state
+  document.addEventListener('DOMContentLoaded', function() {
+    restoreSections();
+  });
+</script>
 
-        if (section === "profile") {
-          profileSection.show();
-          itemsSection.hide();
-        } else if (section === "items") {
-          profileSection.hide();
-          itemsSection.show();
-        }
-      }
-
-      $("#profileButton").click(function () {
-        toggleSections("profile");
-      });
-      $("#itemsButton").click(function () {
-        toggleSections("items");
-      });
-    });
-  </script>
 
 
 </body>
