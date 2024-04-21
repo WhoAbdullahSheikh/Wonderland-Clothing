@@ -37,7 +37,7 @@ if ($userprofile == true) {
     $filename = $_FILES["uploadfile"]["name"];
     $tempname = $_FILES["uploadfile"]["tmp_name"];
     $email = $_SESSION['email']; // Retrieved from session
-    
+
     $description = $_POST['description'];
     $p_name = $_POST['p_name'];
     $price = $_POST['price'];
@@ -55,7 +55,7 @@ if ($userprofile == true) {
     // Now let's move the uploaded image into the folder: image
     if (move_uploaded_file($tempname, $folder)) {
       $alert_message = '<div class="alert success"><strong>Success!</strong> Updated successfully</div>';
-    } 
+    }
   }
 
   // Close the database connection
@@ -103,8 +103,8 @@ if ($userprofile == true) {
       width: 100%;
       background: black;
     }
-    
-    
+
+
 
     .heading {
       display: flex;
@@ -745,12 +745,7 @@ if ($userprofile == true) {
       background-color: #333;
     }
 
-    .input-container {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 20px;
 
-    }
 
     .price-wrapper {
       width: 50%;
@@ -841,7 +836,7 @@ if ($userprofile == true) {
   </header>
 
   <div id="contentContainer">
-    <section id="profileSection" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
+    <div id="profileSection" style="background-color: white; color: black; padding: 20px; padding-left: 15%; ">
       <div class="profile-container">
         <h2>Personal Information</h2>
         <div class="section-break">
@@ -863,8 +858,8 @@ if ($userprofile == true) {
           </form>
         </div>
       </div>
-    </section>
-    <section id="itemsSection" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
+    </div>
+    <div id="itemsSection" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
       <div class="profile-container">
         <h2>Product Details</h2>
         <div class="section-break">
@@ -896,7 +891,7 @@ if ($userprofile == true) {
             <button class="btn btn-primary" type="submit" name="upload">Submit Product</button>
           </div>
           <br>
-          
+
           <div id="display-image">
             <?php
             $query = " select * from products ";
@@ -912,67 +907,56 @@ if ($userprofile == true) {
           </div>
         </form>
 
-    </section>
+        </section>
 
 
-  </div>
+      </div>
 
-  <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
-  <script src="./JS/cartscreen.js"></script>
+      <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+      <script src="./JS/cartscreen.js"></script>
 
-  <script>
-    // Utility function to open/close navigation side panel
-    function openNav() {
-      document.getElementById("mySidenav").style.width = "250px";
-    }
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          // Function to toggle visibility of sections
+          function toggleSections(section) {
+            var profileSection = document.getElementById("profileSection");
+            var itemsSection = document.getElementById("itemsSection");
 
-    function closeNav() {
-      document.getElementById("mySidenav").style.width = "0";
-    }
+            if (section === 'profile') {
+              profileSection.style.display = "block";
+              itemsSection.style.display = "none";
+            } else if (section === 'items') {
+              profileSection.style.display = "none";
+              itemsSection.style.display = "block";
+            }
+            // Save the last opened section in local storage
+            localStorage.setItem("lastOpenedSection", section);
+          }
 
-    // Function to toggle between profile and items sections
-    function toggleSections(section) {
-      var profileSection = document.getElementById("profileSection");
-      var itemsSection = document.getElementById("itemsSection");
+          // Function to restore the section visibility from local storage or default to profile
+          function restoreSections() {
+            var lastOpenedSection = localStorage.getItem("lastOpenedSection");
+            if (lastOpenedSection === 'items') {
+              toggleSections('items');
+            } else {
+              toggleSections('profile');
+            }
+          }
 
-      if (section === 'profile') {
-        profileSection.style.display = "block";
-        itemsSection.style.display = "none";
-      } else if (section === 'items') {
-        profileSection.style.display = "none";
-        itemsSection.style.display = "block";
-      }
-      // Save the last opened section in local storage
-      localStorage.setItem("lastOpenedSection", section);
-    }
+          // Restore sections on page load based on saved state or default to profile
+          restoreSections();
 
-    // Function to restore the section visibility from local storage
-    function restoreSections() {
-      // Get the last opened section from local storage
-      var lastOpenedSection = localStorage.getItem("lastOpenedSection");
+          // Event listeners for menu buttons
+          document.getElementById("profileButton").addEventListener("click", function() {
+            toggleSections('profile');
+          });
 
-      // Default to profile if nothing is stored
-      if (lastOpenedSection) {
-        toggleSections(lastOpenedSection);
-      } else {
-        toggleSections('profile');
-      }
-    }
+          document.getElementById("itemsButton").addEventListener("click", function() {
+            toggleSections('items');
+          });
+        });
+      </script>
 
-    // Event listeners for side navigation menu buttons
-    document.getElementById("profileButton").addEventListener("click", function() {
-      toggleSections('profile');
-    });
-
-    document.getElementById("itemsButton").addEventListener("click", function() {
-      toggleSections('items');
-    });
-
-    // Call restoreSections on page load to apply the saved visibility state
-    document.addEventListener('DOMContentLoaded', function() {
-      restoreSections();
-    });
-  </script>
 
 
 
