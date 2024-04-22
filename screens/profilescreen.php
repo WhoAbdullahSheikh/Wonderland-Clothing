@@ -778,6 +778,19 @@ if ($userprofile == true) {
       /* Removes border inside the input */
       outline: none;
     }
+
+    #display-image {
+      width: 100%;
+      justify-content: center;
+      padding: 5px;
+      margin: 15px;
+    }
+
+    img {
+      margin: 5px;
+      width: 350px;
+      height: 250px;
+    }
   </style>
 </head>
 
