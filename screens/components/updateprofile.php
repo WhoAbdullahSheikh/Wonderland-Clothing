@@ -18,7 +18,15 @@ if (isset($_POST['fullname']) && isset($_POST['email'])) {
     $fullname = $_POST['fullname'];
     $email = $_POST['email'];
     $user_email = $_SESSION['email'];
-
+    $email = $_SESSION['email'];
+    $sql = "SELECT fullname, email FROM users WHERE email = '$email'";
+    $result = $conn->query($sql);
+  
+    if ($result->num_rows > 0) {
+      $row = $result->fetch_assoc();
+      $fullname = $row['fullname'];
+      $email = $row['email'];
+    }
     // Step 3: Update user information in the database
     $sql = "UPDATE users SET fullname='$fullname', email='$email' WHERE email='$user_email'";
     if ($conn->query($sql) === TRUE) {

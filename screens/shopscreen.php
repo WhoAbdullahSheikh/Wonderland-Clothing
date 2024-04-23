@@ -1,10 +1,11 @@
 <?php
-// Step 1: Connect to your database
+// DB credentials.
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "wonderland";
 
+// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
@@ -12,38 +13,9 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// Define an empty variable to hold the alert message
-$alert_message = "";
-
-// Step 2: Retrieve form data
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $fullname = $_POST['fullname'];
-  $email = $_POST['email'];
-  $password = $_POST['password'];
-
-  // Step 3: Check if email already exists in the database
-  $check_email_sql = "SELECT * FROM users WHERE email='$email'";
-  $result = $conn->query($check_email_sql);
-
-  if ($result->num_rows > 0) {
-    // Email already exists
-    $alert_message = '<div class="alert"><strong>Already Registered!</strong> Please press login sign in yourself</div>';
-  } else {
-    // Step 4: Insert data into database table
-    $sql = "INSERT INTO users (fullname, email, password) VALUES ('$fullname', '$email', '$password')";
-
-    if ($conn->query($sql) === TRUE) {
-      // Registration successful
-      $alert_message = '<div class="alert success"><strong>Success!</strong> You are logged in successfully</div>';
-    } else {
-      // Error occurred during registration
-      $alert_message = '<div class="alert"><strong>Error!</strong> ' . $sql . '<br>' . $conn->error . '</div>';
-    }
-  }
-}
-
-// Close the database connection
-$conn->close();
+// Fetch products
+$sql = "SELECT name, description, filename, price FROM products";
+$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -53,9 +25,8 @@ $conn->close();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wonderland</title>
-  <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-  <link rel="stylesheet" href="./ecommerce.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" />
   <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet" />
 
@@ -75,7 +46,6 @@ $conn->close();
       height: 60px;
       width: 100%;
       background: black;
-
     }
 
     .heading {
@@ -106,7 +76,6 @@ $conn->close();
       color: white;
       transition-duration: 1s;
       font-weight: 800;
-
     }
 
     .logo a:hover {
@@ -116,7 +85,6 @@ $conn->close();
 
     .heading ul li {
       list-style-type: none;
-
     }
 
     .heading ul li a {
@@ -129,7 +97,6 @@ $conn->close();
       margin: 2px 14px;
       font-size: 10px;
       transition-duration: 1s;
-
     }
 
     .heading ul li a:active {
@@ -200,7 +167,6 @@ $conn->close();
       /* Ensure the image takes up the full height of the slider */
       object-fit: cover;
       /* Ensure the image covers the entire container */
-
     }
 
     @keyframes slide {
@@ -258,15 +224,12 @@ $conn->close();
       position: relative;
       margin: auto;
       padding-top: 3%;
-
-
     }
 
     /* Hide the images by default */
     .mySlides {
       display: none;
       box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
-
     }
 
     /* Next & previous buttons */
@@ -512,7 +475,6 @@ $conn->close();
 
     .menu {
       visibility: hidden;
-
     }
 
     .heading1 .ham:active {
@@ -550,7 +512,6 @@ $conn->close();
         display: block;
         flex-direction: column;
         align-items: center;
-
       }
 
       .menu a ion-icon {
@@ -619,7 +580,6 @@ $conn->close();
         z-index: 11;
         align-items: center;
         justify-content: center;
-
       }
 
       .close {
@@ -673,7 +633,6 @@ $conn->close();
         align-items: center;
         margin: 0px auto;
       }
-
 
       .heading1 {
         opacity: 1;
@@ -757,203 +716,8 @@ $conn->close();
     }
 
     .container {
-      max-width: 1200px;
-      padding: 20px;
-    }
-
-    .category-heading {
-      text-align: center;
-      font-size: 30px;
-      padding: 1%;
-    }
-
-    .items {
-      display: flex;
-    }
-
-    .register-container {
-      margin: 0 auto;
-      max-width: 400px;
-      padding: 20px;
-      border: 2px solid black;
-      border-radius: 30px;
-      background-color: white;
-    }
-
-    .register-container h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .register-container p {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #888;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .register-container p a {
-      color: #887419;
-      text-decoration: none;
-    }
-
-    .register-container p a:hover {
-      color: #f3a807;
-      text-decoration: underline;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button[type="submit"] {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      background-color: rgb(240, 197, 6);
-      color: rgb(0, 0, 0);
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button[type="submit"]:hover {
-      background-color: rgb(243, 168, 7);
-    }
-
-    .register-container p a {
-      color: #887419;
-      text-decoration: none;
-    }
-
-    .register-container p a:hover {
-      color: #f3a807;
-      text-decoration: underline;
-    }
-
-    @media screen and (max-width: 550px) {
-      .register-container {
-        max-width: 90%;
-        /* Adjust max-width for smaller screens */
-      }
-
-      input[type="text"],
-      input[type="email"],
-      input[type="password"] {
-        width: calc(100% - 20px);
-        /* Adjust input width for smaller screens */
-      }
-    }
-
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    input[type="text"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    button[type="submit"] {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      background-color: rgb(240, 197, 6);
-      color: rgb(0, 0, 0);
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button[type="submit"]:hover {
-      background-color: rgb(243, 168, 7);
-    }
-
-    @media screen and (max-width: 550px) {
-      .heading ul li {
-        display: none;
-      }
-
-      .heading1 {
-        opacity: 1;
-
-        bottom: 8px;
-      }
-
-      header {
-        height: 250px;
-        flex-wrap: wrap;
-        display: flex;
-        flex-direction: column;
-      }
-
-      #input {
-        width: 150px;
-      }
-
-      .close {
-        z-index: 34;
-      }
-
-      .search a {
-        display: flex;
-        flex-wrap: nowrap;
-      }
-    }
-
-    .section-break {
-      padding-top: 2%;
-      text-align: center;
-      margin: 5px 0;
-      padding-bottom: 1%;
-    }
-
-    .section-break hr {
-      width: 85%;
-      /* Adjust the width as needed */
-      border: none;
-      height: 1px;
-      margin: 0 auto;
-      /* Center the line horizontally */
-      background-color: #333;
-    }
-
-    .section2 {
-      width: 100%;
       display: flex;
       justify-content: center;
-      align-items: center;
-    }
-
-    .container {
-      max-width: 1200px;
-      padding: 20px;
     }
 
     .category-heading {
@@ -966,42 +730,271 @@ $conn->close();
       display: flex;
     }
 
-    /* The alert message box */
-    .alert {
-      padding: 15px;
-      background-color: #f44336;
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      max-width: 300px;
+      margin: 3%;
+      text-align: center;
+      padding-bottom: 2%;
+    }
+
+    .card img:hover {
+      color: rgb(155, 155, 155);
+      opacity: 0.8;
+      /* Reduce opacity on hover */
+      transition: 0.3s ease;
+    }
+
+    .price {
+      color: rgb(0, 0, 0);
+      font-size: 22px;
+      font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+        "Lucida Sans", Arial, sans-serif;
+    }
+
+    .card button {
+      border: none;
+      outline: 0;
+      padding: 12px;
       color: white;
+      background-color: #000;
+      text-align: center;
+      cursor: pointer;
+      width: 100%;
+      font-size: 18px;
+      margin-top: 6%;
+    }
+
+    .card button:hover {
+      color: rgb(192, 157, 4);
       opacity: 1;
-      transition: opacity 0.6s;
-      margin-bottom: 15px;
+      /* Reduce opacity on hover */
+      transition: 0.3s ease;
     }
 
-    .alert.success {
-      background-color: #04AA6D;
+    .circle-card {
+      text-align: center;
+      font-size: 30px;
+      padding: 2%;
+      transition: opacity 0.3s ease;
     }
 
-    .alert.info {
-      background-color: #2196F3;
+    .circle-card:hover {
+      color: rgb(158, 129, 0);
+      opacity: 0.8;
+      /* Reduce opacity on hover */
     }
 
-    .alert.warning {
-      background-color: #ff9800;
+    .circle-image img {
+      width: 330px;
+      /* adjust size as needed */
+      height: 450px;
+      /* adjust size as needed */
+      border-radius: 20%;
+      border: 2px solid black;
+      border-width: 2px;
+      /* Remove any existing border */
+      box-shadow: 20px 25px 15px 5px rgba(77, 76, 76, 0.5);
+      /* Adjust color and size as needed */
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    #womenClothingSection,
+    #menClothingSection {
+      animation: fadeIn 0.8s ease forwards;
+      opacity: 0;
+    }
+
+    #display-image {
+      justify-content: center;
+      width: 360px;
+      /* Center content horizontally */
+      padding: 5px;
+      margin: 15px auto;
+      /* Centers the div horizontally */
+
+    }
+
+    img {
+      margin: 5px;
+      width: 330px;
+
+      height: 450px;
+    }
+
+    .product-item {
+
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin: 10px;
+      padding: 10px;
+      width: calc(33.333% - 20px);
+      /* Three items per row, with margin */
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .product-item img {
+      width: 330px;
+      height: 460px;
+      object-fit: cover;
+      /* Ensures the image covers the area, might crop if aspect ratio differs */
+    }
+
+    @media (max-width: 1200px) {
+      .product-item {
+        width: 100%;
+        /* Full width on smaller screens */
+      }
+
+      .product-item img {
+        width: 100%;
+        /* Image takes full width of its container */
+        height: auto;
+        /* Maintain aspect ratio */
+      }
+    }
+
+    .product-card {
+      border-radius: 5%;
+      
+      box-shadow: 0 30px 30px rgba(0, 0, 0, 0.7);
+      margin: 10px;
+      padding: 0;
+      background-color: rgb(248, 212, 170 );
+      overflow: hidden;
+      width: 360px;
+      height: 650px;
+      display: inline-block;
+      vertical-align: top;
+      position: relative;
+      transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+      padding-top: 10px;
+      /* Smooth transition for shadow and transform */
+      cursor: pointer;
+      /* Indicates that the item is clickable */
+    }
+
+    .product-card:hover {
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      /* Enhanced shadow for hover effect */
+      transform: translateY(-5px);
+      /* Slightly raise the card */
+    }
+
+    .product-image {
+      border-radius: 15px;
+      width: 90%;
+      /* Ensures the image fills the width */
+      height: 450px;
+      /* Fixed height for the image */
+      object-fit: contain;
+      /* Ensures the entire image is visible */
+      margin: 0 auto;
+      /* Center the image horizontally */
+      display: block;
+      /* Ensures the image doesn't inline any default margins/paddings */
+      background: #fff;
+      /* Optional: Adds a white background to fill any empty space */
+    }
+
+
+    .product-info {
+      padding: 10px;
+      font-weight: bold;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-desc {
+      padding: 10px;
+      font-size: 15px;
+    }
+
+
+
+    .price-cart-container {
+
+      display: flex;
+      justify-content: space-between;
+      /* This spreads the button and price apart */
+      align-items: center;
+      padding: 0 10px 10px 10px;
+
+    }
+
+    .product-price {
+      font-weight: bold;
+      font-size: 22px;
+      color: black;
+      /* Gold color for pricing */
+      position: absolute;
+      bottom: 17px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.9);
+      /* Slight background to ensure readability */
+      padding: 5px 10px;
+      border-radius: 5px;
+      /* Rounded corners for the price tag */
+    }
+
+    .section-break-2 hr {
+      background-color: black;
+      /* Lighter line color for a subtle break */
+    }
+
+    .add-to-cart-btn {
+
+      background-color: rgb(240, 197, 6);
+      color: rgb(0, 0, 0);
+      color: black;
+      margin-top: 12%;
+      margin-left: 3%;
+      border: none;
+      font-weight: bold;
+      padding: 8px 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+      width: 50%;
+     
+    }
+
+    .add-to-cart-btn:hover {
+      background-color: rgb(217, 118, 0);
+
+      transition: background-color 0.6s ease;
+
+      /* Darker shade on hover */
     }
   </style>
 </head>
 
 <body>
-
   <header>
-    <div class="logo"><a href="#">Wonderland</a></div>
-
+    <div class="logo">
+      <a href="#">Wonderland</a>
+    </div>
 
     <div class="heading">
       <ul>
         <li><a href="../home.html" class="under">HOME</a></li>
-        <li><a href="./shopscreen.php" class="under">SHOP</a></li>
+        <li><a href="./loginscreen.php" class="under">LOGIN/REGISTER</a></li>
         <li><a href="./about.html" class="under">ABOUT US</a></li>
-        <li><a href="./profilescreen.php"><i class="fa fa-user" style="font-size:20px;color: white"></i></a></li>
+        <li>
+          <a href="./profilescreen.php"><i class="fa fa-user" style="font-size: 20px; color: white"></i></a>
+        </li>
       </ul>
     </div>
     <div class="heading1">
@@ -1013,48 +1006,211 @@ $conn->close();
 
         <ul>
           <li><a href="#" class="under">HOME</a></li>
-          <li><a href="#" class="under">SHOP</a></li>
-          <li><a href="#" class="under">OUR PRODUCTS</a></li>
+
           <li><a href="#" class="under">LOGIN/REGISTER</a></li>
           <li><a href="#" class="under">ABOUT US</a></li>
         </ul>
       </div>
     </div>
   </header>
-
   <section>
-    <?php echo $alert_message; ?>
-    <div class="section">
-      <br>
-      <br>
-      <div class="section1">
-        <div class="register-container">
-          <h2>Register</h2>
-          <form id="register-form" action="registerscreen.php" method="POST">
-            <div class="form-group">
-              <label for="fullname">Full Name:</label>
-              <input type="text" id="fullname" name="fullname" required />
-            </div>
-            <div class="form-group">
-              <label for="email">Email:</label>
-              <input type="email" id="email" name="email" required />
-            </div>
-            <div class="form-group">
-              <label for="password">Password:</label>
-              <input type="password" id="password" name="password" required />
-            </div>
-            <div class="form-group">
-              <label for="password">Re-Password:</label>
-              <input type="password" id="password" name="password" required />
-            </div>
-            <button type="submit">Register</button>
-          </form>
-          <p>Already have an account? <a href="./loginscreen.php">Login</a></p>
+    <div class="category-heading">
+      <h1>Clothing Categories</h1>
+    </div>
+    <div class="section2">
+      <div class="container">
+        <div class="circle-card" onclick="toggleCategory('men')">
+          <div class="circle-image">
+            <img src="../collection/men/6cd89aa0a4f5332635198f49b1d8a453.jpg" alt="" />
+            <br />
+            <br />
+            <p>Men</p>
+          </div>
+        </div>
+        <div class="circle-card" onclick="toggleCategory('women')">
+          <div class="circle-image">
+            <img src="../collection/women/MF-114.jpg" alt="" />
+            <br />
+            <br />
+            <p>Women</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="menClothingSection" style="display: none" class="container animated-container">
+      <div class="section-break">
+        <hr />
+      </div>
+
+      <div class="category-heading">
+        <h1>Mens Clothing</h1>
+      </div>
+      <div class="section2">
+        <div class="display-image">
+          <?php
+          $conn = new mysqli($servername, $username, $password, $dbname); // Assume $conn is your active database connection
+          $result = $conn->query("SELECT * FROM products");
+          if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+              echo '<div class="product-card">';
+              echo '<img class="product-image" src="./image/' . htmlspecialchars($row['filename']) . '" alt="' . htmlspecialchars($row['p_name']) . '">';
+              echo '<div class="product-info">';
+
+              echo '<p>' . htmlspecialchars($row['p_name']) . '</p>';
+              echo '</div>';
+              echo '<div class="section-break-2"> <hr/></div>';
+              echo '<div class="product-desc">' . htmlspecialchars($row['description']) . '</div>';
+              echo '<div class="price-cart-container">';
+              echo '<button class="add-to-cart-btn" onclick="addToCartAndRedirect(\'' . htmlspecialchars($row['p_name']) . '\', ' . htmlspecialchars($row['price']) . ')">Add to Cart</button>';
+
+              echo '<p class="product-price">Rs. ' . htmlspecialchars($row['price']) . '</p>';
+              echo '</div>';
+              echo '</div>'; // Close product-card
+            }
+          } else {
+            echo "<p>No products found.</p>";
+          }
+          $conn->close();
+          ?>
+        </div>
+      </div>
+
+
+    </div>
+    <div id="womenClothingSection" style="display: none" class="container animated-container">
+      <div class="section-break">
+        <hr />
+      </div>
+
+      <div class="category-heading">
+        <h1>Women Clothing</h1>
+      </div>
+      <div class="section2" id="womenClothingSection">
+        <div class="container">
+          <div class="card">
+            <img src="../collection/women/MF-114.jpg" alt="Denim Jeans" style="width: 100%" />
+
+            <p class="price">Rs. 560/-</p>
+            <h3 style="display: inline">Condition:</h3>
+            <p style="display: inline">Excellent</p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
+          </div>
+          <div class="card">
+            <img src="../collection/women/MF-128.jpg" alt="Denim Jeans" style="width: 100%" />
+
+            <p class="price">Rs. 560/-</p>
+            <h3 style="display: inline">Condition:</h3>
+            <p style="display: inline">Excellent</p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
+          </div>
+          <div class="card">
+            <img src="../collection/women/MF-27.jpg" alt="Denim Jeans" style="width: 100%" />
+
+            <p class="price">Rs. 560/-</p>
+            <h3 style="display: inline">Condition:</h3>
+            <p style="display: inline">Excellent</p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
+          </div>
+          <div class="card">
+            <img src="../collection/women/MF-31.jpg" alt="Denim Jeans" style="width: 100%" />
+
+            <p class="price">Rs. 560/-</p>
+            <h3 style="display: inline">Condition:</h3>
+            <p style="display: inline">Excellent</p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
+          </div>
+          <div class="card">
+            <img src="../collection/women/MF-80.jpg" alt="Denim Jeans" style="width: 100%" />
+
+            <p class="price">Rs. 560/-</p>
+            <h3 style="display: inline">Condition:</h3>
+            <p style="display: inline">Excellent</p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
+          </div>
+          <div class="card">
+            <img src="../collection/women/MF-89.jpg" alt="Denim Jeans" style="width: 100%" />
+
+            <p class="price">Rs. 560/-</p>
+            <h3 style="display: inline">Condition:</h3>
+            <p style="display: inline">Excellent</p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
+          </div>
+          <div class="card">
+            <img src="../collection/women/MF-98.jpg" alt="Denim Jeans" style="width: 100%" />
+
+            <p class="price">Rs. 560/-</p>
+            <h3 style="display: inline">Condition:</h3>
+            <p style="display: inline">Excellent</p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
+          </div>
+          <div class="card">
+            <img src="../collection/women/NL-97.jpg" alt="Denim Jeans" style="width: 100%" />
+
+            <p class="price">Rs. 560/-</p>
+            <h3 style="display: inline">Condition:</h3>
+            <p style="display: inline">Excellent</p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
+          </div>
+          <div class="card">
+            <img src="../collection/women/SWT-1269_13edd3ca-07e8-4ef3-9b0e-e7cc10f3097d.jpg" alt="Denim Jeans" style="width: 100%" />
+
+            <p class="price">Rs. 560/-</p>
+            <h3 style="display: inline">Condition:</h3>
+            <p style="display: inline">Excellent</p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
+          </div>
+          <div class="card">
+            <img src="../collection/women/SWT-1367_32e30ebe-791b-4c5a-a1bd-0fd21fb656b7.jpg" alt="Denim Jeans" style="width: 100%" />
+
+            <p class="price">Rs. 560/-</p>
+            <h3 style="display: inline">Condition:</h3>
+            <p style="display: inline">Excellent</p>
+            <p>
+              <button onclick="addToCartAndRedirect('Product 1', 15)">
+                Add to Cart
+              </button>
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </section>
-
 
   <footer>
     <div class="footer0">
@@ -1110,19 +1266,46 @@ $conn->close();
     </div>
   </footer>
   <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+  <script src="./JS/cartscreen.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var alerts = document.querySelectorAll(".alert");
+    // Function to handle adding items to cart and redirecting
+    function addToCartAndRedirect(productName, price) {
+      // Retrieve the current cart from local storage or initialize a new one if none exists
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-      alerts.forEach(function(alert) {
-        setTimeout(function() {
-          alert.style.opacity = "0";
-          setTimeout(function() {
-            alert.style.display = "none";
-          }, 600);
-        }, 3000); // Fade out after 5 seconds
-      });
-    });
+      // Create a product object with name and price
+      const product = {
+        name: productName,
+        price: price
+      };
+
+      // Add the new product to the cart array
+      cart.push(product);
+
+      // Update the cart in local storage with the new product added
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      // Optionally: Display a confirmation message
+      alert('Product added to cart!');
+
+      // Redirect the user to the cart page (ensure you have a 'cart.html' or appropriate URL)
+      window.location.href = './checkoutscreen.html'; // Change this URL to where your cart page is located
+    }
+  </script>
+
+  <script>
+    // Function to toggle visibility of category sections
+    function toggleCategory(category) {
+      if (category === "women") {
+        document.getElementById("womenClothingSection").style.display =
+          "block";
+        document.getElementById("menClothingSection").style.display = "none";
+      } else if (category === "men") {
+        document.getElementById("womenClothingSection").style.display =
+          "none";
+        document.getElementById("menClothingSection").style.display = "block";
+      }
+    }
   </script>
 </body>
 

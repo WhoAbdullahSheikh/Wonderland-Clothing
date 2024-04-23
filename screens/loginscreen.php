@@ -703,7 +703,7 @@ $conn->close();
     <div class="heading">
       <ul>
       <li><a href="../home.html" class="under">HOME</a></li>
-        <li><a href="./shopscreen.html" class="under">SHOP</a></li>
+        <li><a href="./shopscreen.php" class="under">SHOP</a></li>
         <li><a href="./about.html" class="under">ABOUT US</a></li>
         <li><a href="./profilescreen.php"><i class="fa fa-user" style="font-size:20px;color: white"></i></a></li>
       </ul>

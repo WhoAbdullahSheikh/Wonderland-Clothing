@@ -1,7 +1,10 @@
 <?php
 session_start();
-error_reporting(0);
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 $userprofile = $_SESSION['email'];
+
 if ($userprofile == true) {
   // Step 1: Connect to your database
   $servername = "localhost";
@@ -16,28 +19,21 @@ if ($userprofile == true) {
     die("Connection failed: " . $conn->connect_error);
   }
 
-  // Step 2: Retrieve user information from the database
   $email = $_SESSION['email'];
   $sql = "SELECT fullname, email FROM users WHERE email = '$email'";
   $result = $conn->query($sql);
 
   if ($result->num_rows > 0) {
-    // User found, fetch user details
     $row = $result->fetch_assoc();
     $fullname = $row['fullname'];
     $email = $row['email'];
   }
 
   $msg = "";
-
-  // If upload button is clicked ...
   if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['upload'])) {
-
-
     $filename = $_FILES["uploadfile"]["name"];
     $tempname = $_FILES["uploadfile"]["tmp_name"];
-    $email = $_SESSION['email']; // Retrieved from session
-
+    $email = $_SESSION['email'];
     $description = $_POST['description'];
     $p_name = $_POST['p_name'];
     $price = $_POST['price'];
@@ -46,17 +42,25 @@ if ($userprofile == true) {
     $alert_message = "";
     $db = mysqli_connect("localhost", "root", "", "wonderland");
 
-    // Get all the submitted data from the form
-    $sql = "INSERT INTO products (filename, email, p_name, description, price) VALUES ('$filename', '$email', '$p_name', '$description', '$price')";
+
 
     // Execute query
     mysqli_query($db, $sql);
 
-    // Now let's move the uploaded image into the folder: image
     if (move_uploaded_file($tempname, $folder)) {
-      $alert_message = '<div class="alert success"><strong>Success!</strong> Updated successfully</div>';
+      $stmt = $conn->prepare("INSERT INTO products (filename, email, p_name, description, price) VALUES (?, ?, ?, ?, ?)");
+      $stmt->bind_param("ssssd", $filename, $email, $p_name, $description, $price);
+      $stmt->execute();
+      $_SESSION['message'] = "Updated successfully";
+      header("Location: " . $_SERVER['PHP_SELF']);
+      exit();
+    } else {
+      echo "Failed to upload file.";
     }
   }
+
+
+
 
   // Close the database connection
   $conn->close();
@@ -560,6 +564,23 @@ if ($userprofile == true) {
       background-color: #333;
     }
 
+    .section-break-2 {
+      padding-top: 2%;
+      text-align: center;
+      margin: 5px 0;
+      padding-bottom: 1%;
+    }
+
+    .section-break-2 hr {
+      width: 95%;
+      /* Adjust the width as needed */
+      border: none;
+      height: 1px;
+      margin: 0 auto;
+      /* Center the line horizontally */
+      background-color: #333;
+    }
+
     .section2 {
       width: 100%;
       display: flex;
@@ -578,70 +599,64 @@ if ($userprofile == true) {
       padding: 1%;
     }
 
-
     .sidenav {
       height: 100%;
       width: 250px;
-      /* Adjust the width as needed */
       position: fixed;
       z-index: 1;
       top: 60px;
-      /* Position at the bottom of the header */
       left: 0;
       background-color: #111;
       overflow-x: hidden;
       transition: 0.5s;
       padding-top: 60px;
-      /* Adjust based on your header height */
       display: flex;
       flex-direction: column;
       align-items: flex-start;
     }
 
-    /* Style the links inside the navigation drawer sidebar */
     .sidenav a {
       padding: 8px 16px;
-      /* Add equal padding */
       text-decoration: none;
-      font-size: 20px;
-      /* Adjust the font size as needed */
+      font-size: 17px;
       color: #818181;
       display: flex;
       align-items: center;
-      /* Center items vertically */
-      transition: 0.3s;
+      justify-content: flex-start;
+      transition: color 0.3s, background-color 0.3s;
       margin-left: 5%;
+      margin-bottom: 10px;
+      /* Added to create a gap between buttons */
+      border-radius: 5px;
+      width: 90%;
     }
 
-    /* Change the color of links on hover */
+    .sidenav a i {
+      font-size: 20px;
+      color: #818181;
+      margin-right: 10px;
+    }
+
+    .sidenav a span {
+      color: #818181;
+    }
+
     .sidenav a:hover {
       color: #f1f1f1;
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
-    /* Position and style the close button (x) */
-    .sidenav .closebtn {
-      position: absolute;
-      top: 0;
-      right: 25px;
-      font-size: 36px;
-      margin-left: 50px;
+    .sidenav hr {
+      width: 90%;
+      border: none;
+      height: 1px;
+      margin: 0 auto;
+      background-color: #818181;
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
 
-    /* Style the button to open the sidebar */
-    span.openbtn {
-      font-size: 30px;
-      cursor: pointer;
-      position: fixed;
-      top: 10px;
-      /* Adjust based on your header height */
-      left: 10px;
-      z-index: 2;
-    }
 
-    /* Style the close button (x) on hover */
-    .sidenav .closebtn:hover {
-      color: #f1f1f1;
-    }
 
     hr {
       width: 90%;
@@ -650,7 +665,7 @@ if ($userprofile == true) {
       margin: 0 auto;
       /* Center the line horizontally */
       background-color: #818181;
-      margin-top: 600px;
+      margin-top: 50px;
       margin-bottom: 10px;
     }
 
@@ -779,17 +794,122 @@ if ($userprofile == true) {
       outline: none;
     }
 
+
     #display-image {
-      width: 100%;
       justify-content: center;
+      /* Center content horizontally */
       padding: 5px;
-      margin: 15px;
+      margin: 15px auto;
+      /* Centers the div horizontally */
+
     }
 
     img {
       margin: 5px;
-      width: 350px;
-      height: 250px;
+      width: 330px;
+
+      height: 450px;
+    }
+
+    .product-item {
+
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin: 10px;
+      padding: 10px;
+      width: calc(33.333% - 20px);
+      /* Three items per row, with margin */
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .product-item img {
+      width: 330px;
+      height: 450px;
+      object-fit: cover;
+      /* Ensures the image covers the area, might crop if aspect ratio differs */
+    }
+
+    @media (max-width: 1200px) {
+      .product-item {
+        width: 100%;
+        /* Full width on smaller screens */
+      }
+
+      .product-item img {
+        width: 100%;
+        /* Image takes full width of its container */
+        height: auto;
+        /* Maintain aspect ratio */
+      }
+    }
+
+    .product-card {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      margin: 10px;
+      overflow: hidden;
+      width: 330px;
+      height: 650px;
+      display: inline-block;
+      vertical-align: top;
+      position: relative;
+    }
+
+
+    .product-image {
+      width: 330px;
+      height: 450px;
+      /* Adjusted to fit the image */
+      object-fit: cover;
+      /* Ensures the image covers the area properly */
+    }
+
+    .product-info {
+      padding: 10px;
+      color: #333;
+      height: 5px;
+      font-size: 25px;
+      display: flex;
+      align-items: center;
+      /* Center the content vertically */
+      font-weight: bold;
+      /* Bold font for product name */
+    }
+
+    .product-info p {
+      margin: 5px 0;
+    }
+
+    .product-desc {
+      padding: 10px;
+      font-size: 18px;
+      color: #333;
+      height: 130px;
+      /* Adjusted for the description */
+      font-weight: normal;
+      /* Regular font weight for description */
+      overflow: auto;
+      /* Adds scroll if content overflows */
+    }
+
+    .product-desc p {
+      margin: 5px 0;
+    }
+
+    .product-price {
+      font-weight: bold;
+      font-size: 25px;
+      color: black;
+      /* Set the text color to yellow */
+      font-family: "Raleway", sans-serif;
+
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+
+      /* Black outline around text */
     }
   </style>
 </head>
@@ -797,24 +917,26 @@ if ($userprofile == true) {
 <body>
   <header>
     <div id="mySidenav" class="sidenav">
-
-
       <a href="#" id="profileButton" onclick="toggleSections('profile')">
-        <i class="fas fa-user" style="font-size: 20px; color: #818181; margin-right: 30%"></i>
-        Profile </a>
+        <i class="fas fa-user"></i>
+        <span>Profile</span>
+      </a>
       <a href="#" id="itemsButton" onclick="toggleSections('items')">
-        <i class="material-icons" style="font-size: 20px; color: #818181; margin-right: 30%">favorite</i>
-        Items</a>
+        <i class="material-icons">favorite</i>
+        <span>Sell Product</span>
+      </a>
+      <a href="#" id="addedProductsButton" onclick="toggleSections('addedItems')">
+        <i class="fa fa-shopping-bag"></i>
+        <span>Added Products</span>
+      </a>
       <a href="#">
-        <i class="fa fa-shopping-bag" style="font-size: 20px; color: #818181; margin-right: 30%"></i>
-        Orders</a>
-
-      <a href="#">How to Add</a>
-
+        <span>How to Add</span>
+      </a>
       <hr>
       <a href="./logout.php">
-        <i type="submit" class="fas fa-sign-out-alt" style="font-size: 20px; color: #818181; margin-right: 25%"></i>
-        Signout</a>
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Signout</span>
+      </a>
     </div>
 
     <div class="logo">
@@ -824,7 +946,7 @@ if ($userprofile == true) {
     <div class="heading">
       <ul>
         <li><a href="../home.html" class="under">HOME</a></li>
-        <li><a href="./shopscreen.html" class="under">SHOP</a></li>
+        <li><a href="./shopscreen.php" class="under">SHOP</a></li>
         <li><a href="./about.html" class="under">ABOUT US</a></li>
 
       </ul>
@@ -883,7 +1005,7 @@ if ($userprofile == true) {
           <label for="email">Email</label>
           <input type="email" id="email" name="email" value="<?php echo $email; ?>">
           <div class="input-container">
-            <label for="p_name">Product Name:</label>
+            <label for="p_name">Product Name:</label>   
             <input type="text" id="p_name" name="p_name" required>
           </div>
           <div class="input-container">
@@ -894,81 +1016,140 @@ if ($userprofile == true) {
             <label for="price">Price:</label>
             <div class="price-wrapper">
               <span class="currency-prefix">Rs.</span>
-              <input type="number" step="100" id="price" name="price" required style="border-radius: 10px; padding: 10px; font-size: 15px; ">
+              <input type="number" step="10" id="price" name="price" required style="border-radius: 10px; padding: 10px; font-size: 15px; ">
             </div>
           </div>
 
           <div class="input-container image-upload">
             <input type="file" name="uploadfile" value="" />
             <br>
+            <br>
             <button class="btn btn-primary" type="submit" name="upload">Submit Product</button>
           </div>
           <br>
+          <div class="section-break">
+            <hr />
+          </div>
 
           <div id="display-image">
             <?php
-            $query = " select * from products ";
-            $result = mysqli_query($db, $query);
-
-            while ($data = mysqli_fetch_assoc($result)) {
-            ?>
-              <img src="./image/<?php echo $data['filename']; ?>">
-
-            <?php
+            $conn = new mysqli($servername, $username, $password, $dbname); // Assume $conn is your active database connection
+            $result = $conn->query("SELECT * FROM products WHERE email = '" . $conn->real_escape_string($_SESSION['email']) . "'");
+            if ($result->num_rows > 0) {
+              while ($row = $result->fetch_assoc()) {
+                echo '<div class="product-card">';
+                echo '<img class="product-image" src="./image/' . htmlspecialchars($row['filename']) . '" alt="' . htmlspecialchars($row['p_name']) . '">';
+                echo '<div class="product-info">';
+                echo '<p>' . htmlspecialchars($row['p_name']) . '</p>';
+                echo '</div>';
+                echo '<div class="section-break-2"> <hr/></div>';
+                echo '<div class="product-desc">' . htmlspecialchars($row['description']) . '</div>';
+                echo '<p class="product-price">Rs. ' . htmlspecialchars($row['price']) . '</p>';
+                echo '</div>';
+              }
+            } else {
+              echo "<p>No products found.</p>";
             }
+            $conn->close();
             ?>
           </div>
         </form>
-
-        </section>
-
-
       </div>
 
-      <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
-      <script src="./JS/cartscreen.js"></script>
+    </div>
 
-      <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          // Function to toggle visibility of sections
-          function toggleSections(section) {
-            var profileSection = document.getElementById("profileSection");
-            var itemsSection = document.getElementById("itemsSection");
-
-            if (section === 'profile') {
-              profileSection.style.display = "block";
-              itemsSection.style.display = "none";
-            } else if (section === 'items') {
-              profileSection.style.display = "none";
-              itemsSection.style.display = "block";
+    <div id="itemsAdded" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
+      <div class="profile-container">
+        <h2>Your Added Products</h2>
+        <div class="section-break">
+          <hr />
+        </div>
+        <div id="display-image">
+          <?php
+          $conn = new mysqli($servername, $username, $password, $dbname); // Assume $conn is your active database connection
+          $result = $conn->query("SELECT * FROM products WHERE email = '" . $conn->real_escape_string($_SESSION['email']) . "'");
+          if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+              echo '<div class="product-card">';
+              echo '<img class="product-image" src="./image/' . htmlspecialchars($row['filename']) . '" alt="' . htmlspecialchars($row['p_name']) . '">';
+              echo '<div class="product-info">';
+              echo '<p>' . htmlspecialchars($row['p_name']) . '</p>';
+              echo '</div>';
+              echo '<div class="section-break-2"> <hr/></div>';
+              echo '<div class="product-desc">' . htmlspecialchars($row['description']) . '</div>';
+              echo '<p class="product-price">Rs. ' . htmlspecialchars($row['price']) . '</p>';
+              echo '</div>';
             }
-            // Save the last opened section in local storage
-            localStorage.setItem("lastOpenedSection", section);
+          } else {
+            echo "<p>No products found.</p>";
           }
+          $conn->close();
+          ?>
+        </div>
+      </div>
+    </div>
 
-          // Function to restore the section visibility from local storage or default to profile
-          function restoreSections() {
-            var lastOpenedSection = localStorage.getItem("lastOpenedSection");
-            if (lastOpenedSection === 'items') {
-              toggleSections('items');
-            } else {
-              toggleSections('profile');
-            }
-          }
 
-          // Restore sections on page load based on saved state or default to profile
-          restoreSections();
+  </div>
 
-          // Event listeners for menu buttons
-          document.getElementById("profileButton").addEventListener("click", function() {
-            toggleSections('profile');
-          });
+  <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+  <script src="./JS/cartscreen.js"></script>
 
-          document.getElementById("itemsButton").addEventListener("click", function() {
-            toggleSections('items');
-          });
-        });
-      </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+      function toggleSections(section) {
+        var profileSection = document.getElementById("profileSection");
+        var itemsSection = document.getElementById("itemsSection");
+        var itemsAdded = document.getElementById("itemsAdded");
+
+        if (section === 'profile') {
+          profileSection.style.display = "block";
+          itemsSection.style.display = "none";
+          itemsAdded.style.display = "none";
+        } else if (section === 'items') {
+          profileSection.style.display = "none";
+          itemsSection.style.display = "block";
+          itemsAdded.style.display = "none";
+
+        } else if (section === 'addedItems') {
+          profileSection.style.display = "none";
+          itemsSection.style.display = "none";
+          itemsAdded.style.display = "block";
+        }
+        localStorage.setItem("lastOpenedSection", section);
+      }
+
+      // Function to restore the section visibility from local storage or default to profile
+      function restoreSections() {
+        var lastOpenedSection = localStorage.getItem("lastOpenedSection");
+        if (lastOpenedSection === 'items') {
+          toggleSections('items');
+        } else if (lastOpenedSection === 'profile') {
+          toggleSections('profile');
+        } else {
+          toggleSections('addedItems');
+        }
+      }
+
+
+      // Restore sections on page load based on saved state or default to profile
+      restoreSections();
+
+      // Event listeners for menu buttons
+      document.getElementById("profileButton").addEventListener("click", function() {
+        toggleSections('profile');
+      });
+
+      document.getElementById("itemsButton").addEventListener("click", function() {
+        toggleSections('items');
+      });
+
+      document.getElementById("addedProductsButton").addEventListener("click", function() {
+        toggleSections('addedItems');
+      });
+    });
+  </script>
 
 
 
