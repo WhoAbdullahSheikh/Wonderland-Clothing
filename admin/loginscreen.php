@@ -25,14 +25,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $password = $_POST['password'];
 
   // Step 3: Check if user exists in the database
-  $check_user_sql = "SELECT * FROM users WHERE email='$email' AND password='$password'";
+  $check_user_sql = "SELECT * FROM admin WHERE email='$email' AND password='$password'";
   $result = $conn->query($check_user_sql);
 
   if ($result->num_rows > 0) {
 
     $_SESSION['email'] = $email;
     $alert_message = '<div class="alert success"><strong>Success!</strong> Login successful</div>';
-    header("Location: profilescreen.php");
+    header("Location: adminprofile.php");
     exit();
   } else {
     // User not found or password incorrect
@@ -730,7 +730,7 @@ $conn->close();
     <div class="section">
       <div class="section1">
         <div class="login-container">
-          <h2>Login</h2>
+          <h2>Root Login</h2>
           <form id="login-form" action="loginscreen.php" method="POST">
             <div class="form-group">
               <label for="email">Email:</label>
@@ -743,10 +743,8 @@ $conn->close();
 
             <button type="submit">Login</button>
           </form>
-          <p>Don't have an account? <a href="./registerscreen.php">Register</a></p>
-          <p>Root User? <a href="../admin/loginscreen.php">Login</a></p>
+         
         </div>
-        
       </div>
     </div>
   </section>

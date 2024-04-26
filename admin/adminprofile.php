@@ -3,66 +3,42 @@ session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-$userprofile = $_SESSION['email'];
-
-if ($userprofile == true) {
-  // Step 1: Connect to your database
-  $servername = "localhost";
-  $username = "root";
-  $password = "";
-  $dbname = "wonderland";
-
-  $conn = new mysqli($servername, $username, $password, $dbname);
-
-  // Check connection
-  if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-  }
-
-  $email = $_SESSION['email'];
-  $sql = "SELECT fullname, email FROM users WHERE email = '$email'";
-  $result = $conn->query($sql);
-
-  if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $fullname = $row['fullname'];
-    $email = $row['email'];
-  }
-
-  $msg = "";
-  if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['upload'])) {
-    $filename = $_FILES["uploadfile"]["name"];
-    $tempname = $_FILES["uploadfile"]["tmp_name"];
-    $description = $_POST['description'];
-    $p_name = $_POST['p_name'];
-    $price = $_POST['price'];
-    $folder = "./image/" . $filename;
-    $status = 'pending';
-
-    // Ensure the file is moved to your folder
-    if (move_uploaded_file($tempname, $folder)) {
-      // Prepare the SQL statement to avoid SQL injection
-      $stmt = $conn->prepare("INSERT INTO products (filename, email, p_name, description, price, status) VALUES (?, ?, ?, ?, ?, ?)");
-      $stmt->bind_param("ssssds", $filename, $email, $p_name, $description, $price, $status);
-      $stmt->execute();
-      $_SESSION['message'] = "Product uploaded successfully!";
-      header("Location: " . $_SERVER['PHP_SELF']);
-      exit();
-    } else {
-      echo "Failed to upload file.";
-    }
-  }
-
-
-
-
-
-  // Close the database connection
-  $conn->close();
-} else {
-  header("Location: loginscreen.php");
+// Check if the user is logged in and is an admin.
+if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@wonderland.com') {
+  header('Location: loginscreen.php'); // Redirect to login page if not admin
   exit();
 }
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "wonderland";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch products pending approval
+$sql = "SELECT * FROM products WHERE status = 'pending'";
+$result = $conn->query($sql);
+
+// Check if "approve" or "reject" actions have been triggered
+if (isset($_GET['action'], $_GET['id']) && in_array($_GET['action'], ['approve', 'reject'])) {
+  $newStatus = $_GET['action'] === 'approve' ? 'approved' : 'rejected';
+  $stmt = $conn->prepare("UPDATE products SET status = ? WHERE id = ?");
+  $stmt->bind_param('si', $newStatus, $_GET['id']);
+  $stmt->execute();
+  $stmt->close();
+
+  // Redirect to prevent resubmission
+  header('Location: admin.php');
+  exit();
+}
+
+// Close database connection if open
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -713,30 +689,6 @@ if ($userprofile == true) {
       font-size: 20px;
     }
 
-    input[type="text"],
-    input[type="email"] {
-      width: 30%;
-      padding: 10px;
-      border: 1px solid black;
-      border-radius: 10px;
-      font-size: 15px;
-    }
-
-    button[type="submit"] {
-      width: 30%;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      background-color: rgb(240, 197, 6);
-      color: rgb(0, 0, 0);
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button[type="submit"]:hover {
-      background-color: rgb(243, 168, 7);
-    }
 
     .section-break {
       padding-top: 3px;
@@ -755,156 +707,58 @@ if ($userprofile == true) {
       background-color: #333;
     }
 
-
-
-    .price-wrapper {
-      width: 50%;
-      align-items: center;
-      border: 1px solid black;
-      border-radius: 10px;
-      padding: 2px;
+    table,
+    td,
+    th {
+      border: 2px solid #ddd;
+      text-align: left;
     }
 
-    .currency-prefix {
-      background-color: #f0f0f0;
-      padding: 10px;
-      border-right: 1px solid black;
-      border-top-left-radius: 8px;
-      border-bottom-left-radius: 8px;
-      font-size: 15px;
-      color: #333;
-
+    table {
+      border-collapse: collapse;
+      width: 100%;
     }
 
-    input[type="number"] {
-      flex-grow: 1;
+    th {
+      font-size: 26px;
+      text-align: center;
+    }
+
+    th,
+    td {
+      padding: 15px;
+    }
+
+    .btn {
+      padding: 5px 20px;
+      color: white;
       border: none;
-      width: 90%;
-      /* Removes focus outline */
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 15px;
-      border: none;
-      /* Removes border inside the input */
-      outline: none;
-    }
-
-
-    #display-image {
-      justify-content: center;
-      /* Center content horizontally */
-      padding: 5px;
-      margin: 15px auto;
-      /* Centers the div horizontally */
-
-    }
-
-    img {
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      text-decoration: none;
       margin: 5px;
-      width: 330px;
-
-      height: 450px;
-    }
-
-    .product-item {
-
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      margin: 10px;
-      padding: 10px;
-      width: calc(33.333% - 20px);
-      /* Three items per row, with margin */
+      width: 100px;
+      /* Fixed width for all buttons */
       display: inline-block;
-      vertical-align: top;
+      /* Ensures the width is respected */
+      text-align: center;
+
     }
 
-    .product-item img {
-      width: 330px;
-      height: 450px;
-      object-fit: cover;
-      /* Ensures the image covers the area, might crop if aspect ratio differs */
+    .btn-approve {
+      background-color: #4CAF50;
+      /* Green */
     }
 
-    @media (max-width: 1200px) {
-      .product-item {
-        width: 100%;
-        /* Full width on smaller screens */
-      }
-
-      .product-item img {
-        width: 100%;
-        /* Image takes full width of its container */
-        height: auto;
-        /* Maintain aspect ratio */
-      }
+    .btn-reject {
+      background-color: #f44336;
+      /* Red */
     }
 
-    .product-card {
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      margin: 10px;
-      overflow: hidden;
-      width: 330px;
-      height: 650px;
-      display: inline-block;
-      vertical-align: top;
-      position: relative;
-    }
-
-
-    .product-image {
-      width: 330px;
-      height: 450px;
-      /* Adjusted to fit the image */
-      object-fit: cover;
-      /* Ensures the image covers the area properly */
-    }
-
-    .product-info {
-      padding: 10px;
-      color: #333;
-      height: 5px;
-      font-size: 25px;
-      display: flex;
-      align-items: center;
-      /* Center the content vertically */
-      font-weight: bold;
-      /* Bold font for product name */
-    }
-
-    .product-info p {
-      margin: 5px 0;
-    }
-
-    .product-desc {
-      padding: 10px;
-      font-size: 18px;
-      color: #333;
-      height: 130px;
-      /* Adjusted for the description */
-      font-weight: normal;
-      /* Regular font weight for description */
-      overflow: auto;
-      /* Adds scroll if content overflows */
-    }
-
-    .product-desc p {
-      margin: 5px 0;
-    }
-
-    .product-price {
-      font-weight: bold;
-      font-size: 25px;
-      color: black;
-      /* Set the text color to yellow */
-      font-family: "Raleway", sans-serif;
-
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-
-      /* Black outline around text */
+    /* Optional: style for hover effect */
+    .btn:hover {
+      opacity: 0.8;
     }
   </style>
 </head>
@@ -912,18 +766,15 @@ if ($userprofile == true) {
 <body>
   <header>
     <div id="mySidenav" class="sidenav">
-      <a href="#" id="profileButton" onclick="toggleSections('profile')">
+      <a href="#" id="approvalButton" onclick="toggleSections('profile')">
         <i class="fas fa-user"></i>
-        <span>Profile</span>
+        <span>Approvals</span>
       </a>
-      <a href="#" id="itemsButton" onclick="toggleSections('items')">
+      <a href="#" id="listingButton" onclick="toggleSections('items')">
         <i class="material-icons">favorite</i>
-        <span>Sell Product</span>
+        <span>Items Listings</span>
       </a>
-      <a href="#" id="addedProductsButton" onclick="toggleSections('addedItems')">
-        <i class="fa fa-shopping-bag"></i>
-        <span>Added Products</span>
-      </a>
+
       <a href="#">
         <span>How to Add</span>
       </a>
@@ -966,91 +817,48 @@ if ($userprofile == true) {
   </header>
 
   <div id="contentContainer">
-    <div id="profileSection" style="background-color: white; color: black; padding: 20px; padding-left: 15%; ">
+    <div id="approvalSection" style="background-color: white; color: black; padding: 20px; padding-left: 15%; ">
       <div class="profile-container">
-        <h2>Personal Information</h2>
+        <h2>Products Approvals</h2>
         <div class="section-break">
           <hr />
         </div>
-        <div>
-          <?php include './components/updateprofile.php'; ?>
-          <form action="profilescreen.php" method="post">
-            <label for="fullname">Full Name</label>
-            <input type="text" id="fullname" name="fullname" value="<?php echo $fullname; ?>">
-            <br>
-            <br>
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" value="<?php echo $email; ?>">
-            <br>
-            <br>
-            <br>
-            <button type="submit">Update</button>
-          </form>
-        </div>
+        <table style="width:100%">
+          <tr>
+            <th>Image</th>
+            <th>Product Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Action</th>
+          </tr>
+          <?php while ($row = $result->fetch_assoc()) : ?>
+            <tr>
+              <td  style="text-align: center;">
+                <img src="../screens/image/<?= htmlspecialchars($row['filename']) ?>" alt="<?= htmlspecialchars($row['p_name']) ?>" style="width: 100px; height: auto;">
+              </td>
+              <td style="text-align: center;"><?= htmlspecialchars($row['p_name']) ?></td>
+              <td><?= htmlspecialchars($row['description']) ?></td>
+              <td  style="text-align: center;"><?= htmlspecialchars($row['price']) ?></td>
+              <td  style="text-align: center;">
+                <a href="approve.php?id=<?= $row['id'] ?>&status=approved" class="btn btn-approve">Approve</a>
+                <a href="approve.php?id=<?= $row['id'] ?>&status=rejected" class="btn btn-reject">Reject</a>
+              </td>
+            </tr>
+          <?php endwhile; ?>
+        </table>
+
+
+
       </div>
     </div>
     <div id="itemsSection" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
       <div class="profile-container">
-        <h2>Product Details</h2>
+        <h2>Product Listing</h2>
         <div class="section-break">
           <hr />
         </div>
 
-        <form action="./profilescreen.php" method="POST" enctype="multipart/form-data">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" value="<?php echo $email; ?>">
-          <div class="input-container">
-            <label for="p_name">Product Name:</label>
-            <input type="text" id="p_name" name="p_name" required>
-          </div>
-          <div class="input-container">
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" required style="border-radius: 10px; height: 200px; width: 40%; font-size: 15px; padding: 10px"></textarea>
-          </div>
-          <div class="input-container">
-            <label for="price">Price:</label>
-            <div class="price-wrapper">
-              <span class="currency-prefix">Rs.</span>
-              <input type="number" step="10" id="price" name="price" required style="border-radius: 10px; padding: 10px; font-size: 15px; ">
-            </div>
-          </div>
-
-          <div class="input-container image-upload">
-            <input type="file" name="uploadfile" value="" />
-            <br>
-            <br>
-            <button class="btn btn-primary" type="submit" name="upload">Submit Product</button>
-          </div>
-          <br>
-          <div class="section-break">
-            <hr />
-          </div>
-
-          <div id="display-image">
-            <?php
-            $conn = new mysqli($servername, $username, $password, $dbname); // Assume $conn is your active database connection
-            $result = $conn->query("SELECT * FROM products WHERE email = '" . $conn->real_escape_string($_SESSION['email']) . "'");
-            if ($result->num_rows > 0) {
-              while ($row = $result->fetch_assoc()) {
-                echo '<div class="product-card">';
-                echo '<img class="product-image" src="./image/' . htmlspecialchars($row['filename']) . '" alt="' . htmlspecialchars($row['p_name']) . '">';
-                echo '<div class="product-info">';
-                echo '<p>' . htmlspecialchars($row['p_name']) . '</p>';
-                echo '</div>';
-                echo '<div class="section-break-2"> <hr/></div>';
-                echo '<div class="product-desc">' . htmlspecialchars($row['description']) . '</div>';
-                echo '<p class="product-price">Rs. ' . htmlspecialchars($row['price']) . '</p>';
-                echo '</div>';
-              }
-            } else {
-              echo "<p>No products found.</p>";
-            }
-            $conn->close();
-            ?>
-          </div>
-        </form>
       </div>
-
     </div>
 
     <div id="itemsAdded" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
@@ -1059,28 +867,7 @@ if ($userprofile == true) {
         <div class="section-break">
           <hr />
         </div>
-        <div id="display-image">
-          <?php
-          $conn = new mysqli($servername, $username, $password, $dbname); // Assume $conn is your active database connection
-          $result = $conn->query("SELECT * FROM products WHERE email = '" . $conn->real_escape_string($_SESSION['email']) . "'");
-          if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-              echo '<div class="product-card">';
-              echo '<img class="product-image" src="./image/' . htmlspecialchars($row['filename']) . '" alt="' . htmlspecialchars($row['p_name']) . '">';
-              echo '<div class="product-info">';
-              echo '<p>' . htmlspecialchars($row['p_name']) . '</p>';
-              echo '</div>';
-              echo '<div class="section-break-2"> <hr/></div>';
-              echo '<div class="product-desc">' . htmlspecialchars($row['description']) . '</div>';
-              echo '<p class="product-price">Rs. ' . htmlspecialchars($row['price']) . '</p>';
-              echo '</div>';
-            }
-          } else {
-            echo "<p>No products found.</p>";
-          }
-          $conn->close();
-          ?>
-        </div>
+
       </div>
     </div>
 
@@ -1094,21 +881,21 @@ if ($userprofile == true) {
     document.addEventListener('DOMContentLoaded', function() {
 
       function toggleSections(section) {
-        var profileSection = document.getElementById("profileSection");
+        var approvalSection = document.getElementById("approvalSection");
         var itemsSection = document.getElementById("itemsSection");
         var itemsAdded = document.getElementById("itemsAdded");
 
         if (section === 'profile') {
-          profileSection.style.display = "block";
+          approvalSection.style.display = "block";
           itemsSection.style.display = "none";
           itemsAdded.style.display = "none";
         } else if (section === 'items') {
-          profileSection.style.display = "none";
+          approvalSection.style.display = "none";
           itemsSection.style.display = "block";
           itemsAdded.style.display = "none";
 
         } else if (section === 'addedItems') {
-          profileSection.style.display = "none";
+          approvalSection.style.display = "none";
           itemsSection.style.display = "none";
           itemsAdded.style.display = "block";
         }
@@ -1132,11 +919,11 @@ if ($userprofile == true) {
       restoreSections();
 
       // Event listeners for menu buttons
-      document.getElementById("profileButton").addEventListener("click", function() {
+      document.getElementById("approvalButton").addEventListener("click", function() {
         toggleSections('profile');
       });
 
-      document.getElementById("itemsButton").addEventListener("click", function() {
+      document.getElementById("listingButton").addEventListener("click", function() {
         toggleSections('items');
       });
 
