@@ -866,11 +866,11 @@ $result = $conn->query($sql);
 
     .product-card {
       border-radius: 5%;
-      
+
       box-shadow: 0 30px 30px rgba(0, 0, 0, 0.7);
       margin: 10px;
       padding: 0;
-      background-color: rgb(248, 212, 170 );
+      background-color: rgb(248, 212, 170);
       overflow: hidden;
       width: 360px;
       height: 650px;
@@ -968,7 +968,7 @@ $result = $conn->query($sql);
       border-radius: 5px;
       font-size: 16px;
       width: 50%;
-     
+
     }
 
     .add-to-cart-btn:hover {
@@ -1049,20 +1049,18 @@ $result = $conn->query($sql);
         <div class="display-image">
           <?php
           $conn = new mysqli($servername, $username, $password, $dbname); // Assume $conn is your active database connection
-          $result = $conn->query("SELECT * FROM products");
+          $result = $conn->query("SELECT * FROM products WHERE status = 'approved'"); // Only select approved products
           if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
               echo '<div class="product-card">';
               echo '<img class="product-image" src="./image/' . htmlspecialchars($row['filename']) . '" alt="' . htmlspecialchars($row['p_name']) . '">';
               echo '<div class="product-info">';
-
               echo '<p>' . htmlspecialchars($row['p_name']) . '</p>';
               echo '</div>';
               echo '<div class="section-break-2"> <hr/></div>';
               echo '<div class="product-desc">' . htmlspecialchars($row['description']) . '</div>';
               echo '<div class="price-cart-container">';
               echo '<button class="add-to-cart-btn" onclick="addToCartAndRedirect(\'' . htmlspecialchars($row['p_name']) . '\', ' . htmlspecialchars($row['price']) . ')">Add to Cart</button>';
-
               echo '<p class="product-price">Rs. ' . htmlspecialchars($row['price']) . '</p>';
               echo '</div>';
               echo '</div>'; // Close product-card
@@ -1074,9 +1072,8 @@ $result = $conn->query($sql);
           ?>
         </div>
       </div>
-
-
     </div>
+
     <div id="womenClothingSection" style="display: none" class="container animated-container">
       <div class="section-break">
         <hr />

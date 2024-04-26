@@ -840,8 +840,8 @@ $conn->close();
               <td><?= htmlspecialchars($row['description']) ?></td>
               <td  style="text-align: center;"><?= htmlspecialchars($row['price']) ?></td>
               <td  style="text-align: center;">
-                <a href="approve.php?id=<?= $row['id'] ?>&status=approved" class="btn btn-approve">Approve</a>
-                <a href="approve.php?id=<?= $row['id'] ?>&status=rejected" class="btn btn-reject">Reject</a>
+                <a href="approve.php?id=<?= $row['id'] ?>&status=Approved" class="btn btn-approve">Approve</a>
+                <a href="approve.php?id=<?= $row['id'] ?>&status=Rejected" class="btn btn-reject">Reject</a>
               </td>
             </tr>
           <?php endwhile; ?>
@@ -867,6 +867,7 @@ $conn->close();
         <div class="section-break">
           <hr />
         </div>
+        
 
       </div>
     </div>

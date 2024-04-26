@@ -5,6 +5,8 @@ if (isset($_SESSION['email']) && $_SESSION['email'] === 'admin@wonderland.com') 
 } else {
   $showProfileIcon = false;
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +37,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] === 'admin@wonderland.com') 
         <li><a href="./screens/about.html" class="under">ABOUT US</a></li>
         <?php if ($showProfileIcon) : ?>
           <li>
-            <a href="./admin/profilescreen.php" class="under">
+            <a href="./admin/adminprofile.php" class="under">
               ADMIN
             </a>
           </li>
@@ -43,9 +45,11 @@ if (isset($_SESSION['email']) && $_SESSION['email'] === 'admin@wonderland.com') 
         <li>
           <a href="./screens/about.html"><i class="fa fa-search" style="font-size: 20px; color: white"></i></a>
         </li>
-        <li>
-          <a href="./screens/profilescreen.php"><i class="fa fa-user" style="font-size: 20px; color: white"></i></a>
-        </li>
+        <?php if (isset($_SESSION['email']) && $_SESSION['email'] !== 'admin@wonderland.com') : ?>
+          <li>
+            <a href="./screens/profilescreen.php"><i class="fa fa-user" style="font-size: 20px; color: white"></i></a>
+          </li>
+        <?php endif; ?>
 
       </ul>
     </div>

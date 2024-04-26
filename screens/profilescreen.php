@@ -906,6 +906,61 @@ if ($userprofile == true) {
 
       /* Black outline around text */
     }
+
+    table,
+    td,
+    th {
+      border: 2px solid #ddd;
+      text-align: left;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th {
+      font-size: 26px;
+      text-align: center;
+    }
+
+    th,
+    td {
+      padding: 15px;
+    }
+
+    .status-approved {
+      background-color: #4CAF50;
+      /* Green background */
+      color: white;
+      /* White text */
+      padding: 10px 20px;
+      /* Some padding */
+      border-radius: 10px;
+      /* Rounded corners */
+    }
+
+    .status-rejected {
+      background-color: #f44336;
+      /* Red background */
+      color: white;
+      /* White text */
+      padding: 10px 20px;
+      /* Some padding */
+      border-radius: 10px;
+      /* Rounded corners */
+    }
+
+    .status-pending {
+      background-color: #ffeb3b;
+      /* Yellow background */
+      color: black;
+      /* Black text */
+      padding: 10px 20px;
+      /* Some padding */
+      border-radius: 10px;
+      /* Rounded corners */
+    }
   </style>
 </head>
 
@@ -920,9 +975,13 @@ if ($userprofile == true) {
         <i class="material-icons">favorite</i>
         <span>Sell Product</span>
       </a>
-      <a href="#" id="addedProductsButton" onclick="toggleSections('addedItems')">
+      <a href="#" id="addedProductsButton" onclick="toggleSections('itemsAdded')">
         <i class="fa fa-shopping-bag"></i>
         <span>Added Products</span>
+      </a>
+      <a href="#" id="statusButton" onclick="toggleSections('productStatus')">
+        <i class="fa fa-clock-o"></i>
+        <span>Product Status</span></span>
       </a>
       <a href="#">
         <span>How to Add</span>
@@ -1083,6 +1142,67 @@ if ($userprofile == true) {
         </div>
       </div>
     </div>
+    <div id="productStatus" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
+      <div class="profile-container">
+        <h2>Product Status</h2>
+        <div class="section-break">
+          <hr />
+        </div>
+        <?php
+        $email = $_SESSION['email'] ?? null;
+
+        if ($email) {
+          $conn = new mysqli($servername, $username, $password, $dbname);
+
+          if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+          }
+
+          $sql = "SELECT id, filename, p_name, description, price, status FROM products WHERE email = ?";
+          $stmt = $conn->prepare($sql);
+          $stmt->bind_param("s", $email);
+          $stmt->execute();
+          $result = $stmt->get_result();
+        ?>
+          <table style="width:100%">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php while ($row = $result->fetch_assoc()) : ?>
+                <tr>
+                  <td style="text-align: center;">
+                    <img src="./image/<?= htmlspecialchars($row['filename']) ?>" alt="<?= htmlspecialchars($row['p_name']) ?>" style="width: 100px; height: auto;">
+                  </td>
+                  <td style="text-align: center;"><?= htmlspecialchars($row['p_name']) ?></td>
+                  <td><?= htmlspecialchars($row['description']) ?></td>
+                  <td style="text-align: center;"><?= htmlspecialchars($row['price']) ?></td>
+                  <td style="text-align: center;">
+                    <span class="<?= 'status-' . strtolower(htmlspecialchars($row['status'])) ?>">
+                      <?= htmlspecialchars($row['status']) ?>
+                    </span>
+                  </td>
+                </tr>
+              <?php endwhile; ?>
+            </tbody>
+          </table>
+
+        <?php
+          $stmt->close();
+          $conn->close();
+        } else {
+          // Redirect user to login page or inform them to log in
+          echo "Please log in to view this page.";
+        }
+        ?>
+      </div>
+    </div>
 
 
   </div>
@@ -1097,20 +1217,30 @@ if ($userprofile == true) {
         var profileSection = document.getElementById("profileSection");
         var itemsSection = document.getElementById("itemsSection");
         var itemsAdded = document.getElementById("itemsAdded");
+        var productStatus = document.getElementById("productStatus");
 
         if (section === 'profile') {
           profileSection.style.display = "block";
           itemsSection.style.display = "none";
           itemsAdded.style.display = "none";
+          productStatus.style.display = "none";
         } else if (section === 'items') {
           profileSection.style.display = "none";
           itemsSection.style.display = "block";
           itemsAdded.style.display = "none";
+          productStatus.style.display = "none";
 
-        } else if (section === 'addedItems') {
+        } else if (section === 'itemsAdded') {
           profileSection.style.display = "none";
           itemsSection.style.display = "none";
           itemsAdded.style.display = "block";
+          productStatus.style.display = "none";
+
+        } else if (section === 'productStatus') {
+          profileSection.style.display = "none";
+          itemsSection.style.display = "none";
+          itemsAdded.style.display = "none";
+          productStatus.style.display = "block";
         }
         localStorage.setItem("lastOpenedSection", section);
       }
@@ -1122,8 +1252,10 @@ if ($userprofile == true) {
           toggleSections('items');
         } else if (lastOpenedSection === 'profile') {
           toggleSections('profile');
+        } else if (lastOpenedSection === 'itemsAdded') {
+          toggleSections('itemsAdded');
         } else {
-          toggleSections('addedItems');
+          toggleSections('productStatus');
         }
       }
 
@@ -1141,7 +1273,10 @@ if ($userprofile == true) {
       });
 
       document.getElementById("addedProductsButton").addEventListener("click", function() {
-        toggleSections('addedItems');
+        toggleSections('itemsAdded');
+      });
+      document.getElementById("statusButton").addEventListener("click", function() {
+        toggleSections('productStatus');
       });
     });
   </script>

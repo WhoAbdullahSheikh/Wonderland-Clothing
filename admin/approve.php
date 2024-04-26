@@ -24,7 +24,7 @@ if (isset($_GET['id']) && isset($_GET['status'])) {
     $newStatus = $_GET['status'];
 
     // Validate the status
-    if (!in_array($newStatus, ['approved', 'rejected'])) {
+    if (!in_array($newStatus, ['Approved', 'Rejected'])) {
         die('Invalid status provided.');
     }
 
