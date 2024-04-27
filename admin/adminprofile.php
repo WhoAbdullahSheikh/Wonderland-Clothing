@@ -20,8 +20,32 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch products pending approval
-$sql = "SELECT * FROM products WHERE status = 'pending'";
+$sqlApproved = "SELECT COUNT(*) AS count_approved FROM products WHERE status = 'approved'";
+$resultApproved = $conn->query($sqlApproved);
+$approvedCount = $resultApproved->fetch_assoc()['count_approved'];  // Get the count
+
+
+$sqlRejected = "SELECT COUNT(*) AS count_rejected FROM products WHERE status = 'rejected'";
+$resultRejected = $conn->query($sqlRejected);
+$rejectedCount = $resultRejected->fetch_assoc()['count_rejected'];  // Get the count
+
+$sql = "SELECT filename, id, p_name, description, price, category, status FROM products WHERE status = 'Approved' OR status = 'Rejected' ORDER BY id ASC"; // Modify query as needed
+$result = $conn->query($sql);
+
+if ($result === false) {
+  echo "Error fetching the products: " . $conn->error;
+  $products = [];
+} else {
+  $products = $result->fetch_all(MYSQLI_ASSOC);
+}
+
+
+$sql = "SELECT products.id, products.p_name, products.description, products.filename, products.price, products.email, users.fullname 
+FROM products 
+JOIN users ON products.email = users.email
+WHERE products.status = 'pending'";
+
+
 $result = $conn->query($sql);
 
 // Check if "approve" or "reject" actions have been triggered
@@ -645,7 +669,7 @@ $conn->close();
       border-radius: 40px;
       padding: 20px;
       margin-left: 10%;
-      margin-right: 10%;
+      margin-right: 0%;
       margin-top: 5%;
       padding-top: 2%;
       padding-bottom: 3%;
@@ -760,6 +784,60 @@ $conn->close();
     .btn:hover {
       opacity: 0.8;
     }
+
+    .refresh-button {
+      margin-left: auto;
+      /* Pushes the button to the right */
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      font-size: 16px;
+      border-radius: 15px;
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.6);
+      transition: all 0.5s ease;
+      cursor: pointer;
+    }
+
+    .refresh-button:hover {
+      background-color: #71CD75;
+      color: black;
+      box-shadow: 7px 7px 15px rgba(0, 0, 0, 0.6);
+    }
+
+    .refresh-button i.fa-refresh {
+      animation: spin 5s infinite linear;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .status-box {
+      padding: 10px 20px;
+      margin: 10px 0;
+      border-radius: 15px;
+      color: white;
+      width: 20%;
+      /* White text color for better readability on dark backgrounds */
+      font-size: 20px;
+    }
+
+    .approved {
+      background-color: #00A207;
+      /* Green background for approved */
+    }
+
+    .rejected {
+      background-color: #A30B0B;
+      /* Red background for rejected */
+    }
   </style>
 </head>
 
@@ -775,9 +853,7 @@ $conn->close();
         <span>Items Listings</span>
       </a>
 
-      <a href="#">
-        <span>How to Add</span>
-      </a>
+   
       <hr>
       <a href="./logout.php">
         <i class="fas fa-sign-out-alt"></i>
@@ -792,8 +868,8 @@ $conn->close();
     <div class="heading">
       <ul>
         <li><a href="../home.php" class="under">HOME</a></li>
-        <li><a href="./shopscreen.php" class="under">SHOP</a></li>
-        <li><a href="./about.html" class="under">ABOUT US</a></li>
+        <li><a href="../screens/shopscreen.php" class="under">SHOP</a></li>
+       
 
       </ul>
     </div>
@@ -817,15 +893,21 @@ $conn->close();
   </header>
 
   <div id="contentContainer">
-    <div id="approvalSection" style="background-color: white; color: black; padding: 20px; padding-left: 15%; ">
+    <div id="approvalSection" style="background-color: white; color: black; padding: 20px; padding-left: 5%; ">
       <div class="profile-container">
-        <h2>Products Approvals</h2>
+        <h2>Products Approvals
+          <button onclick="location.reload();" style="margin-left: 1100px; cursor: pointer;" class="refresh-button">
+            <i class="fa fa-refresh fa-spin"></i>
+          </button>
+        </h2>
         <div class="section-break">
           <hr />
         </div>
         <table style="width:100%">
           <tr>
             <th>Image</th>
+            <th>Product Owner</th>
+            <th>Product's Owner</th>
             <th>Product Name</th>
             <th>Description</th>
             <th>Price</th>
@@ -833,30 +915,77 @@ $conn->close();
           </tr>
           <?php while ($row = $result->fetch_assoc()) : ?>
             <tr>
-              <td  style="text-align: center;">
+              <td style="text-align: center;">
                 <img src="../screens/image/<?= htmlspecialchars($row['filename']) ?>" alt="<?= htmlspecialchars($row['p_name']) ?>" style="width: 100px; height: auto;">
               </td>
+              <td style="text-align: center;"><?= htmlspecialchars($row['fullname']) ?></td> <!-- Display the owner's name -->
+              <td style="text-align: center;"><?= htmlspecialchars($row['email']) ?></td>
               <td style="text-align: center;"><?= htmlspecialchars($row['p_name']) ?></td>
               <td><?= htmlspecialchars($row['description']) ?></td>
-              <td  style="text-align: center;"><?= htmlspecialchars($row['price']) ?></td>
-              <td  style="text-align: center;">
+              <td style="text-align: center;">Rs. <?= htmlspecialchars($row['price']) ?></td>
+              <td style="text-align: center;">
                 <a href="approve.php?id=<?= $row['id'] ?>&status=Approved" class="btn btn-approve">Approve</a>
                 <a href="approve.php?id=<?= $row['id'] ?>&status=Rejected" class="btn btn-reject">Reject</a>
               </td>
             </tr>
           <?php endwhile; ?>
+
         </table>
 
 
 
       </div>
     </div>
-    <div id="itemsSection" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
+    <div id="itemsLisiting" style="background-color: white; color: black; padding: 20px; padding-left: 5%;">
       <div class="profile-container">
-        <h2>Product Listing</h2>
+        <h2>Product Listing
+          <button onclick="location.reload();" style="margin-left: 1200px; cursor: pointer;" class="refresh-button">
+            <i class="fa fa-refresh fa-spin"></i>
+          </button>
+        </h2>
+        <div class="status-box approved">
+          <strong>Approved Products: </strong> <?= $approvedCount ?>
+        </div>
+        <div class="status-box rejected">
+          <strong>Rejected Products: </strong> <?= $rejectedCount ?>
+        </div>
+
         <div class="section-break">
           <hr />
         </div>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Image</th>
+              <th>Product Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Category</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($products as $product) : ?>
+              <tr>
+                <td style="text-align: center;"><?= htmlspecialchars($product['id']) ?></td>
+                <td style="text-align: center;">
+                  <img src="../screens/image/<?= htmlspecialchars($product['filename']) ?>" alt="<?= htmlspecialchars($product['p_name']) ?>" style="width: 100px; height: auto;">
+                </td>
+                <td><?= htmlspecialchars($product['p_name']) ?></td>
+                <td><?= htmlspecialchars($product['description']) ?></td>
+                <td style="text-align: center;">Rs. <?= htmlspecialchars($product['price']) ?></td>
+                <td style="text-align: center;"><?= htmlspecialchars($product['category']) ?></td>
+                <td style="text-align: center;"><?= htmlspecialchars($product['status']) ?></td>
+              </tr>
+            <?php endforeach; ?>
+            <?php if (empty($products)) : ?>
+              <tr>
+                <td colspan="7">No products found</td>
+              </tr>
+            <?php endif; ?>
+          </tbody>
+        </table>
 
       </div>
     </div>
@@ -867,7 +996,7 @@ $conn->close();
         <div class="section-break">
           <hr />
         </div>
-        
+
 
       </div>
     </div>
@@ -883,21 +1012,21 @@ $conn->close();
 
       function toggleSections(section) {
         var approvalSection = document.getElementById("approvalSection");
-        var itemsSection = document.getElementById("itemsSection");
+        var itemsLisiting = document.getElementById("itemsLisiting");
         var itemsAdded = document.getElementById("itemsAdded");
 
         if (section === 'profile') {
           approvalSection.style.display = "block";
-          itemsSection.style.display = "none";
+          itemsLisiting.style.display = "none";
           itemsAdded.style.display = "none";
         } else if (section === 'items') {
           approvalSection.style.display = "none";
-          itemsSection.style.display = "block";
+          itemsLisiting.style.display = "block";
           itemsAdded.style.display = "none";
 
         } else if (section === 'addedItems') {
           approvalSection.style.display = "none";
-          itemsSection.style.display = "none";
+          itemsLisiting.style.display = "none";
           itemsAdded.style.display = "block";
         }
         localStorage.setItem("lastOpenedSection", section);

@@ -1,43 +1,63 @@
 <?php
-
-if (isset($_POST['fullname']) && isset($_POST['email'])) {
-    // Step 1: Connect to your database
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $servername = "localhost";
     $username = "root";
     $password = "";
     $dbname = "wonderland";
-    $alert_message = "";
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Step 2: Retrieve user information from the form
-    $fullname = $_POST['fullname'];
-    $email = $_POST['email'];
-    $user_email = $_SESSION['email'];
-    $email = $_SESSION['email'];
-    $sql = "SELECT fullname, email FROM users WHERE email = '$email'";
-    $result = $conn->query($sql);
-  
-    if ($result->num_rows > 0) {
-      $row = $result->fetch_assoc();
-      $fullname = $row['fullname'];
-      $email = $row['email'];
-    }
-    // Step 3: Update user information in the database
-    $sql = "UPDATE users SET fullname='$fullname', email='$email' WHERE email='$user_email'";
-    if ($conn->query($sql) === TRUE) {
-        $alert_message = '<div class="alert success"><strong>Success!</strong> Updated successfully</div>';
-    } else {
-        $alert_message = '<div class="alert warning"><strong>Error!</strong> Failed to update record: ' . $conn->error . '</div>';
+    $conn->autocommit(FALSE); // Turn off auto-commit
+
+    try {
+        $new_fullname = $conn->real_escape_string($_POST['fullname']);
+        $new_email = $conn->real_escape_string($_POST['email']);
+        $old_email = $_SESSION['email'];
+
+        // Update the users table
+        $stmt = $conn->prepare("UPDATE users SET fullname=?, email=? WHERE email=?");
+        if ($stmt) {
+            $stmt->bind_param("sss", $new_fullname, $new_email, $old_email);
+            if (!$stmt->execute()) {
+                throw new Exception('Failed to update user record.');
+            }
+            $stmt->close();
+        } else {
+            throw new Exception('Failed to prepare the user update statement.');
+        }
+
+        // Update the products table
+        $stmt = $conn->prepare("UPDATE products SET email=? WHERE email=?");
+        if ($stmt) {
+            $stmt->bind_param("ss", $new_email, $old_email);
+            if (!$stmt->execute()) {
+                throw new Exception('Failed to update products record.');
+            }
+            $stmt->close();
+        } else {
+            throw new Exception('Failed to prepare the products update statement.');
+        }
+
+        $conn->commit(); // Commit the transaction
+        $conn->autocommit(TRUE); // Turn on auto-commit
+
+        $_SESSION['email'] = $new_email; // Update the session email.
+        $_SESSION['message'] = "Profile updated successfully.";
+       
+    } catch (Exception $e) {
+        $conn->rollback(); // Rollback the transaction on error
+        $conn->autocommit(TRUE); // Turn on auto-commit
+        $alert_message = '<div class="alert warning"><strong>Error!</strong> ' . $e->getMessage() . '</div>';
     }
 
-    // Close the database connection
     $conn->close();
 }
+
+
+
 
 ?>
 

@@ -42,9 +42,7 @@ if (isset($_SESSION['email']) && $_SESSION['email'] === 'admin@wonderland.com') 
             </a>
           </li>
         <?php endif; ?>
-        <li>
-          <a href="./screens/about.html"><i class="fa fa-search" style="font-size: 20px; color: white"></i></a>
-        </li>
+        
         <?php if (isset($_SESSION['email']) && $_SESSION['email'] !== 'admin@wonderland.com') : ?>
           <li>
             <a href="./screens/profilescreen.php"><i class="fa fa-user" style="font-size: 20px; color: white"></i></a>

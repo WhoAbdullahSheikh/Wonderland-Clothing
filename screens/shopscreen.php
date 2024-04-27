@@ -4,7 +4,11 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "wonderland";
-
+if (isset($_SESSION['email']) && $_SESSION['email'] !== 'admin@wonderland.com') {
+  $showProfileIcon = true;
+} else {
+  $showProfileIcon = false;
+}
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -992,9 +996,11 @@ $result = $conn->query($sql);
         <li><a href="../home.php" class="under">HOME</a></li>
         <li><a href="./loginscreen.php" class="under">LOGIN/REGISTER</a></li>
         <li><a href="./about.html" class="under">ABOUT US</a></li>
-        <li>
-          <a href="./profilescreen.php"><i class="fa fa-user" style="font-size: 20px; color: white"></i></a>
-        </li>
+        <?php if ($showProfileIcon) : ?>
+          <li>
+            <a href="./profilescreen.php"><i class="fa fa-user" style="font-size: 20px; color: white"></i></a>
+          </li>
+        <?php endif; ?>
       </ul>
     </div>
     <div class="heading1">
@@ -1049,7 +1055,7 @@ $result = $conn->query($sql);
         <div class="display-image">
           <?php
           $conn = new mysqli($servername, $username, $password, $dbname); // Assume $conn is your active database connection
-          $result = $conn->query("SELECT * FROM products WHERE status = 'approved'"); // Only select approved products
+          $result = $conn->query("SELECT * FROM products WHERE status = 'approved' AND category = 'Men'"); // Only select approved products
           if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
               echo '<div class="product-card">';
@@ -1082,128 +1088,31 @@ $result = $conn->query($sql);
       <div class="category-heading">
         <h1>Women Clothing</h1>
       </div>
-      <div class="section2" id="womenClothingSection">
-        <div class="container">
-          <div class="card">
-            <img src="../collection/women/MF-114.jpg" alt="Denim Jeans" style="width: 100%" />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img src="../collection/women/MF-128.jpg" alt="Denim Jeans" style="width: 100%" />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img src="../collection/women/MF-27.jpg" alt="Denim Jeans" style="width: 100%" />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img src="../collection/women/MF-31.jpg" alt="Denim Jeans" style="width: 100%" />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img src="../collection/women/MF-80.jpg" alt="Denim Jeans" style="width: 100%" />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img src="../collection/women/MF-89.jpg" alt="Denim Jeans" style="width: 100%" />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img src="../collection/women/MF-98.jpg" alt="Denim Jeans" style="width: 100%" />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img src="../collection/women/NL-97.jpg" alt="Denim Jeans" style="width: 100%" />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img src="../collection/women/SWT-1269_13edd3ca-07e8-4ef3-9b0e-e7cc10f3097d.jpg" alt="Denim Jeans" style="width: 100%" />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
-          <div class="card">
-            <img src="../collection/women/SWT-1367_32e30ebe-791b-4c5a-a1bd-0fd21fb656b7.jpg" alt="Denim Jeans" style="width: 100%" />
-
-            <p class="price">Rs. 560/-</p>
-            <h3 style="display: inline">Condition:</h3>
-            <p style="display: inline">Excellent</p>
-            <p>
-              <button onclick="addToCartAndRedirect('Product 1', 15)">
-                Add to Cart
-              </button>
-            </p>
-          </div>
+      <div class="section2">
+        <div class="display-image">
+          <?php
+          $conn = new mysqli($servername, $username, $password, $dbname); // Assume $conn is your active database connection
+          $result = $conn->query("SELECT * FROM products WHERE status = 'approved' AND category = 'Women'"); // Only select approved products
+          if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+              echo '<div class="product-card">';
+              echo '<img class="product-image" src="./image/' . htmlspecialchars($row['filename']) . '" alt="' . htmlspecialchars($row['p_name']) . '">';
+              echo '<div class="product-info">';
+              echo '<p>' . htmlspecialchars($row['p_name']) . '</p>';
+              echo '</div>';
+              echo '<div class="section-break-2"> <hr/></div>';
+              echo '<div class="product-desc">' . htmlspecialchars($row['description']) . '</div>';
+              echo '<div class="price-cart-container">';
+              echo '<button class="add-to-cart-btn" onclick="addToCartAndRedirect(\'' . htmlspecialchars($row['p_name']) . '\', ' . htmlspecialchars($row['price']) . ')">Add to Cart</button>';
+              echo '<p class="product-price">Rs. ' . htmlspecialchars($row['price']) . '</p>';
+              echo '</div>';
+              echo '</div>'; // Close product-card
+            }
+          } else {
+            echo "<p>No products found.</p>";
+          }
+          $conn->close();
+          ?>
         </div>
       </div>
     </div>

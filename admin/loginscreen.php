@@ -1,4 +1,3 @@
-
 <?php
 // Step 1: Connect to your database
 
@@ -10,7 +9,11 @@ $password = "";
 $dbname = "wonderland";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
-
+if (isset($_SESSION['email']) && $_SESSION['email'] === 'admin@wonderland.com') {
+  $showProfileIcon = true;
+} else {
+  $showProfileIcon = false;
+}
 // Check connection
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
@@ -702,10 +705,9 @@ $conn->close();
 
     <div class="heading">
       <ul>
-      <li><a href="../home.php" class="under">HOME</a></li>
-        <li><a href="./shopscreen.php" class="under">SHOP</a></li>
-        <li><a href="./about.html" class="under">ABOUT US</a></li>
-        <li><a href="./profilescreen.php"><i class="fa fa-user" style="font-size:20px;color: white"></i></a></li>
+        <li><a href="../home.php" class="under">HOME</a></li>
+        <li><a href="../screens/shopscreen.php" class="under">SHOP</a></li>
+        <li><a href="../screens/about.html" class="under">ABOUT US</a></li>
       </ul>
     </div>
     <div class="heading1">
@@ -726,11 +728,11 @@ $conn->close();
     </div>
   </header>
   <section>
-  <?php echo $alert_message; ?>
+    <?php echo $alert_message; ?>
     <div class="section">
       <div class="section1">
         <div class="login-container">
-          <h2>Root Login</h2>
+          <h2>Administrator Login</h2>
           <form id="login-form" action="loginscreen.php" method="POST">
             <div class="form-group">
               <label for="email">Email:</label>
@@ -743,7 +745,7 @@ $conn->close();
 
             <button type="submit">Login</button>
           </form>
-         
+
         </div>
       </div>
     </div>
