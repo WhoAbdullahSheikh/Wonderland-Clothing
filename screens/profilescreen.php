@@ -43,10 +43,10 @@
       $stmt = $conn->prepare($sql);
       if (move_uploaded_file($tempname, $folder)) {
         // Prepare the SQL statement to avoid SQL injection
-       
+
         $stmt->bind_param("sssdss", $email, $_POST['p_name'], $_POST['description'], $_POST['price'], $category, $filename);
         $stmt->execute();
-        $_SESSION['message'] = "Product uploaded successfully!";
+        $_SESSION['message'] = "Thank You! Your Product will go live after it gets approved by our team!";
         header("Location: " . $_SERVER['PHP_SELF']);
         exit();
       } else {
@@ -54,11 +54,28 @@
       }
     }
 
+    if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+      $productId = $_GET['id'];
+      $conn = new mysqli("localhost", "root", "", "wonderland");
+      if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+      }
 
+      // Ensure the product belongs to the user to prevent unauthorized deletions
+      $sql = "DELETE FROM products WHERE id = ? AND email = ?";
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param("is", $productId, $_SESSION['email']);
+      if ($stmt->execute()) {
+        echo "Product deleted successfully.";
+      } else {
+        echo "Error deleting product: " . $stmt->error;
+      }
+      $stmt->close();
+      $conn->close();
+      header('Location: ./profilescreen.php'); // Redirect back to the listing page
+      exit;
+    }
 
-
-
-    // Close the database connection
     $conn->close();
   } else {
     header("Location: loginscreen.php");
@@ -81,6 +98,7 @@
    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
@@ -996,6 +1014,20 @@
          transform: rotate(360deg);
        }
      }
+
+     .delete-button {
+       border: none;
+       background-color: transparent;
+       cursor: pointer;
+       padding: 8px;
+       color: #ff6347;
+       font-size: 25px;
+       transition: color 0.3s ease;
+     }
+
+     .delete-button:hover {
+       color: #d11a2a;
+     }
    </style>
  </head>
 
@@ -1018,7 +1050,7 @@
          <i class="fa fa-clock-o"></i>
          <span>Product Status</span></span>
        </a>
-      
+
        <hr>
        <a href="./logout.php">
          <i class="fas fa-sign-out-alt"></i>
@@ -1227,11 +1259,13 @@
            <table style="width:100%">
              <thead>
                <tr>
+
                  <th>Image</th>
                  <th>Product Name</th>
                  <th>Description</th>
                  <th>Price</th>
                  <th>Status</th>
+                 <th>Action</th> <!-- New column for delete action -->
                </tr>
              </thead>
              <tbody>
@@ -1242,16 +1276,22 @@
                    </td>
                    <td style="text-align: center;"><?= htmlspecialchars($row['p_name']) ?></td>
                    <td><?= htmlspecialchars($row['description']) ?></td>
-                   <td style="text-align: center;"><?= htmlspecialchars($row['price']) ?></td>
+                   <td style="text-align: center;">Rs. <?= htmlspecialchars($row['price']) ?></td>
                    <td style="text-align: center;">
                      <span class="<?= 'status-' . strtolower(htmlspecialchars($row['status'])) ?>">
                        <?= htmlspecialchars($row['status']) ?>
                      </span>
                    </td>
+                   <td style="text-align: center;">
+                     <button onclick="deleteProduct(<?= $row['id'] ?>);" class="delete-button">
+                       <i class="fas fa-trash"></i>
+                     </button>
+                   </td>
                  </tr>
                <?php endwhile; ?>
              </tbody>
            </table>
+
 
          <?php
             $stmt->close();
@@ -1269,6 +1309,22 @@
 
    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
    <script src="./JS/cartscreen.js"></script>
+   <script>
+     function deleteProduct(productId) {
+       if (confirm('Are you sure you want to delete this product?')) {
+         window.location.href = 'profilescreen.php?id=' + productId;
+       }
+     }
+   </script>
+   <script>
+     document.addEventListener("DOMContentLoaded", function() {
+       <?php if (isset($_SESSION['message'])) : ?>
+         alert("<?= $_SESSION['message']; ?>");
+         <?php unset($_SESSION['message']); // Clear the message after displaying it 
+          ?>
+       <?php endif; ?>
+     });
+   </script>
 
    <script>
      document.addEventListener('DOMContentLoaded', function() {

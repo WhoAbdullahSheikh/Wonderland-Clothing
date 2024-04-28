@@ -60,7 +60,24 @@ if (isset($_GET['action'], $_GET['id']) && in_array($_GET['action'], ['approve',
   header('Location: admin.php');
   exit();
 }
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+  $productId = $_GET['id'];
 
+  // SQL to delete the product
+  $sql = "DELETE FROM products WHERE id = ?";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param('i', $productId);
+  $stmt->execute();
+
+  if ($stmt->affected_rows > 0) {
+    echo "<script>alert('Product deleted successfully.'); window.location.href='./adminprofile.php';</script>";
+  } else {
+    echo "<script>alert('Error deleting product.'); window.location.href='./adminprofile.php';</script>";
+  }
+
+  $stmt->close();
+  $conn->close();
+}
 // Close database connection if open
 $conn->close();
 ?>
@@ -838,6 +855,20 @@ $conn->close();
       background-color: #A30B0B;
       /* Red background for rejected */
     }
+
+    .delete-button {
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      padding: 8px;
+      color: #ff6347;
+      font-size: 25px;
+      transition: color 0.3s ease;
+    }
+
+    .delete-button:hover {
+      color: #d11a2a;
+    }
   </style>
 </head>
 
@@ -853,7 +884,7 @@ $conn->close();
         <span>Items Listings</span>
       </a>
 
-   
+
       <hr>
       <a href="./logout.php">
         <i class="fas fa-sign-out-alt"></i>
@@ -869,7 +900,7 @@ $conn->close();
       <ul>
         <li><a href="../home.php" class="under">HOME</a></li>
         <li><a href="../screens/shopscreen.php" class="under">SHOP</a></li>
-       
+
 
       </ul>
     </div>
@@ -963,6 +994,7 @@ $conn->close();
               <th>Price</th>
               <th>Category</th>
               <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -977,35 +1009,47 @@ $conn->close();
                 <td style="text-align: center;">Rs. <?= htmlspecialchars($product['price']) ?></td>
                 <td style="text-align: center;"><?= htmlspecialchars($product['category']) ?></td>
                 <td style="text-align: center;"><?= htmlspecialchars($product['status']) ?></td>
+                <td style="text-align: center;">
+                  <button onclick="deleteProduct(<?= $product['id']; ?>);" class="delete-button">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
               </tr>
             <?php endforeach; ?>
             <?php if (empty($products)) : ?>
               <tr>
-                <td colspan="7">No products found</td>
+                <td colspan="8">No products found</td>
               </tr>
             <?php endif; ?>
           </tbody>
         </table>
-
       </div>
     </div>
+  </div>
 
-    <div id="itemsAdded" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
-      <div class="profile-container">
-        <h2>Your Added Products</h2>
-        <div class="section-break">
-          <hr />
-        </div>
-
-
+  <div id="itemsAdded" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
+    <div class="profile-container">
+      <h2>Your Added Products</h2>
+      <div class="section-break">
+        <hr />
       </div>
+
+
     </div>
+  </div>
 
 
   </div>
 
   <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
   <script src="./JS/cartscreen.js"></script>
+  <script>
+    function deleteProduct(productId) {
+      if (confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
+        window.location.href = './adminprofile.php?id=' + productId;
+      }
+    }
+  </script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
