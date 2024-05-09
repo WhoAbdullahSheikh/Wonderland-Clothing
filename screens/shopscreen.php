@@ -17,9 +17,7 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch products
-$sql = "SELECT name, description, filename, price FROM products";
-$result = $conn->query($sql);
+
 ?>
 
 <!DOCTYPE html>
