@@ -29,7 +29,7 @@ $sqlRejected = "SELECT COUNT(*) AS count_rejected FROM products WHERE status = '
 $resultRejected = $conn->query($sqlRejected);
 $rejectedCount = $resultRejected->fetch_assoc()['count_rejected'];  // Get the count
 
-$sql = "SELECT filename, id, p_name, description, price, category, status FROM products WHERE status = 'Approved' OR status = 'Rejected' ORDER BY id ASC"; // Modify query as needed
+$sql = "SELECT filename, id, p_name, description, price, category, p_condition, status FROM products WHERE status = 'Approved' OR status = 'Rejected' ORDER BY id ASC"; // Modify query as needed
 $result = $conn->query($sql);
 
 if ($result === false) {
@@ -40,7 +40,7 @@ if ($result === false) {
 }
 
 
-$sql = "SELECT products.id, products.p_name, products.description, products.filename, products.price, products.email, users.fullname 
+$sql = "SELECT products.id, products.p_name, products.description, products.filename, products.p_condition, products.price, products.email, users.fullname 
 FROM products 
 JOIN users ON products.email = users.email
 WHERE products.status = 'pending'";
@@ -51,6 +51,7 @@ $result = $conn->query($sql);
 // Check if "approve" or "reject" actions have been triggered
 if (isset($_GET['action'], $_GET['id']) && in_array($_GET['action'], ['approve', 'reject'])) {
   $newStatus = $_GET['action'] === 'approve' ? 'approved' : 'rejected';
+  $feedback = isset($_POST['feedback']) ? $_POST['feedback'] : '';
   $stmt = $conn->prepare("UPDATE products SET status = ? WHERE id = ?");
   $stmt->bind_param('si', $newStatus, $_GET['id']);
   $stmt->execute();
@@ -938,9 +939,10 @@ $conn->close();
           <tr>
             <th>Image</th>
             <th>Product Owner</th>
-            <th>Product's Owner</th>
+            <th>Owner's Email</th>
             <th>Product Name</th>
             <th>Description</th>
+            <th>Condition</th>
             <th>Price</th>
             <th>Action</th>
           </tr>
@@ -953,10 +955,11 @@ $conn->close();
               <td style="text-align: center;"><?= htmlspecialchars($row['email']) ?></td>
               <td style="text-align: center;"><?= htmlspecialchars($row['p_name']) ?></td>
               <td><?= htmlspecialchars($row['description']) ?></td>
+              <td style="text-align: center;"><?= htmlspecialchars($row['p_condition']) ?></td>
               <td style="text-align: center;">Rs. <?= htmlspecialchars($row['price']) ?></td>
               <td style="text-align: center;">
                 <a href="approve.php?id=<?= $row['id'] ?>&status=Approved" class="btn btn-approve">Approve</a>
-                <a href="approve.php?id=<?= $row['id'] ?>&status=Rejected" class="btn btn-reject">Reject</a>
+                <button onclick="rejectProduct(<?= $row['id'] ?>)" class="btn btn-reject">Reject</button>
               </td>
             </tr>
           <?php endwhile; ?>
@@ -993,6 +996,7 @@ $conn->close();
               <th>Description</th>
               <th>Price</th>
               <th>Category</th>
+              <th>Condition</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
@@ -1008,6 +1012,7 @@ $conn->close();
                 <td><?= htmlspecialchars($product['description']) ?></td>
                 <td style="text-align: center;">Rs. <?= htmlspecialchars($product['price']) ?></td>
                 <td style="text-align: center;"><?= htmlspecialchars($product['category']) ?></td>
+                <td style="text-align: center;"><?= htmlspecialchars($product['p_condition']) ?></td>
                 <td style="text-align: center;"><?= htmlspecialchars($product['status']) ?></td>
                 <td style="text-align: center;">
                   <button onclick="deleteProduct(<?= $product['id']; ?>);" class="delete-button">
@@ -1106,6 +1111,23 @@ $conn->close();
       });
     });
   </script>
+  <script>
+    function rejectProduct(productId) {
+      var reason = prompt("Please enter the reason for rejection:");
+      if (reason !== null && reason.trim() !== "") {
+        var feedback = prompt("Please enter additional feedback:");
+        if (feedback === null) {
+          return; // Cancelled, do nothing
+        }
+        // Redirect with rejection status and feedback
+        window.location.href = 'approve.php?id=' + productId + '&status=Rejected&reason=' + encodeURIComponent(reason) + '&feedback=' + encodeURIComponent(feedback);
+      } else {
+        alert("Reason cannot be empty. Please provide a reason for rejection.");
+      }
+    }
+  </script>
+  >
+
 
 
 

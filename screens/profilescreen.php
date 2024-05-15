@@ -31,20 +31,22 @@
 
     $msg = "";
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['upload'])) {
+      
       $filename = $_FILES["uploadfile"]["name"];
       $tempname = $_FILES["uploadfile"]["tmp_name"];
       $category = $conn->real_escape_string($_POST['category']);
+      $p_condition = $_POST['p_condition'];
       $description = $_POST['description'];
       $p_name = $_POST['p_name'];
       $price = $_POST['price'];
       $folder = "./image/" . $filename;
       $status = 'pending';
-      $sql = "INSERT INTO products (email, p_name, description, price, category, filename, status) VALUES (?, ?, ?, ?, ?, ?, 'pending')";
+      $sql = "INSERT INTO products (email, p_name, description, price, category, p_condition, filename, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
       $stmt = $conn->prepare($sql);
       if (move_uploaded_file($tempname, $folder)) {
         // Prepare the SQL statement to avoid SQL injection
 
-        $stmt->bind_param("sssdss", $email, $_POST['p_name'], $_POST['description'], $_POST['price'], $category, $filename);
+        $stmt->bind_param("sssdssss", $email, $p_name, $description, $price, $category, $p_condition, $filename, $status);
         $stmt->execute();
         $_SESSION['message'] = "Thank You! Your Product will go live after it gets approved by our team!";
         header("Location: " . $_SERVER['PHP_SELF']);
@@ -1093,7 +1095,7 @@
      <div id="profileSection" style="background-color: white; color: black; padding: 20px; padding-left: 15%; ">
        <div class="profile-container">
          <h2>Personal Information
-           <button onclick="location.reload();" style="margin-left: 700px; cursor: pointer;" class="refresh-button">
+           <button onclick="location.reload();" style="margin-left: 70px; cursor: pointer;" class="refresh-button">
              <i class="fa fa-refresh fa-spin"></i>
            </button>
          </h2>
@@ -1120,7 +1122,7 @@
      <div id="itemsSection" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
        <div class="profile-container">
          <h2>Product Details
-           <button onclick="location.reload();" style="margin-left: 800px; cursor: pointer;" class="refresh-button">
+           <button onclick="location.reload();" style="margin-left: 70px; cursor: pointer;" class="refresh-button">
              <i class="fa fa-refresh fa-spin"></i>
            </button>
          </h2>
@@ -1149,6 +1151,16 @@
            <div class="input-container">
              <label for="description">Description:</label>
              <textarea id="description" name="description" required style="border-radius: 10px; height: 200px; width: 40%; font-size: 15px; padding: 10px"></textarea>
+           </div>
+           <div class="input-container">
+             <label for="p_condition">Condition:</label>
+             <select id="p_condition" name="p_condition" required style="border-radius: 10px; padding: 10px; font-size: 15px;">
+               <option value="">Select condition</option>
+               <option value="Fair">Fair</option>
+               <option value="Good">Good</option>
+               <option value="Very Good">Very Good</option>
+               <option value="Excellent">Excellent</option>
+             </select>
            </div>
            <div class="input-container">
              <label for="price">Price:</label>
@@ -1199,7 +1211,7 @@
      <div id="itemsAdded" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
        <div class="profile-container">
          <h2>Your Added Products
-           <button onclick="location.reload();" style="margin-left: 700px; cursor: pointer;" class="refresh-button">
+           <button onclick="location.reload();" style="margin-left: 70px; cursor: pointer;" class="refresh-button">
              <i class="fa fa-refresh fa-spin"></i>
            </button>
          </h2>
@@ -1233,7 +1245,7 @@
      <div id="productStatus" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
        <div class="profile-container">
          <h2>Product Status
-           <button onclick="location.reload();" style="margin-left: 850px; cursor: pointer;" class="refresh-button">
+           <button onclick="location.reload();" style="margin-left: 70px; cursor: pointer;" class="refresh-button">
              <i class="fa fa-refresh fa-spin"></i>
            </button>
          </h2>
@@ -1250,11 +1262,12 @@
               die("Connection failed: " . $conn->connect_error);
             }
 
-            $sql = "SELECT id, filename, p_name, description, price, status FROM products WHERE email = ?";
+            $sql = "SELECT id, filename, p_name, description, price, p_condition, status FROM products WHERE email = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("s", $email);
             $stmt->execute();
             $result = $stmt->get_result();
+            
           ?>
            <table style="width:100%">
              <thead>
@@ -1264,6 +1277,7 @@
                  <th>Product Name</th>
                  <th>Description</th>
                  <th>Price</th>
+                 <th>Condition</th>
                  <th>Status</th>
                  <th>Action</th> <!-- New column for delete action -->
                </tr>
@@ -1277,6 +1291,7 @@
                    <td style="text-align: center;"><?= htmlspecialchars($row['p_name']) ?></td>
                    <td><?= htmlspecialchars($row['description']) ?></td>
                    <td style="text-align: center;">Rs. <?= htmlspecialchars($row['price']) ?></td>
+                   <td style="text-align: center;"><?= htmlspecialchars($row['p_condition']) ?></td>
                    <td style="text-align: center;">
                      <span class="<?= 'status-' . strtolower(htmlspecialchars($row['status'])) ?>">
                        <?= htmlspecialchars($row['status']) ?>

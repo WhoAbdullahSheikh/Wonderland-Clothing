@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn->autocommit(TRUE); // Turn on auto-commit
 
         $_SESSION['email'] = $new_email; // Update the session email.
-        $_SESSION['message'] = "Profile updated successfully.";
+       
        
     } catch (Exception $e) {
         $conn->rollback(); // Rollback the transaction on error
