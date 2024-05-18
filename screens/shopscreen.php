@@ -886,6 +886,13 @@ if ($conn->connect_error) {
       /* Indicates that the item is clickable */
     }
 
+    /* Remove link effect on product card */
+    .product-card a {
+      text-decoration: none;
+      color: inherit;
+
+    }
+
     .product-card:hover {
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
       /* Enhanced shadow for hover effect */
@@ -994,7 +1001,7 @@ if ($conn->connect_error) {
         <li><a href="../home.php" class="under">HOME</a></li>
         <li><a href="./loginscreen.php" class="under">LOGIN/REGISTER</a></li>
         <li><a href="./about.html" class="under">ABOUT US</a></li>
-        <?php if ($showProfileIcon) : ?>
+        <?php if ($showProfileIcon): ?>
           <li>
             <a href="./profilescreen.php"><i class="fa fa-user" style="font-size: 20px; color: white"></i></a>
           </li>
@@ -1057,14 +1064,16 @@ if ($conn->connect_error) {
           if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
               echo '<div class="product-card">';
+              echo '<a href="product_details.php?id=' . htmlspecialchars($row['id']) . '">';
               echo '<img class="product-image" src="./image/' . htmlspecialchars($row['filename']) . '" alt="' . htmlspecialchars($row['p_name']) . '">';
               echo '<div class="product-info">';
-              echo '<p>' . htmlspecialchars($row['p_name']) . '</p>';
+              echo '<p>' . htmlspecialchars($row['p_name']) . '</p>'; // Adjusted line
               echo '</div>';
+              echo '</a>';
               echo '<div class="section-break-2"> <hr/></div>';
               echo '<div class="product-desc">' . htmlspecialchars($row['description']) . '</div>';
               echo '<div class="price-cart-container">';
-              echo '<button class="add-to-cart-btn" onclick="addToCartAndRedirect(\'' . htmlspecialchars($row['p_name']) . '\', ' . htmlspecialchars($row['price']) . ')">Add to Cart</button>';
+
               echo '<p class="product-price">Rs. ' . htmlspecialchars($row['price']) . '</p>';
               echo '</div>';
               echo '</div>'; // Close product-card
@@ -1074,6 +1083,8 @@ if ($conn->connect_error) {
           }
           $conn->close();
           ?>
+
+
         </div>
       </div>
     </div>
@@ -1093,15 +1104,16 @@ if ($conn->connect_error) {
           $result = $conn->query("SELECT * FROM products WHERE status = 'approved' AND category = 'Women'"); // Only select approved products
           if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-              echo '<div class="product-card">';
+              echo '<div class="product-card" >';
+              echo '<a href="product_details.php?id=' . htmlspecialchars($row['id']) . '">';
               echo '<img class="product-image" src="./image/' . htmlspecialchars($row['filename']) . '" alt="' . htmlspecialchars($row['p_name']) . '">';
               echo '<div class="product-info">';
               echo '<p>' . htmlspecialchars($row['p_name']) . '</p>';
               echo '</div>';
+              echo '</a>';
               echo '<div class="section-break-2"> <hr/></div>';
               echo '<div class="product-desc">' . htmlspecialchars($row['description']) . '</div>';
               echo '<div class="price-cart-container">';
-              echo '<button class="add-to-cart-btn" onclick="addToCartAndRedirect(\'' . htmlspecialchars($row['p_name']) . '\', ' . htmlspecialchars($row['price']) . ')">Add to Cart</button>';
               echo '<p class="product-price">Rs. ' . htmlspecialchars($row['price']) . '</p>';
               echo '</div>';
               echo '</div>'; // Close product-card
@@ -1173,13 +1185,14 @@ if ($conn->connect_error) {
   <script src="./JS/cartscreen.js"></script>
   <script>
     // Function to handle adding items to cart and redirecting
-    function addToCartAndRedirect(productName, price) {
+    function addToCartAndRedirect(productName, price, description) {
       // Retrieve the current cart from local storage or initialize a new one if none exists
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
       // Create a product object with name and price
       const product = {
         name: productName,
+        description: description,
         price: price
       };
 
@@ -1193,7 +1206,7 @@ if ($conn->connect_error) {
       alert('Product added to cart!');
 
       // Redirect the user to the cart page (ensure you have a 'cart.html' or appropriate URL)
-      window.location.href = './checkoutscreen.html'; // Change this URL to where your cart page is located
+      window.location.href = './checkoutscreen.php'; // Change this URL to where your cart page is located
     }
   </script>
 

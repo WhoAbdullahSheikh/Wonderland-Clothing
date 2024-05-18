@@ -35,15 +35,15 @@ if (isset($_SESSION['email']) && $_SESSION['email'] === 'admin@wonderland.com') 
           <a href="screens/loginscreen.php" class="under">LOGIN/REGISTER</a>
         </li>
         <li><a href="./screens/about.html" class="under">ABOUT US</a></li>
-        <?php if ($showProfileIcon) : ?>
+        <?php if ($showProfileIcon): ?>
           <li>
             <a href="./admin/adminprofile.php" class="under">
               ADMIN
             </a>
           </li>
         <?php endif; ?>
-        
-        <?php if (isset($_SESSION['email']) && $_SESSION['email'] !== 'admin@wonderland.com') : ?>
+
+        <?php if (isset($_SESSION['email']) && $_SESSION['email'] !== 'admin@wonderland.com'): ?>
           <li>
             <a href="./screens/profilescreen.php"><i class="fa fa-user" style="font-size: 20px; color: white"></i></a>
           </li>
@@ -119,14 +119,6 @@ if (isset($_SESSION['email']) && $_SESSION['email'] === 'admin@wonderland.com') 
               <br />
               <br />
               <p>Women</p>
-            </div>
-          </div>
-          <div class="circle-card" id="kids-card">
-            <div class="circle-image">
-              <img src="./collection/kid/KT-1066.jpg" alt="" />
-              <br />
-              <br />
-              <p>Kids</p>
             </div>
           </div>
         </div>
@@ -224,22 +216,22 @@ if (isset($_SESSION['email']) && $_SESSION['email'] === 'admin@wonderland.com') 
   </script>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
       // Get references to the cards
       const womenCard = document.getElementById("women-card");
       const menCard = document.getElementById("men-card");
       const kidsCard = document.getElementById("kids-card");
 
       // Add click event listeners to each card
-      womenCard.addEventListener("click", function() {
+      womenCard.addEventListener("click", function () {
         window.location.href = "./screens/shopscreen.php";
       });
 
-      menCard.addEventListener("click", function() {
+      menCard.addEventListener("click", function () {
         window.location.href = "./screens/shopscreen.php";
       });
 
-      kidsCard.addEventListener("click", function() {
+      kidsCard.addEventListener("click", function () {
         window.location.href = "./screens/shopscreen.php";
       });
     });

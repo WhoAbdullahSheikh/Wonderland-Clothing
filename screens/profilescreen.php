@@ -1262,7 +1262,7 @@
               die("Connection failed: " . $conn->connect_error);
             }
 
-            $sql = "SELECT id, filename, p_name, description, price, p_condition, status FROM products WHERE email = ?";
+            $sql = "SELECT id, filename, p_name, description, price, p_condition, status, feedback FROM products WHERE email = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("s", $email);
             $stmt->execute();
@@ -1279,6 +1279,7 @@
                  <th>Price</th>
                  <th>Condition</th>
                  <th>Status</th>
+                 <th>Feedback</th>
                  <th>Action</th> <!-- New column for delete action -->
                </tr>
              </thead>
@@ -1297,6 +1298,7 @@
                        <?= htmlspecialchars($row['status']) ?>
                      </span>
                    </td>
+                   <td style="text-align: center; color: " ><?= htmlspecialchars($row['feedback']) ?></td>
                    <td style="text-align: center;">
                      <button onclick="deleteProduct(<?= $row['id'] ?>);" class="delete-button">
                        <i class="fas fa-trash"></i>

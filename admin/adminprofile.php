@@ -8,6 +8,7 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@wonderland.com')
   header('Location: loginscreen.php'); // Redirect to login page if not admin
   exit();
 }
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -24,12 +25,11 @@ $sqlApproved = "SELECT COUNT(*) AS count_approved FROM products WHERE status = '
 $resultApproved = $conn->query($sqlApproved);
 $approvedCount = $resultApproved->fetch_assoc()['count_approved'];  // Get the count
 
-
 $sqlRejected = "SELECT COUNT(*) AS count_rejected FROM products WHERE status = 'rejected'";
 $resultRejected = $conn->query($sqlRejected);
 $rejectedCount = $resultRejected->fetch_assoc()['count_rejected'];  // Get the count
 
-$sql = "SELECT filename, id, p_name, description, price, category, p_condition, status FROM products WHERE status = 'Approved' OR status = 'Rejected' ORDER BY id ASC"; // Modify query as needed
+$sql = "SELECT filename, id, p_name, description, price, category, p_condition, status, feedback FROM products WHERE status = 'Approved' OR status = 'Rejected' ORDER BY id ASC"; // Modify query as needed
 $result = $conn->query($sql);
 
 if ($result === false) {
@@ -39,12 +39,10 @@ if ($result === false) {
   $products = $result->fetch_all(MYSQLI_ASSOC);
 }
 
-
 $sql = "SELECT products.id, products.p_name, products.description, products.filename, products.p_condition, products.price, products.email, users.fullname 
 FROM products 
 JOIN users ON products.email = users.email
 WHERE products.status = 'pending'";
-
 
 $result = $conn->query($sql);
 
@@ -52,15 +50,17 @@ $result = $conn->query($sql);
 if (isset($_GET['action'], $_GET['id']) && in_array($_GET['action'], ['approve', 'reject'])) {
   $newStatus = $_GET['action'] === 'approve' ? 'approved' : 'rejected';
   $feedback = isset($_POST['feedback']) ? $_POST['feedback'] : '';
-  $stmt = $conn->prepare("UPDATE products SET status = ? WHERE id = ?");
-  $stmt->bind_param('si', $newStatus, $_GET['id']);
+
+  $stmt = $conn->prepare("UPDATE products SET status = ?, feedback = ? WHERE id = ?");
+  $stmt->bind_param('ssi', $newStatus, $feedback, $_GET['id']);
   $stmt->execute();
   $stmt->close();
 
   // Redirect to prevent resubmission
-  header('Location: admin.php');
+  header('Location: adminprofile.php');
   exit();
 }
+
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
   $productId = $_GET['id'];
 
@@ -79,9 +79,11 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
   $stmt->close();
   $conn->close();
 }
+
 // Close database connection if open
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -946,12 +948,13 @@ $conn->close();
             <th>Price</th>
             <th>Action</th>
           </tr>
-          <?php while ($row = $result->fetch_assoc()) : ?>
+          <?php while ($row = $result->fetch_assoc()): ?>
             <tr>
               <td style="text-align: center;">
-                <img src="../screens/image/<?= htmlspecialchars($row['filename']) ?>" alt="<?= htmlspecialchars($row['p_name']) ?>" style="width: 100px; height: auto;">
+                <img src="../screens/image/<?= htmlspecialchars($row['filename']) ?>"
+                  alt="<?= htmlspecialchars($row['p_name']) ?>" style="width: 100px; height: auto;">
               </td>
-              <td style="text-align: center;"><?= htmlspecialchars($row['fullname']) ?></td> <!-- Display the owner's name -->
+              <td style="text-align: center;"><?= htmlspecialchars($row['fullname']) ?></td>
               <td style="text-align: center;"><?= htmlspecialchars($row['email']) ?></td>
               <td style="text-align: center;"><?= htmlspecialchars($row['p_name']) ?></td>
               <td><?= htmlspecialchars($row['description']) ?></td>
@@ -959,15 +962,11 @@ $conn->close();
               <td style="text-align: center;">Rs. <?= htmlspecialchars($row['price']) ?></td>
               <td style="text-align: center;">
                 <a href="approve.php?id=<?= $row['id'] ?>&status=Approved" class="btn btn-approve">Approve</a>
-                <button onclick="rejectProduct(<?= $row['id'] ?>)" class="btn btn-reject">Reject</button>
+                <a href="#" class="btn btn-reject" onclick="rejectProduct(<?= $row['id'] ?>)">Reject</a>
               </td>
             </tr>
           <?php endwhile; ?>
-
         </table>
-
-
-
       </div>
     </div>
     <div id="itemsLisiting" style="background-color: white; color: black; padding: 20px; padding-left: 5%;">
@@ -998,15 +997,17 @@ $conn->close();
               <th>Category</th>
               <th>Condition</th>
               <th>Status</th>
+              <th>Feedback</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($products as $product) : ?>
+            <?php foreach ($products as $product): ?>
               <tr>
                 <td style="text-align: center;"><?= htmlspecialchars($product['id']) ?></td>
                 <td style="text-align: center;">
-                  <img src="../screens/image/<?= htmlspecialchars($product['filename']) ?>" alt="<?= htmlspecialchars($product['p_name']) ?>" style="width: 100px; height: auto;">
+                  <img src="../screens/image/<?= htmlspecialchars($product['filename']) ?>"
+                    alt="<?= htmlspecialchars($product['p_name']) ?>" style="width: 100px; height: auto;">
                 </td>
                 <td><?= htmlspecialchars($product['p_name']) ?></td>
                 <td><?= htmlspecialchars($product['description']) ?></td>
@@ -1014,6 +1015,7 @@ $conn->close();
                 <td style="text-align: center;"><?= htmlspecialchars($product['category']) ?></td>
                 <td style="text-align: center;"><?= htmlspecialchars($product['p_condition']) ?></td>
                 <td style="text-align: center;"><?= htmlspecialchars($product['status']) ?></td>
+                <td style="text-align: center;" ><?= htmlspecialchars($product['feedback']) ?></td>
                 <td style="text-align: center;">
                   <button onclick="deleteProduct(<?= $product['id']; ?>);" class="delete-button">
                     <i class="fas fa-trash"></i>
@@ -1021,7 +1023,7 @@ $conn->close();
                 </td>
               </tr>
             <?php endforeach; ?>
-            <?php if (empty($products)) : ?>
+            <?php if (empty($products)): ?>
               <tr>
                 <td colspan="8">No products found</td>
               </tr>
@@ -1057,7 +1059,7 @@ $conn->close();
   </script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
 
       function toggleSections(section) {
         var approvalSection = document.getElementById("approvalSection");
@@ -1098,35 +1100,41 @@ $conn->close();
       restoreSections();
 
       // Event listeners for menu buttons
-      document.getElementById("approvalButton").addEventListener("click", function() {
+      document.getElementById("approvalButton").addEventListener("click", function () {
         toggleSections('profile');
       });
 
-      document.getElementById("listingButton").addEventListener("click", function() {
+      document.getElementById("listingButton").addEventListener("click", function () {
         toggleSections('items');
       });
 
-      document.getElementById("addedProductsButton").addEventListener("click", function() {
+      document.getElementById("addedProductsButton").addEventListener("click", function () {
         toggleSections('addedItems');
       });
     });
   </script>
+
   <script>
     function rejectProduct(productId) {
-      var reason = prompt("Please enter the reason for rejection:");
-      if (reason !== null && reason.trim() !== "") {
-        var feedback = prompt("Please enter additional feedback:");
-        if (feedback === null) {
-          return; // Cancelled, do nothing
-        }
-        // Redirect with rejection status and feedback
-        window.location.href = 'approve.php?id=' + productId + '&status=Rejected&reason=' + encodeURIComponent(reason) + '&feedback=' + encodeURIComponent(feedback);
+      var feedback = prompt("Please provide the reason for rejection:");
+      if (feedback != null && feedback.trim() != "") {
+        var form = document.createElement("form");
+        form.method = "POST";
+        form.action = "./adminprofile.php?action=reject&id=" + productId;
+
+        var feedbackInput = document.createElement("input");
+        feedbackInput.type = "hidden";
+        feedbackInput.name = "feedback";
+        feedbackInput.value = feedback;
+        form.appendChild(feedbackInput);
+
+        document.body.appendChild(form);
+        form.submit();
       } else {
-        alert("Reason cannot be empty. Please provide a reason for rejection.");
+        alert("Feedback is required for rejection.");
       }
     }
   </script>
-  >
 
 
 

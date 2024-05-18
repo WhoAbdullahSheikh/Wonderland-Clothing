@@ -47,7 +47,7 @@ if (isset($_GET['id']) && isset($_GET['status'])) {
 
 // If the necessary GET parameters are not set, redirect or handle the error as needed
 else {
-    header('Location: error_page.php'); // Create an error page or handle differently
+    header('Location: adminprofile.php'); // Create an error page or handle differently
     exit();
 }
 ?>
