@@ -172,7 +172,7 @@ $conn->close();
       position: relative;
       color: white;
       margin: 2px 14px;
-      font-size: 10px;
+      font-size: 13px;
       transition-duration: 1s;
     }
 

@@ -126,7 +126,7 @@ $conn->close();
       position: relative;
       color: white;
       margin: 2px 14px;
-      font-size: 10px;
+      font-size: 13px;
       transition-duration: 1s;
 
     }
@@ -708,7 +708,7 @@ $conn->close();
       <ul>
         <li><a href="../home.php" class="under">HOME</a></li>
         <li><a href="./shopscreen.php" class="under">SHOP</a></li>
-        <li><a href="./about.html" class="under">ABOUT US</a></li>
+  
         <?php if ($showProfileIcon) : ?>
           <li><a href="./profilescreen.php"><i class="fa fa-user" style="font-size:20px;color: white"></i></a></li>
         <?php endif; ?>

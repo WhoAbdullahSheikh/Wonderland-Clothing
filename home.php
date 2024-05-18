@@ -34,7 +34,6 @@ if (isset($_SESSION['email']) && $_SESSION['email'] === 'admin@wonderland.com') 
         <li>
           <a href="screens/loginscreen.php" class="under">LOGIN/REGISTER</a>
         </li>
-        <li><a href="./screens/about.html" class="under">ABOUT US</a></li>
         <?php if ($showProfileIcon): ?>
           <li>
             <a href="./admin/adminprofile.php" class="under">

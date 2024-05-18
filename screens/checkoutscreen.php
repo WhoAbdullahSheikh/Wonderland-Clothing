@@ -79,7 +79,7 @@
         position: relative;
         color: white;
         margin: 2px 14px;
-        font-size: 10px;
+        font-size: 13px;
         transition-duration: 1s;
       }
       .heading ul li a:active {
@@ -605,8 +605,7 @@
         <ul>
           <li><a href="../home.php" class="under">HOME</a></li>
           <li><a href="./shopscreen.php" class="under">SHOP</a></li>
-          <li><a href="./loginscreen.php" class="under">LOGIN/REGISTER</a></li>
-          <li><a href="./about.html" class="under">ABOUT US</a></li>
+          <li><a href="./loginscreen.php" class="under">LOGIN/REGISTER</a></li>     
           <li>
             <a href="#home"
               ><i class="fa fa-user" style="font-size: 20px; color: white"></i

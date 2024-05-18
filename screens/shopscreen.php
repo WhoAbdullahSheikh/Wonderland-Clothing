@@ -97,7 +97,7 @@ if ($conn->connect_error) {
       position: relative;
       color: white;
       margin: 2px 14px;
-      font-size: 10px;
+      font-size: 13px;
       transition-duration: 1s;
     }
 
@@ -1000,7 +1000,6 @@ if ($conn->connect_error) {
       <ul>
         <li><a href="../home.php" class="under">HOME</a></li>
         <li><a href="./loginscreen.php" class="under">LOGIN/REGISTER</a></li>
-        <li><a href="./about.html" class="under">ABOUT US</a></li>
         <?php if ($showProfileIcon): ?>
           <li>
             <a href="./profilescreen.php"><i class="fa fa-user" style="font-size: 20px; color: white"></i></a>

@@ -73,7 +73,7 @@
             position: relative;
             color: white;
             margin: 2px 14px;
-            font-size: 10px;
+            font-size: 13px;
             transition-duration: 1s;
         }
 
@@ -954,7 +954,6 @@
             <ul>
                 <li><a href="../home.php" class="under">HOME</a></li>
                 <li><a href="./shopscreen.php" class="under">SHOP</a></li>
-                <li><a href="./about.html" class="under">ABOUT US</a></li>
                 <?php if (isset($_SESSION['email']) && $_SESSION['email'] !== 'admin@wonderland.com'): ?>
                     <li>
                         <a href="./profilescreen.php"><i class="fa fa-user" style="font-size: 20px; color: white"></i></a>
