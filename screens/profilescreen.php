@@ -985,7 +985,6 @@
 
      .refresh-button {
        margin-left: auto;
-       /* Pushes the button to the right */
        background-color: #4CAF50;
        color: white;
        border: none;
