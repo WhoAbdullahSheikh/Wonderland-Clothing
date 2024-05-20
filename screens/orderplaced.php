@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wonderland</title>
-    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" href="./ecommerce.css" />
     <link
       rel="stylesheet"
@@ -34,7 +37,6 @@
         height: 60px;
         width: 100%;
         background: black;
-       
       }
       .heading {
         display: flex;
@@ -48,7 +50,6 @@
       .heading1 {
         opacity: 1;
         bottom: 8px;
-       
       }
 
       .heading ul {
@@ -78,7 +79,7 @@
         position: relative;
         color: white;
         margin: 2px 14px;
-        font-size: 10px;
+        font-size: 13px;
         transition-duration: 1s;
       }
       .heading ul li a:active {
@@ -133,7 +134,7 @@
         position: relative;
         right: 3px;
       }
-   
+
       .heading1 {
         opacity: 0;
       }
@@ -452,12 +453,13 @@
       .maintenance-message {
         text-align: center;
         margin-top: 10%;
-        font-size: 24px;
+        font-size: 34px;
         color: rgb(0, 0, 0);
-        font-weight: bold;
+ 
         padding-bottom: 13%;
+        justify-content: center;
+        align-items: center;
       }
-        
     </style>
   </head>
 
@@ -472,7 +474,7 @@
           <li><a href="../home.php" class="under">HOME</a></li>
           <li><a href="./shopscreen.php" class="under">SHOP</a></li>
           <li><a href="./loginscreen.php" class="under">LOGIN/REGISTER</a></li>
-          
+
           <li>
             <a href="./profilescreen.php"
               ><i class="fa fa-user" style="font-size: 20px; color: white"></i
@@ -498,11 +500,28 @@
       </div>
     </header>
     <section>
-        
       <div class="maintenance-message">
-        <i style='font-size:34px; color:rgb(104, 20, 20); ' class='fa'>&#xf06a;</i>
-        This page/component is currently under development. Please check back later.
+        <dotlottie-player
+          style="
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 150px;
+          "
+          src="https://lottie.host/fb11aebf-2fec-471b-90c5-b6f832d5d85f/xaqaB9ZGHS.json"
+          background="transparent"
+          speed="1"
+          loop
+          autoplay
+        ></dotlottie-player>
+        <strong>Congratulations</strong>
+        <br>
+        Your order has been placed 
       </div>
+      <script
+        src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
+        type="module"
+      ></script>
     </section>
 
     <footer>
@@ -590,6 +609,5 @@
         displayCart(); // Update the cart display after clearing
       }
     </script>
-    
   </body>
 </html>
