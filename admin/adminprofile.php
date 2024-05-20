@@ -886,7 +886,10 @@ $conn->close();
         <i class="material-icons">favorite</i>
         <span>Items Listings</span>
       </a>
-
+      <a href="#" id="addedProductsButton" onclick="toggleSections('addedItems')">
+        <i class="	fas fa-shopping-bag"></i>
+        <span>Orders Approval</span>
+      </a>
 
       <hr>
       <a href="./logout.php">
@@ -930,7 +933,7 @@ $conn->close();
     <div id="approvalSection" style="background-color: white; color: black; padding: 20px; padding-left: 5%; ">
       <div class="profile-container">
         <h2>Products Approvals
-          <button onclick="location.reload();" style="margin-left: 1100px; cursor: pointer;" class="refresh-button">
+          <button onclick="location.reload();" style="margin-left: 50px; cursor: pointer;" class="refresh-button">
             <i class="fa fa-refresh fa-spin"></i>
           </button>
         </h2>
@@ -972,7 +975,7 @@ $conn->close();
     <div id="itemsLisiting" style="background-color: white; color: black; padding: 20px; padding-left: 5%;">
       <div class="profile-container">
         <h2>Product Listing
-          <button onclick="location.reload();" style="margin-left: 1200px; cursor: pointer;" class="refresh-button">
+          <button onclick="location.reload();" style="margin-left: 50px; cursor: pointer;" class="refresh-button">
             <i class="fa fa-refresh fa-spin"></i>
           </button>
         </h2>
@@ -1034,7 +1037,7 @@ $conn->close();
     </div>
   </div>
 
-  <div id="itemsAdded" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
+  <div id="itemsAdded" style="background-color: white; color: black; padding: 20px; padding-left: 5%;">
     <div class="profile-container">
       <h2>Your Added Products</h2>
       <div class="section-break">
