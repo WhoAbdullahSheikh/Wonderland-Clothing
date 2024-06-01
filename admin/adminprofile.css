@@ -673,12 +673,11 @@ td {
   display: inline-block;
   /* Ensures the width is respected */
   text-align: center;
-  
 }
 
 .btn-approve {
   background-color: #4caf50;
-
+  /* Green */
 }
 
 .btn-reject {
@@ -759,12 +758,29 @@ td {
   color: #d11a2a;
 }
 
-.order-approval{
-    text-align: center;
+.popup-message {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  background-color: #4caf50; /* Green background */
+  color: white; /* White text */
+  border-radius: 5px;
+  z-index: 1000;
 }
 
+.popup-message.error {
+  background-color: #f44336; /* Red background for error messages */
+}
 
-.center-align {
-    text-align: center;
-  }
-  
+/* Fade out effect */
+.fade-out {
+  animation: fadeOut 2s forwards;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; display: none; }
+}

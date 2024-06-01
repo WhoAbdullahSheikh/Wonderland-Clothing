@@ -1,3 +1,6 @@
+<?php
+$order_id = $_GET['order_id'];
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -506,7 +509,7 @@
             justify-content: center;
             align-items: center;
             width: 100%;
-            height: 150px;
+            height: 200px;
           "
           src="https://lottie.host/fb11aebf-2fec-471b-90c5-b6f832d5d85f/xaqaB9ZGHS.json"
           background="transparent"
@@ -514,9 +517,9 @@
           loop
           autoplay
         ></dotlottie-player>
-        <strong>Congratulations</strong>
+        <h2>Congratulations</h2>
         <br>
-        Your order has been placed 
+        Your order has been placed. <br> Your order ID is "<strong><?php echo htmlspecialchars($order_id); ?></strong>" 
       </div>
       <script
         src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
@@ -579,35 +582,6 @@
     </footer>
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
     <script src="./JS/cartscreen.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        displayCart();
-      });
-
-      function displayCart() {
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        let cartItemsContainer = document.getElementById("cartItems");
-        let totalPrice = 0;
-
-        cartItemsContainer.innerHTML = ""; // Clear previous items
-
-        cart.forEach(function (item) {
-          cartItemsContainer.innerHTML +=
-            "<p>" +
-            item.name +
-            ' <span class="price">$' +
-            item.price +
-            "</span></p>";
-          totalPrice += item.price;
-        });
-
-        document.getElementById("cartItemCount").textContent = cart.length;
-        document.getElementById("totalPrice").textContent = totalPrice;
-      }
-      function clearCart() {
-        localStorage.removeItem("cart");
-        displayCart(); // Update the cart display after clearing
-      }
-    </script>
+   
   </body>
 </html>

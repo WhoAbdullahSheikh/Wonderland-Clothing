@@ -20,38 +20,29 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
-$sqlOrders = "
-    SELECT 
-        o.order_id, o.total_amount, o.order_date,
-        c.full_name, c.email, c.city, c.state, c.zip,
-        oi.product_name, oi.product_price, p.filename
-    FROM orders o
-    JOIN customers c ON o.customer_id = c.customer_id
-    JOIN order_items oi ON o.order_id = oi.order_id
-    JOIN products p
-    ORDER BY o.order_id ASC
-";
 
-$resultOrders = $conn->query($sqlOrders);
-
-if ($resultOrders === false) {
-  echo "Error fetching the orders: " . $conn->error;
-  $orders = [];
-} else {
-  $orders = $resultOrders->fetch_all(MYSQLI_ASSOC);
-}
-
+// Fetch counts for approved and rejected products
 $sqlApproved = "SELECT COUNT(*) AS count_approved FROM products WHERE status = 'approved'";
 $resultApproved = $conn->query($sqlApproved);
-$approvedCount = $resultApproved->fetch_assoc()['count_approved'];  // Get the count
+$approvedCount = $resultApproved->fetch_assoc()['count_approved'];
 
 $sqlRejected = "SELECT COUNT(*) AS count_rejected FROM products WHERE status = 'rejected'";
 $resultRejected = $conn->query($sqlRejected);
-$rejectedCount = $resultRejected->fetch_assoc()['count_rejected'];  // Get the count
+$rejectedCount = $resultRejected->fetch_assoc()['count_rejected'];
 
-$sql = "SELECT filename, id, p_name, description, price, category, p_condition, status, feedback FROM products WHERE status = 'Approved' OR status = 'Rejected' ORDER BY id ASC"; // Modify query as needed
+// Fetch product data for approval section
+$sqlPending = "SELECT products.id, products.p_name, products.description, products.filename, products.p_condition, products.price, products.email, users.fullname 
+               FROM products 
+               JOIN users ON products.email = users.email
+               WHERE products.status = 'pending'";
+$resultPending = $conn->query($sqlPending);
+
+// Fetch product data for listing section
+$sql = "SELECT filename, id, p_name, description, price, category, p_condition, status, feedback 
+        FROM products 
+        WHERE status = 'Approved' OR status = 'Rejected' 
+        ORDER BY id ASC";
 $result = $conn->query($sql);
-
 if ($result === false) {
   echo "Error fetching the products: " . $conn->error;
   $products = [];
@@ -59,12 +50,34 @@ if ($result === false) {
   $products = $result->fetch_all(MYSQLI_ASSOC);
 }
 
-$sql = "SELECT products.id, products.p_name, products.description, products.filename, products.p_condition, products.price, products.email, users.fullname 
-FROM products 
-JOIN users ON products.email = users.email
-WHERE products.status = 'pending'";
+// Fetch orders and their items
+$sqlOrders = "SELECT 
+                orders.id AS order_id,
+                orders.fullname AS customer_name,
+                orders.email AS customer_email,
+                orders.address,
+                orders.city,
+                orders.state,
+                orders.zip,
+                orders.created_at AS order_date,
+                order_items.product_name,
+                order_items.product_price,
+                order_items.product_quantity,
+                products.filename
+              FROM orders
+              JOIN order_items ON orders.id = order_items.order_id
+              JOIN products ON order_items.product_id = products.id
+              WHERE orders.status = 'Pending'";
 
-$result = $conn->query($sql);
+$resultOrders = $conn->query($sqlOrders);
+
+if ($resultOrders === false) {
+  echo "Error fetching orders: " . $conn->error;
+  $orders = [];
+} else {
+  $orders = $resultOrders->fetch_all(MYSQLI_ASSOC);
+}
+
 
 // Check if "approve" or "reject" actions have been triggered
 if (isset($_GET['action'], $_GET['id']) && in_array($_GET['action'], ['approve', 'reject'])) {
@@ -81,6 +94,7 @@ if (isset($_GET['action'], $_GET['id']) && in_array($_GET['action'], ['approve',
   exit();
 }
 
+// Check if a product delete action has been triggered
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
   $productId = $_GET['id'];
 
@@ -97,13 +111,12 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
   }
 
   $stmt->close();
-  $conn->close();
 }
 
-
-// Close database connection if open
+// Close database connection
 $conn->close();
 ?>
+
 
 
 <!DOCTYPE html>
@@ -114,7 +127,7 @@ $conn->close();
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wonderland</title>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="./adminstyle.css" />
+  <link rel="stylesheet" href="./adminprofile.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" />
   <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet" />
@@ -296,42 +309,55 @@ $conn->close();
     <div class="section-break">
       <hr />
     </div>
-    <table >
+    <table style="width: 100%;">
       <tr>
         <th>Order ID</th>
-        <th>Product Image</th>
-        <th>Product Name</th>
-        <th>Product Price</th>
         <th>Customer Name</th>
         <th>Customer Email</th>
+        <th>Address</th>
         <th>City</th>
         <th>State</th>
         <th>ZIP</th>
-        <th>Total Amount</th>
         <th>Order Date</th>
+        <th>Product Image</th>
+        <th>Product Name</th>
+        <th>Product Price</th>
+        <th>Product Quantity</th>
         <th>Action</th>
       </tr>
-      <?php foreach ($orders as $order): ?>
+      <?php if (!empty($orders)): ?>
+        <?php foreach ($orders as $order): ?>
+          <tr>
+            <td><?= htmlspecialchars($order['order_id']) ?></td>
+            <td><?= htmlspecialchars($order['customer_name']) ?></td>
+            <td><?= htmlspecialchars($order['customer_email']) ?></td>
+            <td><?= htmlspecialchars($order['address']) ?></td>
+            <td><?= htmlspecialchars($order['city']) ?></td>
+            <td><?= htmlspecialchars($order['state']) ?></td>
+            <td><?= htmlspecialchars($order['zip']) ?></td>
+            <td><?= htmlspecialchars($order['order_date']) ?></td>
+            <td style="text-align: center;">
+              <img src="../screens/image/<?= htmlspecialchars($order['filename']) ?>"
+                alt="<?= htmlspecialchars($order['product_name']) ?>" style="width: 100px; height: auto;">
+            </td>
+            <td><?= htmlspecialchars($order['product_name']) ?></td>
+            <td style="text-align: center;">Rs. <?= htmlspecialchars($order['product_price']) ?></td>
+            <td style="text-align: center;"><?= htmlspecialchars($order['product_quantity']) ?></td>
+            <td style="text-align: center;">
+
+              <a href="./orders/approve_order.php?id=<?= $order['order_id'] ?>&status=Approved"
+                class="btn btn-approve">Approve</a>
+              <a href="./orders/reject_order.php?id=<?= $order['order_id'] ?>&status=Rejected"
+                class="btn btn-reject">Reject</a>
+
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      <?php else: ?>
         <tr>
-          <td class="order-approval"><?= htmlspecialchars($order['order_id']) ?></td>
-          <td class="order-approval">
-            <img src="../screens/image/<?= htmlspecialchars($order['filename']) ?>" alt="Product Image" style="width: 100px; height: auto;">
-          </td>
-          <td class="order-approval"><?= htmlspecialchars($order['product_name']) ?></td>
-          <td class="order-approval"><?= htmlspecialchars($order['product_price']) ?></td>
-          <td class="order-approval"><?= htmlspecialchars($order['full_name']) ?></td>
-          <td class="order-approval"><?= htmlspecialchars($order['email']) ?></td>
-          <td class="order-approval"><?= htmlspecialchars($order['city']) ?></td>
-          <td class="order-approval"><?= htmlspecialchars($order['state']) ?></td>
-          <td class="order-approval"><?= htmlspecialchars($order['zip']) ?></td>
-          <td class="order-approval"><?= htmlspecialchars($order['total_amount']) ?></td>
-          <td class="order-approval"><?= htmlspecialchars($order['order_date']) ?></td>
-          <td class="center-align">
-            <button class="btn btn-approve">Approve</button>
-            <button class="btn btn-reject">Reject</button>
-          </td>
+          <td colspan="13" style="text-align: center;">No orders pending approval</td>
         </tr>
-      <?php endforeach; ?>
+      <?php endif; ?>
     </table>
 
   </div>
