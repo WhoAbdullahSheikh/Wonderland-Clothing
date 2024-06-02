@@ -46,7 +46,14 @@
     </div>
   </header>
   <section>
-    <div class="row" style="margin-left: 1%; margin-right: 1%">
+    <br>
+    <button onclick="goBack()"
+      style="margin-left: 2%; font-size: 30px; text-decoration: none; color: black; font-weight: bold; border: none; background: none; cursor: pointer;">
+      <i class="fa fa-chevron-circle-left"></i> Back
+    </button>
+    <br>
+    <br>
+    <div class="row" style="margin-left: 2%; margin-right: 1%">
       <div class="col-50">
         <h1>Delivery Address</h1>
         <form id="orderForm" method="POST" action="./processOrder.php">
@@ -224,6 +231,11 @@
           console.error("Error:", error);
           alert("An error occurred while placing the order.");
         });
+    }
+  </script>
+  <script>
+    function goBack() {
+      window.history.back();
     }
   </script>
 

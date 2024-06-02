@@ -33,19 +33,39 @@ if (empty($fullname) || empty($email) || empty($address) || empty($city) || empt
 // Debug: Print cart data
 file_put_contents('php://stderr', print_r($cartData, TRUE));
 
-// Insert order into 'orders' table
-$stmt = $conn->prepare("INSERT INTO orders (fullname, email, address, city, state, zip, cashondelivery) VALUES (?, ?, ?, ?, ?, ?, ?)");
+// Prepare to collect total price and owner email
+$totalPrice = 0;
+$ownerEmail = '';
+
+// Fetch the owner email for the first product (assuming all products have the same owner)
+$firstProduct = $cartData[0]['name'];
+$stmt = $conn->prepare("SELECT email FROM products WHERE p_name = ?");
 if (!$stmt) {
     die(json_encode(["status" => "error", "message" => "Prepare statement failed: " . $conn->error]));
 }
-$stmt->bind_param("ssssssi", $fullname, $email, $address, $city, $state, $zip, $cashondelivery);
+$stmt->bind_param("s", $firstProduct);
+if (!$stmt->execute()) {
+    die(json_encode(["status" => "error", "message" => "Execute statement failed: " . $stmt->error]));
+}
+$stmt->bind_result($ownerEmail);
+$stmt->fetch();
+$stmt->close();
+
+if (empty($ownerEmail)) {
+    die(json_encode(["status" => "error", "message" => "Owner email not found for product: " . $firstProduct]));
+}
+
+// Insert order into 'orders' table
+$stmt = $conn->prepare("INSERT INTO orders (fullname, email, address, city, state, zip, cashondelivery, owner_email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+if (!$stmt) {
+    die(json_encode(["status" => "error", "message" => "Prepare statement failed: " . $conn->error]));
+}
+$stmt->bind_param("ssssssis", $fullname, $email, $address, $city, $state, $zip, $cashondelivery, $ownerEmail);
 if (!$stmt->execute()) {
     die(json_encode(["status" => "error", "message" => "Execute statement failed: " . $stmt->error]));
 }
 $order_id = $stmt->insert_id;
 $stmt->close();
-
-$totalPrice = 0;
 
 // Insert order items into 'order_items' table
 foreach ($cartData as $item) {
