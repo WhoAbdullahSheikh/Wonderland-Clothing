@@ -26,7 +26,24 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $stmt->execute();
     $stmt->close();
 
-    header('Location: ../adminprofile.php');
+    $provider_result = $conn->query("SELECT * FROM orders WHERE id = $orderId");
+    $provider_row = $provider_result->fetch_assoc();
+    $provider_email = $provider_row['email'];
+    $provider_fullname = $provider_row['fullname'];
+
+    // Compose email details
+    $to = $provider_email;
+    $subject = "Order Placement";
+    $message = "Dear $provider_fullname,\n\nWe are sorry for the inconvenience. Your Order (Order ID : $orderId)  cannot be placed.\n\nRegards,\nTeam Wonderland";
+
+    // Generate URL to open Gmail with pre-filled details
+    $email_url = "https://mail.google.com/mail/?view=cm&fs=1&to=" . urlencode($to) . "&su=" . urlencode($subject) . "&body=" . urlencode($message);
+
+    echo "<script>
+    const emailUrl = '$email_url';
+    window.open(emailUrl, '_blank');
+    window.location.href = '../adminprofile.php';
+    </script>";
     exit();
 }
 
