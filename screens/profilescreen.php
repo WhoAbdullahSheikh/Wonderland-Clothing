@@ -21,7 +21,7 @@ if ($userprofile == true) {
 
 
 
-  $email = $_SESSION['email'];
+  /*$email = $_SESSION['email'];
   $sql = "SELECT id, fullname, email FROM users WHERE email = '$email'";
   $result = $conn->query($sql);
 
@@ -30,6 +30,47 @@ if ($userprofile == true) {
     $fullname = $row['fullname'];
     $email = $row['email'];
   }
+  */
+
+  $email = $_SESSION['email'];
+  $sql = "SELECT id, fullname, email, contact, dob FROM users WHERE email = ?";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $result = $stmt->get_result();
+
+  if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $fullname = isset($row['fullname']) ? htmlspecialchars($row['fullname']) : '';
+    $email = isset($row['email']) ? htmlspecialchars($row['email']) : '';
+    $contact = isset($row['contact']) ? htmlspecialchars($row['contact']) : '';
+    $dob = isset($row['dob']) ? htmlspecialchars($row['dob']) : '';
+  } else {
+    $fullname = '';
+    $email = '';
+    $contact = '';
+    $dob = '';
+  }
+
+
+
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $fullname = isset($_POST['fullname']) ? $_POST['fullname'] : '';
+    $email = isset($_POST['email']) ? $_POST['email'] : '';
+    $contact = isset($_POST['contact']) ? $_POST['contact'] : '';
+    $dob = isset($_POST['dob']) ? $_POST['dob'] : '';
+
+    // Validate fields to ensure they are not empty or null
+    if (!empty($fullname) && !empty($email) && !empty($contact) && !empty($dob)) {
+      $sql = "UPDATE users SET fullname = ?, email = ?, contact = ?, dob = ? WHERE email = ?";
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param("sssss", $fullname, $email, $contact, $dob, $email);
+      $stmt->execute();
+    }
+  }
+
+
+
 
   $msg = "";
   if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['upload'])) {
@@ -120,6 +161,10 @@ if ($userprofile == true) {
         <i class="material-icons">favorite</i>
         <span>Sell Product</span>
       </a>
+      <a href="#" id="ordersButton" onclick="toggleSections('productStatus')">
+        <i class="fa fa-shopping-bag"></i>
+        <span>Orders</span></span>
+      </a>
       <a href="#" id="addedProductsButton" onclick="toggleSections('itemsAdded')">
         <i class="fa fa-shopping-bag"></i>
         <span>Added Products</span>
@@ -127,10 +172,6 @@ if ($userprofile == true) {
       <a href="#" id="statusButton" onclick="toggleSections('productStatus')">
         <i class="fa fa-clock-o"></i>
         <span>Product Status</span></span>
-      </a>
-      <a href="#" id="ordersButton" onclick="toggleSections('productStatus')">
-        <i class="fa fa-clock-o"></i>
-        <span>Orders</span></span>
       </a>
       <hr>
       <a href="./logout.php">
@@ -181,15 +222,22 @@ if ($userprofile == true) {
           <hr />
         </div>
         <div>
-          <?php include './components/updateprofile.php'; ?>
           <form action="profilescreen.php" method="post">
             <label for="fullname">Full Name</label>
-            <input type="text" id="fullname" name="fullname" value="<?php echo $fullname; ?>">
+            <input placeholder="Name" type="text" id="fullname" name="fullname" value="<?php echo $fullname; ?>">
             <br>
             <br>
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" value="<?php echo $email; ?>">
+            <input placeholder="abc@example.com" type="email" id="email" name="email" value="<?php echo $email; ?>">
             <br>
+            <br>
+            <label for="contact">Contact</label>
+            <input placeholder="+92-xxx-xxxxxxx" style="font-family:  Geneva, sans-serif" type="text" id="contact" name="contact" value="<?php echo $contact; ?>">
+            <br>
+            <br>
+            <label for="dob">Date of Birth</label>
+            <input style="width: 30%; padding: 10px; border: 1px solid black; border-radius: 10px; font-size: 15px;"
+              type="date" id="dob" name="dob" value="<?php echo $dob; ?>">
             <br>
             <br>
             <button type="submit">Update</button>
@@ -404,9 +452,7 @@ if ($userprofile == true) {
     <div id="orders"
       style="width:100%; background-color: white; color: black; padding: 20px; padding-left: 15%; padding-top: 5%">
       <h1>Orders
-        <button onclick="location.reload();" style="margin-left: 70px; cursor: pointer;" class="refresh-button">
-          <i class="fa fa-refresh fa-spin"></i>
-        </button>
+
       </h1>
       <div class="section-break">
         <hr />
@@ -459,140 +505,151 @@ if ($userprofile == true) {
             <th>ZIP</th>
             <th>Order Date</th>
           </tr>
-          <?php while ($row = $result->fetch_assoc()): ?>
+          <?php
+          if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+              ?>
+              <tr>
+                <td><?= htmlspecialchars($row['order_id']) ?></td>
+                <td><img src="./image/<?= htmlspecialchars($row['filename']) ?>"
+                    alt="<?= htmlspecialchars($row['product_name']) ?>" style="width: 100px; height: auto;"></td>
+                <td><?= htmlspecialchars($row['product_name']) ?></td>
+                <td>Rs. <?= htmlspecialchars($row['product_price']) ?></td>
+                <td><?= htmlspecialchars($row['product_quantity']) ?></td>
+                <td><?= htmlspecialchars($row['customer_name']) ?></td>
+                <td><?= htmlspecialchars($row['customer_email']) ?></td>
+                <td><?= htmlspecialchars($row['address']) ?></td>
+                <td><?= htmlspecialchars($row['city']) ?></td>
+                <td><?= htmlspecialchars($row['state']) ?></td>
+                <td><?= htmlspecialchars($row['zip']) ?></td>
+                <td><?= htmlspecialchars($row['order_date']) ?></td>
+              </tr>
+              <?php
+            }
+          } else {
+            ?>
             <tr>
-              <td><?= htmlspecialchars($row['order_id']) ?></td>
-              <td><img src="./image/<?= htmlspecialchars($row['filename']) ?>"
-                  alt="<?= htmlspecialchars($row['product_name']) ?>" style="width: 100px; height: auto;"></td>
-              <td><?= htmlspecialchars($row['product_name']) ?></td>
-              <td>Rs. <?= htmlspecialchars($row['product_price']) ?></td>
-              <td><?= htmlspecialchars($row['product_quantity']) ?></td>
-              <td><?= htmlspecialchars($row['customer_name']) ?></td>
-              <td><?= htmlspecialchars($row['customer_email']) ?></td>
-              <td><?= htmlspecialchars($row['address']) ?></td>
-              <td><?= htmlspecialchars($row['city']) ?></td>
-              <td><?= htmlspecialchars($row['state']) ?></td>
-              <td><?= htmlspecialchars($row['zip']) ?></td>
-              <td><?= htmlspecialchars($row['order_date']) ?></td>
+              <td colspan="12" style="text-align: center;">No orders for delivery &#128577;</td>
             </tr>
-          <?php endwhile; ?>
+            <?php
+          }
+          ?>
         </table>
 
         <?php
         $stmt->close();
         $conn->close();
       } else {
-        echo "Please log in to view this page.";
+        echo "<p>Please log in to view this page.</p>";
       }
       ?>
     </div>
-  </div>
 
-  <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
-  <script src="./JS/cartscreen.js"></script>
-  <script>
-    function deleteProduct(productId) {
-      if (confirm('Are you sure you want to delete this product?')) {
-        window.location.href = 'profilescreen.php?id=' + productId;
-      }
-    }
-  </script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-
-      function toggleSections(section) {
-        var profileSection = document.getElementById("profileSection");
-        var itemsSection = document.getElementById("itemsSection");
-        var itemsAdded = document.getElementById("itemsAdded");
-        var productStatus = document.getElementById("productStatus");
-        var orders = document.getElementById("orders");
-
-        if (section === 'profile') {
-          profileSection.style.display = "block";
-          itemsSection.style.display = "none";
-          itemsAdded.style.display = "none";
-          productStatus.style.display = "none";
-          orders.style.display = "none";
-
-        } else if (section === 'items') {
-          profileSection.style.display = "none";
-          itemsSection.style.display = "block";
-          itemsAdded.style.display = "none";
-          productStatus.style.display = "none";
-          orders.style.display = "none";
-
-        } else if (section === 'itemsAdded') {
-          profileSection.style.display = "none";
-          itemsSection.style.display = "none";
-          itemsAdded.style.display = "block";
-          productStatus.style.display = "none";
-          orders.style.display = "none";
-
-        } else if (section === 'productStatus') {
-          profileSection.style.display = "none";
-          itemsSection.style.display = "none";
-          itemsAdded.style.display = "none";
-          productStatus.style.display = "block";
-          orders.style.display = "none";
-
-        } else if (section === 'orders') {
-          profileSection.style.display = "none";
-          itemsSection.style.display = "none";
-          itemsAdded.style.display = "none";
-          productStatus.style.display = "none";
-          orders.style.display = "block";
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script src="./JS/cartscreen.js"></script>
+    <script>
+      function deleteProduct(productId) {
+        if (confirm('Are you sure you want to delete this product?')) {
+          window.location.href = 'profilescreen.php?id=' + productId;
         }
-        localStorage.setItem("lastOpenedSection", section);
       }
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
 
-      // Function to restore the section visibility from local storage or default to profile
-      function restoreSections() {
-        var lastOpenedSection = localStorage.getItem("lastOpenedSection");
-        if (lastOpenedSection === 'items') {
-          toggleSections('items');
-        } else if (lastOpenedSection === 'profile') {
+        function toggleSections(section) {
+          var profileSection = document.getElementById("profileSection");
+          var itemsSection = document.getElementById("itemsSection");
+          var itemsAdded = document.getElementById("itemsAdded");
+          var productStatus = document.getElementById("productStatus");
+          var orders = document.getElementById("orders");
+
+          if (section === 'profile') {
+            profileSection.style.display = "block";
+            itemsSection.style.display = "none";
+            itemsAdded.style.display = "none";
+            productStatus.style.display = "none";
+            orders.style.display = "none";
+
+          } else if (section === 'items') {
+            profileSection.style.display = "none";
+            itemsSection.style.display = "block";
+            itemsAdded.style.display = "none";
+            productStatus.style.display = "none";
+            orders.style.display = "none";
+
+          } else if (section === 'itemsAdded') {
+            profileSection.style.display = "none";
+            itemsSection.style.display = "none";
+            itemsAdded.style.display = "block";
+            productStatus.style.display = "none";
+            orders.style.display = "none";
+
+          } else if (section === 'productStatus') {
+            profileSection.style.display = "none";
+            itemsSection.style.display = "none";
+            itemsAdded.style.display = "none";
+            productStatus.style.display = "block";
+            orders.style.display = "none";
+
+          } else if (section === 'orders') {
+            profileSection.style.display = "none";
+            itemsSection.style.display = "none";
+            itemsAdded.style.display = "none";
+            productStatus.style.display = "none";
+            orders.style.display = "block";
+          }
+          localStorage.setItem("lastOpenedSection", section);
+        }
+
+        // Function to restore the section visibility from local storage or default to profile
+        function restoreSections() {
+          var lastOpenedSection = localStorage.getItem("lastOpenedSection");
+          if (lastOpenedSection === 'items') {
+            toggleSections('items');
+          } else if (lastOpenedSection === 'profile') {
+            toggleSections('profile');
+          } else if (lastOpenedSection === 'itemsAdded') {
+            toggleSections('itemsAdded');
+          } else if (lastOpenedSection === 'productStatus') {
+            toggleSections('productStatus');
+          } else {
+            toggleSections('orders');
+          }
+        }
+
+
+        // Restore sections on page load based on saved state or default to profile
+        restoreSections();
+
+        // Event listeners for menu buttons
+        document.getElementById("profileButton").addEventListener("click", function () {
           toggleSections('profile');
-        } else if (lastOpenedSection === 'itemsAdded') {
+        });
+
+        document.getElementById("itemsButton").addEventListener("click", function () {
+          toggleSections('items');
+        });
+
+        document.getElementById("addedProductsButton").addEventListener("click", function () {
           toggleSections('itemsAdded');
-        } else if (lastOpenedSection === 'productsStatus') {
+        });
+        document.getElementById("statusButton").addEventListener("click", function () {
           toggleSections('productStatus');
-        } else {
+        });
+        document.getElementById("ordersButton").addEventListener("click", function () {
           toggleSections('orders');
-        }
-      }
+        });
 
-
-      // Restore sections on page load based on saved state or default to profile
-      restoreSections();
-
-      // Event listeners for menu buttons
-      document.getElementById("profileButton").addEventListener("click", function () {
-        toggleSections('profile');
       });
-
-      document.getElementById("itemsButton").addEventListener("click", function () {
-        toggleSections('items');
-      });
-
-      document.getElementById("addedProductsButton").addEventListener("click", function () {
-        toggleSections('itemsAdded');
-      });
-      document.getElementById("statusButton").addEventListener("click", function () {
-        toggleSections('productStatus');
-      });
-      document.getElementById("ordersButton").addEventListener("click", function () {
-        toggleSections('orders');
-      });
-
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        <?php if (isset($_SESSION['message'])): ?>
+          alert("<?= $_SESSION['message']; ?>");
+          <?php unset($_SESSION['message']); // Clear the message after displaying it    
+            ?>                                                <?php endif; ?>
     });
-  </script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      <?php if (isset($_SESSION['message'])): ?>
-        alert("<?= $_SESSION['message']; ?>");
-            <?php unset($_SESSION['message']); // Clear the message after displaying it 
-              ?>                      <?php endif; ?>
-  });
   </script>
 
 

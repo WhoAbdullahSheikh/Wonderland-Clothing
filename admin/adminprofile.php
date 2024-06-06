@@ -34,7 +34,7 @@ $rejectedCount = $resultRejected->fetch_assoc()['count_rejected'];
 $sqlPending = "SELECT products.id, products.p_name, products.description, products.filename, products.p_condition, products.price, products.email, users.fullname 
                FROM products 
                JOIN users ON products.email = users.email
-               WHERE products.status = 'pending'";
+               WHERE products.status = 'Pending'";
 $resultPending = $conn->query($sqlPending);
 
 // Fetch product data for listing section
@@ -216,7 +216,7 @@ $conn->close();
             <th>Price</th>
             <th>Action</th>
           </tr>
-          <?php while ($row = $result->fetch_assoc()): ?>
+          <?php while ($row = $resultPending->fetch_assoc()): ?>
             <tr>
               <td style="text-align: center;">
                 <img src="../screens/image/<?= htmlspecialchars($row['filename']) ?>"
@@ -328,7 +328,7 @@ $conn->close();
       <?php if (!empty($orders)): ?>
         <?php foreach ($orders as $order): ?>
           <tr>
-            <td><?= htmlspecialchars($order['order_id']) ?></td>
+            <td style="text-align: center;"><?= htmlspecialchars($order['order_id']) ?></td>
             <td style="text-align: center;">
               <img src="../screens/image/<?= htmlspecialchars($order['filename']) ?>"
                 alt="<?= htmlspecialchars($order['product_name']) ?>" style="width: 100px; height: auto;">
