@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 02, 2024 at 09:41 PM
+-- Generation Time: Jun 13, 2024 at 01:38 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -89,7 +89,9 @@ CREATE TABLE `products` (
   `description` text NOT NULL,
   `p_condition` varchar(255) NOT NULL,
   `price` int(255) NOT NULL,
-  `filename` varchar(100) NOT NULL,
+  `filename` varchar(255) NOT NULL,
+  `filename2` varchar(255) NOT NULL,
+  `filename3` varchar(255) NOT NULL,
   `status` enum('Pending','Approved','Rejected') DEFAULT 'Pending',
   `feedback` text NOT NULL DEFAULT 'N/A'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -98,10 +100,10 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `email`, `category`, `p_name`, `description`, `p_condition`, `price`, `filename`, `status`, `feedback`) VALUES
-(7, 'abdulrehman@gmail.com', 'Men', 'White Casual T-Shirt', '100% Cotton White Casual Shirt for Daily \r\n', 'Good', 1200, '3c9d3584157b3976ee3ac37eb19f2fe6.jpg', 'Approved', 'N/A'),
-(27, 'abdullahmuhhamad339@gmail.com', 'Men', 'Black Shirt', 'Black T-shirt for casual use', 'Good', 1200, '3c9d3584157b3976ee3ac37eb19f2fe6.jpg', 'Approved', 'N/A'),
-(26, 'abdulrehman@gmail.com', 'Women', 'Black Long Frock', 'Black long frock for women', 'Good', 2300, 'MF-31.jpg', 'Approved', 'N/A');
+INSERT INTO `products` (`id`, `email`, `category`, `p_name`, `description`, `p_condition`, `price`, `filename`, `filename2`, `filename3`, `status`, `feedback`) VALUES
+(7, 'abdulrehman@gmail.com', 'Men', 'White Casual T-Shirt', '100% Cotton White Casual Shirt for Daily \r\n', 'Good', 1200, '3c9d3584157b3976ee3ac37eb19f2fe6.jpg', '', '', 'Approved', 'N/A'),
+(27, 'abdullahmuhhamad339@gmail.com', 'Men', 'Black Shirt', 'Black T-shirt for casual use', 'Good', 1200, '3c9d3584157b3976ee3ac37eb19f2fe6.jpg', '', '', 'Approved', 'N/A'),
+(26, 'abdulrehman@gmail.com', 'Women', 'Black Long Frock', 'Black long frock for women', 'Good', 2300, 'MF-31.jpg', '', '', 'Approved', 'N/A');
 
 -- --------------------------------------------------------
 
@@ -113,16 +115,18 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `fullname` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `contact` varchar(15) DEFAULT NULL,
+  `dob` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `fullname`, `email`, `password`) VALUES
-(1, 'Abdulrehman', 'abdulrehman@gmail.com', '1234'),
-(2, 'Abdullah Sheikh', 'abdullahmuhhamad339@gmail.com', '1234');
+INSERT INTO `users` (`id`, `fullname`, `email`, `password`, `contact`, `dob`) VALUES
+(1, 'Abdulrehman', 'abdulrehman@gmail.com', '1234', '+92-311-5369301', '2024-04-03'),
+(2, 'Abdullah Sheikh', 'abdullahmuhhamad339@gmail.com', '1234', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -162,19 +166,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `users`
