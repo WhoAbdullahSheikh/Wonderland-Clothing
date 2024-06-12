@@ -73,31 +73,48 @@ if ($userprofile == true) {
 
 
   $msg = "";
-  if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['upload'])) {
 
-    $filename = $_FILES["uploadfile"]["name"];
-    $tempname = $_FILES["uploadfile"]["tmp_name"];
+  if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['upload'])) {
+    $filenames = $_FILES["uploadfile"]["name"];
+    $tempnames = $_FILES["uploadfile"]["tmp_name"];
+
+    // Check if exactly 3 images are uploaded
+    if (count($filenames) != 3 || count($tempnames) != 3) {
+      echo '<script>alert("Error: You must upload exactly 3 images.");</script>';
+      exit;
+    }
+
     $category = $conn->real_escape_string($_POST['category']);
     $p_condition = $_POST['p_condition'];
     $description = $_POST['description'];
     $p_name = $_POST['p_name'];
     $price = $_POST['price'];
-    $folder = "./image/" . $filename;
     $status = 'pending';
-    $sql = "INSERT INTO products (email, p_name, description, price, category, p_condition, filename, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    if (move_uploaded_file($tempname, $folder)) {
-      // Prepare the SQL statement to avoid SQL injection
+    $email = $_SESSION['email'];
 
-      $stmt->bind_param("sssdssss", $email, $p_name, $description, $price, $category, $p_condition, $filename, $status);
-      $stmt->execute();
-      $_SESSION['message'] = "Thank You! Your Product will go live after it gets approved by our team!";
-      header("Location: " . $_SERVER['PHP_SELF']);
-      exit();
-    } else {
-      echo "Failed to upload file.";
+    $target_dir = "./image/";
+    $uploaded_files = array();
+
+    for ($i = 0; $i < 3; $i++) {
+      $target_file = $target_dir . basename($filenames[$i]);
+      if (move_uploaded_file($tempnames[$i], $target_file)) {
+        $uploaded_files[] = $filenames[$i];
+      } else {
+        echo '<script>alert("Failed to upload file ' . htmlspecialchars($filenames[$i]) . '");</script>';
+        exit;
+      }
     }
+
+    // Prepare the SQL statement to avoid SQL injection
+    $sql = "INSERT INTO products (email, p_name, description, price, category, p_condition, filename, filename2, filename3, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssdssssss", $email, $p_name, $description, $price, $category, $p_condition, $uploaded_files[0], $uploaded_files[1], $uploaded_files[2], $status);
+    $stmt->execute();
+    $_SESSION['message'] = "Thank You! Your Product will go live after it gets approved by our team!";
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
   }
+
 
   if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $productId = $_GET['id'];
@@ -232,7 +249,8 @@ if ($userprofile == true) {
             <br>
             <br>
             <label for="contact">Contact</label>
-            <input placeholder="+92-xxx-xxxxxxx" style="font-family:  Geneva, sans-serif" type="text" id="contact" name="contact" value="<?php echo $contact; ?>">
+            <input placeholder="+92-xxx-xxxxxxx" style="font-family:  Geneva, sans-serif" type="text" id="contact"
+              name="contact" value="<?php echo $contact; ?>">
             <br>
             <br>
             <label for="dob">Date of Birth</label>
@@ -252,15 +270,13 @@ if ($userprofile == true) {
             <i class="fa fa-refresh fa-spin"></i>
           </button>
         </h2>
-
         <div class="section-break">
           <hr />
         </div>
-
-        <form action="./profilescreen.php" method="POST" enctype="multipart/form-data">
+        <form id="productForm" action="./profilescreen.php" method="POST" enctype="multipart/form-data"
+          onsubmit="return validateForm()">
           <label for="email">Email</label>
           <input type="email" id="email" name="email" value="<?php echo $email; ?>">
-
           <div class="input-container">
             <label for="p_name">Product Name:</label>
             <input type="text" id="p_name" name="p_name" required>
@@ -273,7 +289,6 @@ if ($userprofile == true) {
               <option value="Women">Women's</option>
             </select>
           </div>
-
           <div class="input-container">
             <label for="description">Description:</label>
             <textarea id="description" name="description" required
@@ -295,12 +310,11 @@ if ($userprofile == true) {
             <div class="price-wrapper">
               <span class="currency-prefix">Rs.</span>
               <input type="number" step="10" id="price" name="price" required
-                style="border-radius: 10px; padding: 10px; font-size: 15px; ">
+                style="border-radius: 10px; padding: 10px; font-size: 15px;">
             </div>
           </div>
-
           <div class="input-container image-upload">
-            <input type="file" name="uploadfile" value="" />
+            <input type="file" id="uploadfile" name="uploadfile[]" multiple required />
             <br>
             <br>
             <button class="btn btn-primary" type="submit" name="upload">Submit Product</button>
@@ -309,30 +323,29 @@ if ($userprofile == true) {
           <div class="section-break">
             <hr />
           </div>
-
-          <div id="display-image">
-            <?php
-            $conn = new mysqli($servername, $username, $password, $dbname); // Assume $conn is your active database connection
-            $result = $conn->query("SELECT * FROM products WHERE email = '" . $conn->real_escape_string($_SESSION['email']) . "'");
-            if ($result->num_rows > 0) {
-              while ($row = $result->fetch_assoc()) {
-                echo '<div class="product-card">';
-                echo '<img class="product-image" src="./image/' . htmlspecialchars($row['filename']) . '" alt="' . htmlspecialchars($row['p_name']) . '">';
-                echo '<div class="product-info">';
-                echo '<p>' . htmlspecialchars($row['p_name']) . '</p>';
-                echo '</div>';
-                echo '<div class="section-break-2"> <hr/></div>';
-                echo '<div class="product-desc">' . htmlspecialchars($row['description']) . '</div>';
-                echo '<p class="product-price">Rs. ' . htmlspecialchars($row['price']) . '</p>';
-                echo '</div>';
-              }
-            } else {
-              echo "<p>No products found.</p>";
-            }
-            $conn->close();
-            ?>
-          </div>
         </form>
+        <div id="display-image">
+          <?php
+          $conn = new mysqli($servername, $username, $password, $dbname); // Assume $conn is your active database connection
+          $result = $conn->query("SELECT * FROM products WHERE email = '" . $conn->real_escape_string($_SESSION['email']) . "'");
+          if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+              echo '<div class="product-card">';
+              echo '<img class="product-image" src="./image/' . htmlspecialchars($row['filename']) . '" alt="' . htmlspecialchars($row['p_name']) . '">';
+              echo '<div class="product-info">';
+              echo '<p>' . htmlspecialchars($row['p_name']) . '</p>';
+              echo '</div>';
+              echo '<div class="section-break-2"> <hr/></div>';
+              echo '<div class="product-desc">' . htmlspecialchars($row['description']) . '</div>';
+              echo '<p class="product-price">Rs. ' . htmlspecialchars($row['price']) . '</p>';
+              echo '</div>';
+            }
+          } else {
+            echo "<p>No products found.</p>";
+          }
+          $conn->close();
+          ?>
+        </div>
       </div>
     </div>
 
@@ -555,6 +568,16 @@ if ($userprofile == true) {
       }
     </script>
     <script>
+      function validateForm() {
+        const uploadfile = document.getElementById('uploadfile');
+        if (uploadfile.files.length !== 3) {
+          alert("Error: You must upload exactly 3 images.");
+          return false;
+        }
+        return true;
+      }
+    </script>
+    <script>
       document.addEventListener('DOMContentLoaded', function () {
 
         function toggleSections(section) {
@@ -647,9 +670,9 @@ if ($userprofile == true) {
       document.addEventListener("DOMContentLoaded", function () {
         <?php if (isset($_SESSION['message'])): ?>
           alert("<?= $_SESSION['message']; ?>");
-          <?php unset($_SESSION['message']); // Clear the message after displaying it    
-            ?>                                                <?php endif; ?>
-    });
+                        <?php unset($_SESSION['message']); // Clear the message after displaying it    
+                          ?>                                                <?php endif; ?>
+                  });
   </script>
 
 

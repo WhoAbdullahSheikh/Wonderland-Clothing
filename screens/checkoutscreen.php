@@ -24,7 +24,7 @@
         <li><a href="./shopscreen.php" class="under">SHOP</a></li>
         <li><a href="./loginscreen.php" class="under">LOGIN/REGISTER</a></li>
         <li>
-          <a href="#home"><i class="fa fa-user" style="font-size: 20px; color: white"></i></a>
+          <a href="./profilescreen.php"><i class="fa fa-user" style="font-size: 20px; color: white"></i></a>
         </li>
       </ul>
     </div>

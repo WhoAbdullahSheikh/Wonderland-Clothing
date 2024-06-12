@@ -31,14 +31,14 @@ $resultRejected = $conn->query($sqlRejected);
 $rejectedCount = $resultRejected->fetch_assoc()['count_rejected'];
 
 // Fetch product data for approval section
-$sqlPending = "SELECT products.id, products.p_name, products.description, products.filename, products.p_condition, products.price, products.email, users.fullname 
+$sqlPending = "SELECT products.id, products.p_name, products.description, products.filename, products.filename2, products.filename3, products.p_condition, products.price, products.email, users.fullname 
                FROM products 
                JOIN users ON products.email = users.email
                WHERE products.status = 'Pending'";
 $resultPending = $conn->query($sqlPending);
 
 // Fetch product data for listing section
-$sql = "SELECT filename, id, p_name, description, price, category, p_condition, status, feedback 
+$sql = "SELECT filename, id, p_name, email, description, price, category, p_condition, status, feedback 
         FROM products 
         WHERE status = 'Approved' OR status = 'Rejected' 
         ORDER BY id ASC";
@@ -207,7 +207,9 @@ $conn->close();
         </div>
         <table style="width:100%">
           <tr>
-            <th>Image</th>
+            <th>Angle 1</th>
+            <th>Angle 2</th>
+            <th>Angle 3</th>
             <th>Product Owner</th>
             <th>Owner's Email</th>
             <th>Product Name</th>
@@ -220,6 +222,14 @@ $conn->close();
             <tr>
               <td style="text-align: center;">
                 <img src="../screens/image/<?= htmlspecialchars($row['filename']) ?>"
+                  alt="<?= htmlspecialchars($row['p_name']) ?>" style="width: 100px; height: auto;">
+              </td>
+              <td style="text-align: center;">
+                <img src="../screens/image/<?= htmlspecialchars($row['filename2']) ?>"
+                  alt="<?= htmlspecialchars($row['p_name']) ?>" style="width: 100px; height: auto;">
+              </td>
+              <td style="text-align: center;">
+                <img src="../screens/image/<?= htmlspecialchars($row['filename3']) ?>"
                   alt="<?= htmlspecialchars($row['p_name']) ?>" style="width: 100px; height: auto;">
               </td>
               <td style="text-align: center;"><?= htmlspecialchars($row['fullname']) ?></td>
@@ -257,9 +267,10 @@ $conn->close();
         <table>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>PID</th>
               <th>Image</th>
               <th>Product Name</th>
+              <th>Owner's Email</th>
               <th>Description</th>
               <th>Price</th>
               <th>Category</th>
@@ -278,6 +289,7 @@ $conn->close();
                     alt="<?= htmlspecialchars($product['p_name']) ?>" style="width: 100px; height: auto;">
                 </td>
                 <td><?= htmlspecialchars($product['p_name']) ?></td>
+                <td><?= htmlspecialchars($product['email']) ?></td>
                 <td><?= htmlspecialchars($product['description']) ?></td>
                 <td style="text-align: center;">Rs. <?= htmlspecialchars($product['price']) ?></td>
                 <td style="text-align: center;"><?= htmlspecialchars($product['category']) ?></td>
