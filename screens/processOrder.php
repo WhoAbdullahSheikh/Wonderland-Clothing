@@ -33,11 +33,9 @@ if (empty($fullname) || empty($email) || empty($address) || empty($city) || empt
 // Debug: Print cart data
 file_put_contents('php://stderr', print_r($cartData, TRUE));
 
-// Prepare to collect total price and owner email
 $totalPrice = 0;
 $ownerEmail = '';
 
-// Fetch the owner email for the first product (assuming all products have the same owner)
 $firstProduct = $cartData[0]['name'];
 $stmt = $conn->prepare("SELECT email FROM products WHERE p_name = ?");
 if (!$stmt) {

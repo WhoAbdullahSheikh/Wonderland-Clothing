@@ -193,10 +193,6 @@ header a ion-icon {
   padding-top: 3%;
 }
 
-
-
-
-
 .img-slider {
   display: flex;
   float: left;
@@ -792,9 +788,6 @@ img {
   /* Optional: Adds a white background to fill any empty space */
 }
 
-
-
-
 .product-info {
   padding: 10px;
   font-weight: bold;
@@ -866,7 +859,6 @@ img {
   align-items: flex-start;
   margin-top: 40px;
   margin-left: 10%;
- 
 }
 
 .product-image-container {
@@ -876,16 +868,14 @@ img {
   background-color: rgb(67, 46, 5, 0.5);
   padding-bottom: 30px;
   max-width: 400px;
-  width: 100%; 
+  width: 100%;
   height: 570px;
   margin-left: 3%;
   padding-right: 0.5%;
 }
 
 .product-image-container img {
-
   border-radius: 50px;
-
 }
 
 .product-info-container {
@@ -976,15 +966,13 @@ img {
   right: 0;
   border-radius: 30px 0 0 30px;
   background-color: rgb(255, 208, 0, 0.7);
-  margin-left: 1%
-
+  margin-left: 1%;
 }
 
 .prev {
   left: 0;
   border-radius: 0px 30px 30px 0px;
   background-color: rgb(255, 208, 0, 0.7);
-
 }
 
 .prev:hover,
@@ -1042,20 +1030,63 @@ img {
 
 @-webkit-keyframes fade {
   from {
-      opacity: .4
+    opacity: 0.4;
   }
 
   to {
-      opacity: 1
+    opacity: 1;
   }
 }
 
 @keyframes fade {
   from {
-      opacity: .4
+    opacity: 0.4;
   }
 
   to {
-      opacity: 1
+    opacity: 1;
   }
+}
+
+/* style.css */
+
+.card {
+  max-width: 350px;
+  background: rgb(0, 255, 115);
+  margin: 0 1rem;
+  padding: 1rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  border-radius: 10px;
+  margin-left: 310px;
+}
+.card button {
+  border-radius: 10px;
+}
+
+ 
+.star {
+  font-size: 30px;
+  cursor: pointer;
+  
+}
+ 
+.one {
+  color: rgb(255, 0, 0);
+}
+ 
+.two {
+  color: rgb(255, 106, 0);
+}
+ 
+.three {
+  color: rgb(251, 255, 120);
+}
+ 
+.four {
+  color: rgb(255, 255, 0);
+}
+ 
+.five {
+  color: rgb(10, 154, 0);
 }

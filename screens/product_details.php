@@ -1,4 +1,5 @@
 <?php
+session_start(); // Start the session if not already started
 
 $servername = "localhost";
 $username = "root";
@@ -13,7 +14,42 @@ if ($conn->connect_error) {
     die(json_encode(["status" => "error", "message" => "Connection failed: " . $conn->connect_error]));
 }
 
+// Function to sanitize input (prevent SQL injection)
+function sanitize($conn, $input)
+{
+    return mysqli_real_escape_string($conn, $input);
+}
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Handle rating submission
+    if (isset($_POST['rating'])) {
+        $rating = sanitize($conn, $_POST['rating']);
+        $productId = sanitize($conn, $_POST['productId']);
+
+        // Retrieve the email of the product owner from the products table
+        $getEmailSql = "SELECT email FROM products WHERE id = '$productId'";
+        $result = $conn->query($getEmailSql);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $email = $row['email'];
+
+            // Update the user's rating in the database
+            $updateRatingSql = "UPDATE users SET rating = '$rating' WHERE email = '$email'";
+            if ($conn->query($updateRatingSql) === TRUE) {
+                // Rating updated successfully
+                echo '<script>alert("Rating updated successfully"); window.location.href = window.location.href;</script>';
+            } else {
+                // Error updating rating
+                echo '<script>alert("Unexpected Error Occured"); window.location.href = window.location.href;</script>';
+            }
+        } else {
+            // Product not found
+            echo json_encode(["status" => "error", "message" => "Product not found"]);
+        }
+        exit; // Stop further execution
+    }
+}
 
 ?>
 
@@ -51,7 +87,7 @@ if ($conn->connect_error) {
 
     <section>
         <?php
-        
+
         if (isset($_GET['id'])) {
             $productId = $_GET['id'];
 
@@ -72,35 +108,25 @@ if ($conn->connect_error) {
                 </button>
 
                 <div class="product-details-container">
-
                     <div class="product-image-container">
-
                         <div class="slideshow-container">
-
-                            <!-- Full-width images with number and caption text -->
+                            <!-- Slideshow images -->
                             <div class="mySlides fade">
-                                
                                 <img src="./image/<?php echo htmlspecialchars($row['filename']); ?>" style="width:100%">
                             </div>
-
                             <div class="mySlides fade">
-                              
                                 <img src="./image/<?php echo htmlspecialchars($row['filename2']); ?>" style="width:100%">
                             </div>
-
                             <div class="mySlides fade">
-                                
                                 <img src="./image/<?php echo htmlspecialchars($row['filename3']); ?>" style="width:100%">
                             </div>
-
-                            <!-- Next and previous buttons -->
+                            <!-- Previous and Next buttons -->
                             <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                             <a class="next" onclick="plusSlides(1)">&#10095;</a>
                         </div>
                         <br>
                         <br>
-
-                
+                        <!-- Dots for slideshow -->
                         <div style="text-align:center">
                             <span class="dot" onclick="currentSlide(1)"></span>
                             <span class="dot" onclick="currentSlide(2)"></span>
@@ -111,23 +137,49 @@ if ($conn->connect_error) {
                     <div class="product-info-container">
                         <h2 style="font-size: 50px;"><?php echo htmlspecialchars($row['p_name']); ?></h2>
                         <div class="section-break">
-                            <hr/>
+                            <hr />
                         </div>
                         <br>
-                        <p style="font-size: 32px; font-weight: bold;">Description: </p>
-                        <p style="font-size: 20px;"><?php echo htmlspecialchars($row['description']); ?></p>
-                        <br>
-                        <p style="font-size: 32px; font-weight: bold;">Condition: </p>
-                        <p style="font-size: 20px;"><?php echo htmlspecialchars($row['p_condition']); ?></p>
-                        <br>
-                        <p style="font-size: 32px; font-weight: bold;">Price: </p>
-                        <p style="font-size: 20px;">Rs. <?php echo htmlspecialchars($row['price']); ?>/-</p>
-                        <br>
-                        <p style="font-size: 32px; font-weight: bold;">Product Owner: </p>
-                        <p style="font-size: 20px;"><?php echo htmlspecialchars($row['email']); ?></p>
-                        <!-- Add additional product details as needed -->
-                        <?php echo ' <button class="add-to-cart-btn" onclick="addToCartAndRedirect(\'' . htmlspecialchars($row['p_name']) . '\', ' . htmlspecialchars($row['price']) . ')">Add to Cart</button>';
-                        ?>
+                        <div style="display: flex; align-items: flex-start;">
+                            <div>
+                                <p style="font-size: 32px; font-weight: bold;">Description: </p>
+                                <p style="font-size: 20px;"><?php echo htmlspecialchars($row['description']); ?></p>
+                                <br>
+                                <p style="font-size: 32px; font-weight: bold;">Condition: </p>
+                                <p style="font-size: 20px;"><?php echo htmlspecialchars($row['p_condition']); ?></p>
+                                <br>
+                                <p style="font-size: 32px; font-weight: bold;">Price: </p>
+                                <p style="font-size: 20px;">Rs. <?php echo htmlspecialchars($row['price']); ?>/-</p>
+                                <br>
+                                <p style="font-size: 32px; font-weight: bold;">Product Owner: </p>
+                                <p style="font-size: 20px;"><?php echo htmlspecialchars($row['email']); ?></p>
+                            </div>
+
+                            <div class="card" data-product-owner-email="<?php echo htmlspecialchars($row['email']); ?>">
+                                <h1>Owner's Rating</h1>
+                                <div>
+
+                                    <span onclick="gfg(1)" data-value="1" class="star">★
+                                    </span>
+                                    <span onclick="gfg(2)" data-value="2" class="star">★
+                                    </span>
+                                    <span onclick="gfg(3)" data-value="3" class="star">★
+                                    </span>
+                                    <span onclick="gfg(4)" data-value="4" class="star">★
+                                    </span>
+                                    <span onclick="gfg(5)" data-value="5" class="star">★
+                                    </span>
+                                </div>
+                                <form id="ratingForm" method="POST">
+                                    <input type="hidden" id="productId" name="productId" value="<?php echo $productId; ?>">
+                                    <input type="hidden" id="rating" name="rating">
+                                    <button type="button" onclick="submitFeedback()">Submit Feedback</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Add to cart button -->
+                        <?php echo ' <button class="add-to-cart-btn" onclick="addToCartAndRedirect(\'' . htmlspecialchars($row['p_name']) . '\', ' . htmlspecialchars($row['price']) . ')">Add to Cart</button>'; ?>
                     </div>
                 </div>
                 <?php
@@ -140,6 +192,8 @@ if ($conn->connect_error) {
 
         $conn->close();
         ?>
+
+
     </section>
 
     <footer>
@@ -245,6 +299,51 @@ if ($conn->connect_error) {
             dots[slideIndex - 1].className += " active";
         }
     </script>
+    <script>
+        let stars =
+            document.getElementsByClassName("star");
+        let output =
+            document.getElementById("output");
+
+        // Funtion to update rating
+        function gfg(n) {
+            remove();
+            selectedStars = n;
+            document.getElementById('rating').value = n;
+
+            document.querySelectorAll(' .star').forEach(star => {
+                star.classList.remove('active');
+            });
+            for (let i = 0; i < n; i++) {
+                if (n == 1) cls = "one";
+                else if (n == 2) cls = "two";
+                else if (n == 3) cls = "three";
+                else if (n == 4) cls = "four";
+                else if (n == 5) cls = "five";
+                stars[i].className = "star " + cls;
+            }
+            output.innerText = "Rating is: " + n + "/5";
+        }
+
+        // To remove the pre-applied styling
+        function remove() {
+            let i = 0;
+            while (i < 5) {
+                stars[i].className = "star";
+                i++;
+            }
+        }
+        function submitFeedback() {
+            const rating = selectedStars;
+            if (rating === 0) {
+                alert('Please select a rating');
+                return;
+            }
+
+            document.getElementById('ratingForm').submit();
+        }
+    </script>
+
 </body>
 
 </html>
