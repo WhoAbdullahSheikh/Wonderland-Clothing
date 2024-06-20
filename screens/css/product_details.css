@@ -1066,27 +1066,45 @@ img {
 
  
 .star {
-  font-size: 30px;
+  font-size: 25px;
   cursor: pointer;
   
 }
  
 .one {
-  color: rgb(255, 0, 0);
+  color: rgb(255, 81, 0);
 }
  
 .two {
-  color: rgb(255, 106, 0);
+    color: rgb(255, 191, 0);
 }
  
 .three {
-  color: rgb(251, 255, 120);
+  color: rgb(255, 191, 0);
 }
  
 .four {
-  color: rgb(255, 255, 0);
+  color: rgb(255, 191, 0);
 }
  
 .five {
-  color: rgb(10, 154, 0);
+  color: rgb(255, 191, 0);
+}
+
+.visit-profile-btn {
+  background-color:  #f0c506;
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
+
+.visit-profile-btn:hover {
+  color: white;
+  background-color: rgb(217, 118, 0);
+  transition: background-color 0.6s ease;
 }

@@ -60,11 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details - Wonderland</title>
-    <link rel="stylesheet" href="./css/product_details.css" />
+    <link rel="stylesheet" href="./css/product_details.css?v=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap">
     <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
+    <style>
 
+    </style>
 </head>
 
 <body>
@@ -99,6 +101,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $image1 = $row['filename'];
                 $image2 = $row['filename2'];
                 $image3 = $row['filename3'];
+                $ownerEmail = $row['email'];
+
+                // Fetch the owner's rating from the users table
+                $ratingSql = "SELECT rating FROM users WHERE email = '$ownerEmail'";
+                $ratingResult = $conn->query($ratingSql);
+                $rating = 0;
+                if ($ratingResult->num_rows > 0) {
+                    $ratingRow = $ratingResult->fetch_assoc();
+                    $rating = $ratingRow['rating'];
+                }
                 // Display product details
                 ?>
                 <br>
@@ -142,46 +154,51 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <br>
                         <div style="display: flex; align-items: flex-start;">
                             <div>
-                                <p style="font-size: 32px; font-weight: bold;">Description: </p>
+                                <p style="font-size: 32px; font-weight: bold;">Description </p>
                                 <p style="font-size: 20px;"><?php echo htmlspecialchars($row['description']); ?></p>
                                 <br>
-                                <p style="font-size: 32px; font-weight: bold;">Condition: </p>
+                                <p style="font-size: 32px; font-weight: bold;">Condition </p>
                                 <p style="font-size: 20px;"><?php echo htmlspecialchars($row['p_condition']); ?></p>
                                 <br>
-                                <p style="font-size: 32px; font-weight: bold;">Price: </p>
+                                <p style="font-size: 32px; font-weight: bold;">Price </p>
                                 <p style="font-size: 20px;">Rs. <?php echo htmlspecialchars($row['price']); ?>/-</p>
                                 <br>
-                                <p style="font-size: 32px; font-weight: bold;">Product Owner: </p>
+                                <p style="font-size: 32px; font-weight: bold;">Product Owner </p>
                                 <p style="font-size: 20px;"><?php echo htmlspecialchars($row['email']); ?></p>
-                            </div>
-
-                            <div class="card" data-product-owner-email="<?php echo htmlspecialchars($row['email']); ?>">
-                                <h1>Owner's Rating</h1>
+                                <button class="visit-profile-btn"
+                                    onclick="visitProfile('<?php echo htmlspecialchars($row['email']); ?>')">Visit
+                                    Profile</button>
+                                <br>
+                                <br>
+                                <p style="font-size: 32px; font-weight: bold;"
+                                    data-product-owner-email="<?php echo htmlspecialchars($row['email']); ?>">Owner Rating </p>
                                 <div>
 
-                                    <span onclick="gfg(1)" data-value="1" class="star">★
+                                    <span data-value="1" class="star">★
                                     </span>
-                                    <span onclick="gfg(2)" data-value="2" class="star">★
+                                    <span data-value="2" class="star">★
                                     </span>
-                                    <span onclick="gfg(3)" data-value="3" class="star">★
+                                    <span data-value="3" class="star">★
                                     </span>
-                                    <span onclick="gfg(4)" data-value="4" class="star">★
+                                    <span data-value="4" class="star">★
                                     </span>
-                                    <span onclick="gfg(5)" data-value="5" class="star">★
+                                    <span data-value="5" class="star">★
                                     </span>
+                                    <span
+                                        style="font-size: 26px; margin-left: 10px;">(<?php echo htmlspecialchars($ratingRow['rating']); ?>)</span>
                                 </div>
                                 <form id="ratingForm" method="POST">
                                     <input type="hidden" id="productId" name="productId" value="<?php echo $productId; ?>">
                                     <input type="hidden" id="rating" name="rating">
-                                    <button type="button" onclick="submitFeedback()">Submit Feedback</button>
+
                                 </form>
                             </div>
                         </div>
 
-                        <!-- Add to cart button -->
                         <?php echo ' <button class="add-to-cart-btn" onclick="addToCartAndRedirect(\'' . htmlspecialchars($row['p_name']) . '\', ' . htmlspecialchars($row['price']) . ')">Add to Cart</button>'; ?>
                     </div>
                 </div>
+
                 <?php
             } else {
                 echo "Product not found.";
@@ -240,6 +257,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </footer>
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script>
+        function visitProfile(email) {
+            // Assuming you have a profile page that takes an email parameter
+            window.location.href = './ownerprofile.php?email=' + encodeURIComponent(email);
+        }
+    </script>
 
     <script>
         // Function to handle adding items to cart and redirecting
@@ -300,18 +323,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     </script>
     <script>
-        let stars =
-            document.getElementsByClassName("star");
-        let output =
-            document.getElementById("output");
+        let stars = document.getElementsByClassName("star");
+        let output = document.getElementById("output");
 
-        // Funtion to update rating
+        // Function to update rating
         function gfg(n) {
             remove();
             selectedStars = n;
             document.getElementById('rating').value = n;
 
-            document.querySelectorAll(' .star').forEach(star => {
+            document.querySelectorAll('.star').forEach(star => {
                 star.classList.remove('active');
             });
             for (let i = 0; i < n; i++) {
@@ -333,6 +354,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 i++;
             }
         }
+
         function submitFeedback() {
             const rating = selectedStars;
             if (rating === 0) {
@@ -342,6 +364,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             document.getElementById('ratingForm').submit();
         }
+
+        // Highlight stars based on rating from the database
+        window.onload = function () {
+            const ownerRating = <?php echo $rating; ?>;
+            gfg(ownerRating);
+        };
     </script>
 
 </body>
