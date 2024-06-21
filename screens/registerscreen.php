@@ -1035,7 +1035,7 @@ $conn->close();
       <br>
       <div class="section1">
         <div class="register-container">
-          <h2>Register</h2>
+          <h2>Sign Up</h2>
           <form id="register-form" action="registerscreen.php" method="POST">
             <div class="form-group">
               <label for="fullname">Full Name:</label>
@@ -1053,9 +1053,9 @@ $conn->close();
               <label for="password">Re-Password:</label>
               <input type="password" id="password" name="password" required />
             </div>
-            <button type="submit">Register</button>
+            <button type="submit">Sign Up</button>
           </form>
-          <p>Already have an account? <a href="./loginscreen.php">Login</a></p>
+          <p>Already have an account? <a href="./loginscreen.php">Sign In</a></p>
         </div>
       </div>
     </div>

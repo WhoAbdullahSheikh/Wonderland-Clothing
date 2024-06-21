@@ -732,7 +732,7 @@ $conn->close();
     <div class="section">
       <div class="section1">
         <div class="login-container">
-          <h2>Administrator Login</h2>
+          <h2>Administrator Sign In</h2>
           <form id="login-form" action="loginscreen.php" method="POST">
             <div class="form-group">
               <label for="email">Email:</label>
@@ -743,8 +743,9 @@ $conn->close();
               <input type="password" id="password" name="password" required />
             </div>
 
-            <button type="submit">Login</button>
+            <button type="submit">Sign In</button>
           </form>
+          <p>Already have an account? <a href="../screens/loginscreen.php">Sign In</a></p>
 
         </div>
       </div>
@@ -806,13 +807,13 @@ $conn->close();
   </footer>
   <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       var alerts = document.querySelectorAll(".alert");
 
-      alerts.forEach(function(alert) {
-        setTimeout(function() {
+      alerts.forEach(function (alert) {
+        setTimeout(function () {
           alert.style.opacity = "0";
-          setTimeout(function() {
+          setTimeout(function () {
             alert.style.display = "none";
           }, 600);
         }, 3000); // Fade out after 5 seconds

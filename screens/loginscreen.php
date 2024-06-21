@@ -736,7 +736,7 @@ $conn->close();
     <div class="section">
       <div class="section1">
         <div class="login-container">
-          <h2>Login</h2>
+          <h2>Sign In</h2>
           <form id="login-form" action="loginscreen.php" method="POST">
             <div class="form-group">
               <label for="email">Email:</label>
@@ -747,10 +747,10 @@ $conn->close();
               <input type="password" id="password" name="password" required />
             </div>
 
-            <button type="submit">Login</button>
+            <button type="submit">Sign In</button>
           </form>
-          <p>Don't have an account? <a href="./registerscreen.php">Register</a></p>
-          <p>Admin login? <a href="../admin/loginscreen.php">Login</a></p>
+          <p>Don't have an account? <a href="./registerscreen.php">Sign Up</a></p>
+          <p>Admin Account? <a href="../admin/loginscreen.php">Sign In</a></p>
         </div>
 
       </div>
