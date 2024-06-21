@@ -1096,11 +1096,14 @@ img {
   color: rgb(0, 0, 0);
   border: none;
   padding: 8px 12px;
+  margin-bottom: 10px;
   border-radius: 5px;
+  margin-left: 3%;
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease;
   font-weight: bold;
+  width: 150px
 }
 
 .visit-profile-btn:hover {

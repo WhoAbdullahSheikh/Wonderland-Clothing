@@ -31,7 +31,7 @@ $resultRejected = $conn->query($sqlRejected);
 $rejectedCount = $resultRejected->fetch_assoc()['count_rejected'];
 
 // Fetch product data for approval section
-$sqlPending = "SELECT products.id, products.p_name, products.description, products.filename, products.filename2, products.filename3, products.p_condition, products.price, products.email, users.fullname 
+$sqlPending = "SELECT products.id, products.p_name, products.description, products.filename, products.filename2, products.filename3, products.p_condition, products.type, products.price, products.email, users.fullname 
                FROM products 
                JOIN users ON products.email = users.email
                WHERE products.status = 'Pending'";
@@ -127,7 +127,7 @@ $conn->close();
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wonderland</title>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="./adminprofile.css" />
+  <link rel="stylesheet" href="./css/adminprofile.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" />
   <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet" />
@@ -214,6 +214,7 @@ $conn->close();
             <th>Owner's Email</th>
             <th>Product Name</th>
             <th>Description</th>
+            <th>Type</th>
             <th>Condition</th>
             <th>Price</th>
             <th>Action</th>
@@ -236,6 +237,7 @@ $conn->close();
               <td style="text-align: center;"><?= htmlspecialchars($row['email']) ?></td>
               <td style="text-align: center;"><?= htmlspecialchars($row['p_name']) ?></td>
               <td><?= htmlspecialchars($row['description']) ?></td>
+              <td><?= htmlspecialchars($row['type']) ?></td>
               <td style="text-align: center;"><?= htmlspecialchars($row['p_condition']) ?></td>
               <td style="text-align: center;">Rs. <?= htmlspecialchars($row['price']) ?></td>
               <td style="text-align: center;">

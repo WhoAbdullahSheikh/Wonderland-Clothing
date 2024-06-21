@@ -19,19 +19,6 @@ if ($userprofile == true) {
     die("Connection failed: " . $conn->connect_error);
   }
 
-
-
-  /*$email = $_SESSION['email'];
-  $sql = "SELECT id, fullname, email FROM users WHERE email = '$email'";
-  $result = $conn->query($sql);
-
-  if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $fullname = $row['fullname'];
-    $email = $row['email'];
-  }
-  */
-
   $email = $_SESSION['email'];
   $sql = "SELECT id, fullname, email, contact, dob FROM users WHERE email = ?";
   $stmt = $conn->prepare($sql);
@@ -52,8 +39,6 @@ if ($userprofile == true) {
     $dob = '';
   }
 
-
-
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = isset($_POST['fullname']) ? $_POST['fullname'] : '';
     $email = isset($_POST['email']) ? $_POST['email'] : '';
@@ -69,9 +54,6 @@ if ($userprofile == true) {
     }
   }
 
-
-
-
   $msg = "";
 
   if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['upload'])) {
@@ -85,6 +67,7 @@ if ($userprofile == true) {
     }
 
     $category = $conn->real_escape_string($_POST['category']);
+    $type = $conn->real_escape_string($_POST['type']);
     $p_condition = $_POST['p_condition'];
     $description = $_POST['description'];
     $p_name = $_POST['p_name'];
@@ -106,15 +89,14 @@ if ($userprofile == true) {
     }
 
     // Prepare the SQL statement to avoid SQL injection
-    $sql = "INSERT INTO products (email, p_name, description, price, category, p_condition, filename, filename2, filename3, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO products (email, p_name, description, price, category, type, p_condition, filename, filename2, filename3, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssdssssss", $email, $p_name, $description, $price, $category, $p_condition, $uploaded_files[0], $uploaded_files[1], $uploaded_files[2], $status);
+    $stmt->bind_param("sssdsssssss", $email, $p_name, $description, $price, $category, $type, $p_condition, $uploaded_files[0], $uploaded_files[1], $uploaded_files[2], $status);
     $stmt->execute();
     $_SESSION['message'] = "Thank You! Your Product will go live after it gets approved by our team!";
     header("Location: " . $_SERVER['PHP_SELF']);
     exit();
   }
-
 
   if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $productId = $_GET['id'];
@@ -290,6 +272,17 @@ if ($userprofile == true) {
             </select>
           </div>
           <div class="input-container">
+            <label for="type">Type:</label>
+            <select id="type" name="type" required style="border-radius: 10px; padding: 10px; font-size: 15px;">
+              <option value="">Select Type</option>
+              <option value="T-Shirts">T-Shirts</option>
+              <option value="Jackets">Jackets</option>
+              <option value="Jeans">Jeans</option>
+              <option value="Tops">Tops</option>
+              <option value="Frocks">Frocks</option>
+            </select>
+          </div>
+          <div class="input-container">
             <label for="description">Description:</label>
             <textarea id="description" name="description" required
               style="border-radius: 10px; height: 200px; width: 40%; font-size: 15px; padding: 10px"></textarea>
@@ -334,8 +327,9 @@ if ($userprofile == true) {
               echo '<img class="product-image" src="./image/' . htmlspecialchars($row['filename']) . '" alt="' . htmlspecialchars($row['p_name']) . '">';
               echo '<div class="product-info">';
               echo '<p>' . htmlspecialchars($row['p_name']) . '</p>';
+              echo '<p>Type: ' . htmlspecialchars($row['type']) . '</p>';
               echo '</div>';
-              echo '<div class="section-break-2"> <hr/></div>';
+              echo '<div class="section-break-2"><hr/></div>';
               echo '<div class="product-desc">' . htmlspecialchars($row['description']) . '</div>';
               echo '<p class="product-price">Rs. ' . htmlspecialchars($row['price']) . '</p>';
               echo '</div>';
@@ -348,6 +342,7 @@ if ($userprofile == true) {
         </div>
       </div>
     </div>
+
 
     <div id="itemsAdded" style="background-color: white; color: black; padding: 20px; padding-left: 15%;">
       <div class="profile-container">
@@ -670,10 +665,10 @@ if ($userprofile == true) {
       document.addEventListener("DOMContentLoaded", function () {
         <?php if (isset($_SESSION['message'])): ?>
           alert("<?= $_SESSION['message']; ?>");
-                        <?php unset($_SESSION['message']); // Clear the message after displaying it    
-                          ?>                                                <?php endif; ?>
-                  });
-  </script>
+          <?php unset($_SESSION['message']); // Clear the message after displaying it    
+            ?>                                                <?php endif; ?>
+      });
+    </script>
 
 
 

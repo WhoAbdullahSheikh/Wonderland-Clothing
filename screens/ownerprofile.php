@@ -46,11 +46,7 @@ $conn->close();
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap">
     <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
 
-    <script>
-        function visitProfile(email) {
-            window.location.href = './ownersprofile.php?email=' + encodeURIComponent(email);
-        }
-    </script>
+
     <style>
 
     </style>
@@ -76,6 +72,10 @@ $conn->close();
 
     <section>
 
+        <button onclick="goBack()"
+            style="margin-left: 10%; font-size: 34px; text-decoration: none; color: black; font-weight: bold; border: none; background: none; cursor: pointer;">
+            <i class="fa fa-chevron-circle-left"></i> Back
+        </button>
         <div class="user-details-container">
 
             <h2 style="font-size: 50px;">Owner Details</h2>
@@ -211,6 +211,9 @@ $conn->close();
     </footer>
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
     <script>
+        function goBack() {
+            window.history.back();
+        }
         function submitFeedback() {
             const rating = document.getElementById('rating').value;
             const email = document.getElementById('email').value;
@@ -289,6 +292,11 @@ $conn->close();
             }
         }
 
+    </script>
+    <script>
+        function visitProfile(email) {
+            window.location.href = './ownersprofile.php?email=' + encodeURIComponent(email);
+        }
     </script>
 </body>
 

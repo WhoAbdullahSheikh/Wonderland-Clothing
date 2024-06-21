@@ -164,11 +164,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <p style="font-size: 20px;">Rs. <?php echo htmlspecialchars($row['price']); ?>/-</p>
                                 <br>
                                 <p style="font-size: 32px; font-weight: bold;">Product Owner </p>
-                                <p style="font-size: 20px;"><?php echo htmlspecialchars($row['email']); ?></p>
-                                <button class="visit-profile-btn"
-                                    onclick="visitProfile('<?php echo htmlspecialchars($row['email']); ?>')">Visit
-                                    Profile</button>
-                                <br>
+                                <div style="display: flex; align-items: center;">
+                                    <p style="font-size: 20px; margin-right: 10px;">
+                                        <?php echo htmlspecialchars($row['email']); ?></p>
+                                    <button class="visit-profile-btn"
+                                        onclick="visitProfile('<?php echo htmlspecialchars($row['email']); ?>')">Visit
+                                        Profile</button>
+                                </div>                     
                                 <br>
                                 <p style="font-size: 32px; font-weight: bold;"
                                     data-product-owner-email="<?php echo htmlspecialchars($row['email']); ?>">Owner Rating </p>
@@ -259,42 +261,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
     <script>
         function visitProfile(email) {
-            // Assuming you have a profile page that takes an email parameter
             window.location.href = './ownerprofile.php?email=' + encodeURIComponent(email);
         }
     </script>
 
     <script>
-        // Function to handle adding items to cart and redirecting
+
         function addToCartAndRedirect(productName, price, description) {
-            // Retrieve the current cart from local storage or initialize a new one if none exists
+
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-            // Create a product object with name and price
+
             const product = {
                 name: productName,
                 description: description,
                 price: price
             };
-
-            // Add the new product to the cart array
             cart.push(product);
-
-            // Update the cart in local storage with the new product added
             localStorage.setItem('cart', JSON.stringify(cart));
-
-            // Optionally: Display a confirmation message
             alert('Product added to cart!');
-
-            // Redirect the user to the cart page (ensure you have a 'cart.html' or appropriate URL)
-            window.location.href = './checkoutscreen.php'; // Change this URL to where your cart page is located
+            window.location.href = './checkoutscreen.php';
         }
 
         function goBack() {
             window.history.back();
         }
 
-        // Slideshow functions
         let slideIndex = 1;
         showSlides(slideIndex);
 
