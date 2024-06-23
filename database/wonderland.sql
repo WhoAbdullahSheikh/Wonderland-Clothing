@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 21, 2024 at 08:34 AM
+-- Generation Time: Jun 23, 2024 at 02:14 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -60,6 +60,13 @@ CREATE TABLE `orders` (
   `status` enum('Pending','Approved','Rejected') DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `fullname`, `email`, `address`, `city`, `state`, `zip`, `cashondelivery`, `created_at`, `total_price`, `owner_email`, `status`) VALUES
+(34, 'Shahid', 'abdulrehman@gmail.com', 'asldkjakls', 'rwp', 'pnj', '46000', 1, '2024-06-21 06:43:51', 2300.00, 'abdulrehman@gmail.com', 'Approved');
+
 -- --------------------------------------------------------
 
 --
@@ -75,6 +82,13 @@ CREATE TABLE `order_items` (
   `product_quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `product_name`, `product_price`, `product_quantity`) VALUES
+(21, 34, 26, 'Black Long Frock', 2300.00, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -85,6 +99,7 @@ CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
   `category` varchar(255) NOT NULL,
+  `type` varchar(255) DEFAULT NULL,
   `p_name` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `p_condition` varchar(255) NOT NULL,
@@ -100,10 +115,10 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `email`, `category`, `p_name`, `description`, `p_condition`, `price`, `filename`, `filename2`, `filename3`, `status`, `feedback`) VALUES
-(7, 'abdulrehman@gmail.com', 'Men', 'White Casual T-Shirt', '100% Cotton White Casual Shirt for Daily \r\n', 'Good', 1200, '3c9d3584157b3976ee3ac37eb19f2fe6.jpg', '', '', 'Approved', 'N/A'),
-(27, 'abdullahmuhhamad339@gmail.com', 'Men', 'Black Shirt', 'Black T-shirt for casual use', 'Good', 1200, '3c9d3584157b3976ee3ac37eb19f2fe6.jpg', '', '', 'Approved', 'N/A'),
-(26, 'abdulrehman@gmail.com', 'Women', 'Black Long Frock', 'Black long frock for women', 'Good', 2300, 'MF-31.jpg', '', '', 'Approved', 'N/A');
+INSERT INTO `products` (`id`, `email`, `category`, `type`, `p_name`, `description`, `p_condition`, `price`, `filename`, `filename2`, `filename3`, `status`, `feedback`) VALUES
+(7, 'abdulrehman@gmail.com', 'Men', 'Shirts', 'White Casual T-Shirt', '100% Cotton White Casual Shirt for Daily \r\n', 'Good', 1200, '3c9d3584157b3976ee3ac37eb19f2fe6.jpg', '', '', 'Approved', 'N/A'),
+(27, 'abdullahmuhhamad339@gmail.com', 'Men', NULL, 'Black Shirt', 'Black T-shirt for casual use', 'Good', 1200, '3c9d3584157b3976ee3ac37eb19f2fe6.jpg', '', '', 'Approved', 'N/A'),
+(26, 'abdulrehman@gmail.com', 'Women', NULL, 'Black Long Frock', 'Black long frock for women', 'Good', 2300, 'MF-31.jpg', '', '', 'Approved', 'N/A');
 
 -- --------------------------------------------------------
 
@@ -126,7 +141,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fullname`, `email`, `password`, `contact`, `dob`, `rating`) VALUES
-(1, 'Abdulrehman', 'abdulrehman@gmail.com', '1234', '+92-311-5369301', '2024-04-03', 5.0),
+(1, 'Abdulrehman', 'abdulrehman@gmail.com', '1234', '+92-311-5369301', '2024-04-03', 4.0),
 (2, 'Abdullah Sheikh', 'abdullahmuhhamad339@gmail.com', '1234', NULL, NULL, 0.0);
 
 --
@@ -167,19 +182,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `users`
