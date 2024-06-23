@@ -275,7 +275,7 @@ if ($userprofile == true) {
             <label for="type">Type:</label>
             <select id="type" name="type" required style="border-radius: 10px; padding: 10px; font-size: 15px;">
               <option value="">Select Type</option>
-              <option value="T-Shirts">T-Shirts</option>
+              <option value="Shirts">Shirts</option>
               <option value="Jackets">Jackets</option>
               <option value="Jeans">Jeans</option>
               <option value="Tops">Tops</option>

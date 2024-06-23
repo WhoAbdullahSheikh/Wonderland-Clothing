@@ -193,6 +193,73 @@ header a ion-icon {
   padding-top: 3%;
 }
 
+/* Hide the images by default */
+.mySlides {
+  display: none;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: rgb(8, 8, 8);
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(151, 148, 148, 0.8);
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 10px;
+  width: 10px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active,
+.dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .img-slider {
   display: flex;
   float: left;
@@ -591,6 +658,23 @@ footer {
   }
 }
 
+.section-break {
+  padding-top: 2%;
+  text-align: center;
+  margin: 5px 0;
+  padding-bottom: 1%;
+}
+
+.section-break hr {
+  width: 85%;
+  /* Adjust the width as needed */
+  border: none;
+  height: 1px;
+  margin: 0 auto;
+  /* Center the line horizontally */
+  background-color: #333;
+}
+
 .section2 {
   width: 100%;
   display: flex;
@@ -704,6 +788,7 @@ footer {
   padding: 5px;
   margin: 15px auto;
   /* Centers the div horizontally */
+
 }
 
 img {
@@ -714,6 +799,7 @@ img {
 }
 
 .product-item {
+
   border: 1px solid #ccc;
   border-radius: 5px;
   margin: 10px;
@@ -746,7 +832,7 @@ img {
 }
 
 .product-card {
-  border-radius: 15%;
+  border-radius: 5%;
 
   box-shadow: 0 30px 30px rgba(0, 0, 0, 0.7);
   margin: 10px;
@@ -765,6 +851,13 @@ img {
   /* Indicates that the item is clickable */
 }
 
+/* Remove link effect on product card */
+.product-card a {
+  text-decoration: none;
+  color: inherit;
+
+}
+
 .product-card:hover {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   /* Enhanced shadow for hover effect */
@@ -773,7 +866,7 @@ img {
 }
 
 .product-image {
-  border-radius: 15%;
+  border-radius: 15px;
   width: 90%;
   /* Ensures the image fills the width */
   height: 450px;
@@ -787,6 +880,7 @@ img {
   background: #fff;
   /* Optional: Adds a white background to fill any empty space */
 }
+
 
 .product-info {
   padding: 10px;
@@ -802,12 +896,16 @@ img {
   font-size: 15px;
 }
 
+
+
 .price-cart-container {
+
   display: flex;
   justify-content: space-between;
   /* This spreads the button and price apart */
   align-items: center;
   padding: 0 10px 10px 10px;
+
 }
 
 .product-price {
@@ -831,11 +929,12 @@ img {
 }
 
 .add-to-cart-btn {
+
   background-color: rgb(240, 197, 6);
   color: rgb(0, 0, 0);
   color: black;
-  margin-top: 7%;
-  margin-left: 0%;
+  margin-top: 12%;
+  margin-left: 3%;
   border: none;
   font-weight: bold;
   padding: 8px 16px;
@@ -843,6 +942,7 @@ img {
   border-radius: 5px;
   font-size: 16px;
   width: 50%;
+
 }
 
 .add-to-cart-btn:hover {
@@ -853,260 +953,23 @@ img {
   /* Darker shade on hover */
 }
 
-.product-details-container {
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-  margin-top: 40px;
-  margin-left: 10%;
-}
-
-.product-image-container {
-  padding-top: 0.5%;
-  border: 5px solid #fbff24;
-  border-radius: 50px;
-  background-color: rgb(67, 46, 5, 0.5);
-  padding-bottom: 30px;
-  max-width: 400px;
-  width: 100%;
-  height: 570px;
-  margin-left: 3%;
-  padding-right: 0.5%;
-}
-
-.product-image-container img {
-  border-radius: 50px;
-}
-
-.product-info-container {
-  flex: 2;
-  margin-left: 10%;
-  margin-right: 15%;
-}
-
-.product-info-container h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-.product-info-container p {
-  font-size: 18px;
-  margin-bottom: 15px;
-}
-
-.product-info-container p:last-child {
-  margin-bottom: 0;
-}
-
-.product-info-container .add-to-cart-btn {
-  background-color: #f0c506;
-  color: #000;
-  font-weight: bold;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 23px;
-  transition: background-color 0.3s ease;
-}
-
-.product-info-container .add-to-cart-btn:hover {
-  background-color: #d97600;
-  color: white;
-  transition: color 0.3s ease;
-}
-
-.section-break {
-  padding-top: 2%;
-  text-align: center;
-  margin: 5px 0;
-  padding-bottom: 1%;
-}
-
-.section-break hr {
-  width: 100%;
-  border: none;
-  height: 1.5px;
-  margin: 0 auto;
-  background-color: #333;
-}
-
-/* Slideshow Container */
-.slideshow-container {
-  max-width: 350px;
-  position: relative;
-  margin: auto;
-}
-
-.slideshow-container img {
-  width: 90%;
-  height: 450px;
-  display: block;
-  border-radius: 10px;
-}
-
-.prev,
-.next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  padding: 16px;
-  margin-top: -22px;
-  color: rgb(0, 0, 0);
-  font-weight: bold;
-  font-size: 20px;
-  transition: 0.6s ease;
-  border-radius: 0 3px 3px 0;
-  user-select: none;
-  margin-left: 1%;
-}
-
-.next {
-  right: 0;
-  border-radius: 30px 0 0 30px;
-  background-color: rgb(255, 208, 0, 0.7);
-  margin-left: 1%;
-}
-
-.prev {
-  left: 0;
-  border-radius: 0px 30px 30px 0px;
-  background-color: rgb(255, 208, 0, 0.7);
-}
-
-.prev:hover,
-.next:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-}
-
-/* Caption Text */
-.text {
-  color: #f2f2f2;
-  font-size: 15px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
-  text-align: center;
-}
-
-/* Number Text (1/3 etc) */
-.numbertext {
-  color: black;
-  font-size: 20px;
-  font-weight: bold;
-  padding: 2px 12px;
-  position: absolute;
-  top: 0;
-}
-
-/* Dots/bullets/indicators */
-.dot {
-  cursor: pointer;
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #585858;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
-  margin-left: 1%;
-}
-
-.active,
-.dot:hover {
-  background-color: #f0c506;
-}
-
-/* Fade animation */
-.fade {
-  -webkit-animation-name: fade;
-  -webkit-animation-duration: 1.5s;
-  animation-name: fade;
-  animation-duration: 1.5s;
-}
-
-@-webkit-keyframes fade {
-  from {
-    opacity: 0.4;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fade {
-  from {
-    opacity: 0.4;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-/* style.css */
-
-.card {
-  max-width: 350px;
-  background: rgb(0, 255, 115);
-  margin: 0 1rem;
-  padding: 1rem;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  border-radius: 10px;
-  margin-left: 310px;
-}
-.card button {
-  border-radius: 10px;
-}
-
- 
-.star {
-  font-size: 25px;
-  cursor: pointer;
-  
-}
- 
-.one {
-  color: rgb(255, 81, 0);
-}
- 
-.two {
-    color: rgb(255, 191, 0);
-}
- 
-.three {
-  color: rgb(255, 191, 0);
-}
- 
-.four {
-  color: rgb(255, 191, 0);
-}
- 
-.five {
-  color: rgb(255, 191, 0);
-}
-
-.visit-profile-btn {
-  background-color:  #fde475;
+.circle-image2 {
+  background-color: #fadc5885;
   color: rgb(0, 0, 0);
   border: none;
   padding: 8px 12px;
   margin-bottom: 10px;
-  border-radius: 5px;
+  border-radius: 15px;
   margin-left: 3%;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 20px;
   transition: background-color 0.3s ease;
   font-weight: bold;
-  width: 150px;
+  width: 250px;
+
 }
 
-.visit-profile-btn:hover {
+.circle-image2:hover {
   color: white;
   background-color: rgb(217, 118, 0);
   transition: background-color 0.6s ease;
