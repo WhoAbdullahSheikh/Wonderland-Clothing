@@ -220,7 +220,11 @@
         .then(response => response.json())
         .then(data => {
           if (data.status === "success") {
-            window.location.href = "./orderplace.php?order_id=" + data.order_id; // Navigate to confirmation page
+            if (orderData.cashondelivery) {
+              window.location.href = "./orderplace.php?order_id=" + data.order_id; // Navigate to confirmation page for Cash on Delivery
+            } else {
+              window.location.href = "./payment.php?order_id=" + data.order_id; // Navigate to payment page
+            }
             clearCart();
             document.getElementById("orderForm").reset();
           } else {
