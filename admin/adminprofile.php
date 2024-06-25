@@ -59,6 +59,7 @@ $sqlOrders = "SELECT
                 orders.city,
                 orders.state,
                 orders.zip,
+                IFNULL(orders.tr_receipt, 'Payment Not Verified') AS tr_receipt,
                 orders.created_at AS order_date,
                 order_items.product_name,
                 order_items.product_price,
@@ -127,7 +128,7 @@ $conn->close();
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wonderland</title>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="./css/adminprofile.css" />
+  <link rel="stylesheet" href="./css/adminprofile.css?v=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" />
   <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet" />
@@ -337,6 +338,7 @@ $conn->close();
         <th>State</th>
         <th>ZIP</th>
         <th>Order Date</th>
+        <th>Transaction Proof</th>
         <th>Action</th>
       </tr>
       <?php if (!empty($orders)): ?>
@@ -357,14 +359,21 @@ $conn->close();
             <td><?= htmlspecialchars($order['state']) ?></td>
             <td><?= htmlspecialchars($order['zip']) ?></td>
             <td><?= htmlspecialchars($order['order_date']) ?></td>
-
             <td style="text-align: center;">
-
+              <?php if ($order['tr_receipt'] === 'Payment Not Verified'): ?>
+                <span><?= htmlspecialchars($order['tr_receipt']) ?></span>
+              <?php else: ?>
+                <a href="../screens/records/image/<?= htmlspecialchars($order['tr_receipt']) ?>" download>
+                  <img src="../screens/records/image/<?= htmlspecialchars($order['tr_receipt']) ?>"
+                    alt="<?= htmlspecialchars($order['product_name']) ?>" style="width: 100px; height: auto;">
+                </a>
+              <?php endif; ?>
+            </td>
+            <td style="text-align: center;">
               <a href="./orders/approve_order.php?id=<?= $order['order_id'] ?>&status=Approved"
                 class="btn btn-approve">Approve</a>
               <a href="./orders/reject_order.php?id=<?= $order['order_id'] ?>&status=Rejected"
                 class="btn btn-reject">Reject</a>
-
             </td>
           </tr>
         <?php endforeach; ?>
@@ -374,6 +383,8 @@ $conn->close();
         </tr>
       <?php endif; ?>
     </table>
+
+
 
   </div>
 
