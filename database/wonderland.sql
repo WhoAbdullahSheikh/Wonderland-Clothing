@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 23, 2024 at 02:14 AM
+-- Generation Time: Jun 25, 2024 at 02:28 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -57,15 +57,17 @@ CREATE TABLE `orders` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `total_price` decimal(10,2) DEFAULT NULL,
   `owner_email` varchar(255) DEFAULT NULL,
-  `status` enum('Pending','Approved','Rejected') DEFAULT 'Pending'
+  `status` enum('Pending','Approved','Rejected') DEFAULT 'Pending',
+  `tr_receipt` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `fullname`, `email`, `address`, `city`, `state`, `zip`, `cashondelivery`, `created_at`, `total_price`, `owner_email`, `status`) VALUES
-(34, 'Shahid', 'abdulrehman@gmail.com', 'asldkjakls', 'rwp', 'pnj', '46000', 1, '2024-06-21 06:43:51', 2300.00, 'abdulrehman@gmail.com', 'Approved');
+INSERT INTO `orders` (`id`, `fullname`, `email`, `address`, `city`, `state`, `zip`, `cashondelivery`, `created_at`, `total_price`, `owner_email`, `status`, `tr_receipt`) VALUES
+(34, 'Shahid', 'abdulrehman@gmail.com', 'asldkjakls', 'rwp', 'pnj', '46000', 1, '2024-06-21 06:43:51', 2300.00, 'abdulrehman@gmail.com', 'Approved', NULL),
+(35, 'Shahid', 'abdulrehman@gmail.com', 'asldkjakls', 'rwp', 'pnj', '46000', 1, '2024-06-23 14:29:05', 1200.00, 'abdulrehman@gmail.com', 'Pending', NULL);
 
 -- --------------------------------------------------------
 
@@ -87,7 +89,8 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `product_name`, `product_price`, `product_quantity`) VALUES
-(21, 34, 26, 'Black Long Frock', 2300.00, 1);
+(21, 34, 26, 'Black Long Frock', 2300.00, 1),
+(22, 35, 7, 'White Casual T-Shirt', 1200.00, 1);
 
 -- --------------------------------------------------------
 
@@ -117,8 +120,8 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`id`, `email`, `category`, `type`, `p_name`, `description`, `p_condition`, `price`, `filename`, `filename2`, `filename3`, `status`, `feedback`) VALUES
 (7, 'abdulrehman@gmail.com', 'Men', 'Shirts', 'White Casual T-Shirt', '100% Cotton White Casual Shirt for Daily \r\n', 'Good', 1200, '3c9d3584157b3976ee3ac37eb19f2fe6.jpg', '', '', 'Approved', 'N/A'),
-(27, 'abdullahmuhhamad339@gmail.com', 'Men', NULL, 'Black Shirt', 'Black T-shirt for casual use', 'Good', 1200, '3c9d3584157b3976ee3ac37eb19f2fe6.jpg', '', '', 'Approved', 'N/A'),
-(26, 'abdulrehman@gmail.com', 'Women', NULL, 'Black Long Frock', 'Black long frock for women', 'Good', 2300, 'MF-31.jpg', '', '', 'Approved', 'N/A');
+(27, 'abdullahmuhhamad339@gmail.com', 'Men', 'Shirts', 'Black Shirt', 'Black T-shirt for casual use', 'Good', 1200, '3c9d3584157b3976ee3ac37eb19f2fe6.jpg', '', '', 'Approved', 'N/A'),
+(26, 'abdulrehman@gmail.com', 'Women', 'Frocks', 'Black Long Frock', 'Black long frock for women', 'Good', 2300, 'MF-31.jpg', '', '', 'Approved', 'N/A');
 
 -- --------------------------------------------------------
 
@@ -182,13 +185,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `products`
