@@ -74,13 +74,13 @@ if (isset($_SESSION['email']) && $_SESSION['email'] === 'admin@wonderland.com') 
       <div class="section1">
         <div class="slideshow-container">
           <div class="mySlides fade">
-            <img src="./collection/banners/Made_for_comfort.webp" style="width: 100%" alt="" />
+            <img src="./collection/banners/banner2.webp" style="width: 100%" alt="" />
           </div>
           <div class="mySlides fade">
-            <img src="./collection/banners/Made_for_comfort.webp" style="width: 100%" alt="" />
+            <img src="./collection/banners/banner2.webp" style="width: 100%" alt="" />
           </div>
           <div class="mySlides fade">
-            <img src="./collection/banners/Made_for_comfort.webp" style="width: 100%" alt="" />
+            <img src="./collection/banners/banner2.webp" style="width: 100%" alt="" />
           </div>
 
           <a class="prev" onclick="plusSlides(-1)">&#10094;</a>

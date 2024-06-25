@@ -38,7 +38,7 @@ $sqlPending = "SELECT products.id, products.p_name, products.description, produc
 $resultPending = $conn->query($sqlPending);
 
 // Fetch product data for listing section
-$sql = "SELECT filename, id, p_name, email, description, price, category, p_condition, status, feedback 
+$sql = "SELECT filename, id, p_name, email, description, price, category, IFNULL(type, 'N/A') AS type, p_condition, status, feedback 
         FROM products 
         WHERE status = 'Approved' OR status = 'Rejected' 
         ORDER BY id ASC";
@@ -277,6 +277,7 @@ $conn->close();
               <th>Description</th>
               <th>Price</th>
               <th>Category</th>
+              <th>Type</th>
               <th>Condition</th>
               <th>Status</th>
               <th>Feedback</th>
@@ -296,6 +297,7 @@ $conn->close();
                 <td><?= htmlspecialchars($product['description']) ?></td>
                 <td style="text-align: center;">Rs. <?= htmlspecialchars($product['price']) ?></td>
                 <td style="text-align: center;"><?= htmlspecialchars($product['category']) ?></td>
+                <td style="text-align: center;"><?= htmlspecialchars($product['type']) ?></td>
                 <td style="text-align: center;"><?= htmlspecialchars($product['p_condition']) ?></td>
                 <td style="text-align: center;"><?= htmlspecialchars($product['status']) ?></td>
                 <td style="text-align: center;"><?= htmlspecialchars($product['feedback']) ?></td>
