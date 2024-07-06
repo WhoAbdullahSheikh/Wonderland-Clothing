@@ -5,6 +5,8 @@ $username = "root";
 $password = "";
 $dbname = "wonderland";
 
+session_start();
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 if (isset($_SESSION['email']) && $_SESSION['email'] !== 'admin@wonderland.com') {
   $showProfileIcon = true;
@@ -63,7 +65,6 @@ $conn->close();
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" />
   <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet" />
-
   <style>
     * {
       margin: 0;
@@ -996,16 +997,13 @@ $conn->close();
 </head>
 
 <body>
-
   <header>
     <div class="logo"><a href="#">Wonderland</a></div>
-
-
     <div class="heading">
       <ul>
         <li><a href="../home.php" class="under">HOME</a></li>
-        <li><a href="./shopscreen.php" class="under">SHOP</a></li> 
-        <?php if ($showProfileIcon) : ?>
+        <li><a href="./shopscreen.php" class="under">SHOP</a></li>
+        <?php if ($showProfileIcon): ?>
           <li><a href="./profilescreen.php"><i class="fa fa-user" style="font-size:20px;color: white"></i></a></li>
         <?php endif; ?>
       </ul>
@@ -1016,7 +1014,6 @@ $conn->close();
         <a href="#">
           <ion-icon name="close" class="close"></ion-icon>
         </a>
-
         <ul>
           <li><a href="#" class="under">HOME</a></li>
           <li><a href="#" class="under">SHOP</a></li>
@@ -1036,7 +1033,7 @@ $conn->close();
       <div class="section1">
         <div class="register-container">
           <h2>Sign Up</h2>
-          <form id="register-form" action="registerscreen.php" method="POST">
+          <form id="register-form" action="registerscreen.php" method="POST" onsubmit="return validateForm()">
             <div class="form-group">
               <label for="fullname">Full Name:</label>
               <input type="text" id="fullname" name="fullname" required />
@@ -1050,8 +1047,8 @@ $conn->close();
               <input type="password" id="password" name="password" required />
             </div>
             <div class="form-group">
-              <label for="password">Re-Password:</label>
-              <input type="password" id="password" name="password" required />
+              <label for="repassword">Re-Password:</label>
+              <input type="password" id="repassword" name="repassword" required />
             </div>
             <button type="submit">Sign Up</button>
           </form>
@@ -1060,7 +1057,6 @@ $conn->close();
       </div>
     </div>
   </section>
-
 
   <footer>
     <div class="footer0">
@@ -1100,7 +1096,6 @@ $conn->close();
         <div class="div">Complaint</div>
         <div class="div">Others</div>
       </div>
-
       <div class="Get Help">
         <div class="heading-footer">Get Help</div>
         <div class="div">Help Center</div>
@@ -1117,18 +1112,29 @@ $conn->close();
   </footer>
   <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       var alerts = document.querySelectorAll(".alert");
 
-      alerts.forEach(function(alert) {
-        setTimeout(function() {
+      alerts.forEach(function (alert) {
+        setTimeout(function () {
           alert.style.opacity = "0";
-          setTimeout(function() {
+          setTimeout(function () {
             alert.style.display = "none";
           }, 600);
         }, 3000); // Fade out after 5 seconds
       });
     });
+
+    function validateForm() {
+      const password = document.getElementById('password').value;
+      const repassword = document.getElementById('repassword').value;
+
+      if (password !== repassword) {
+        alert('Passwords do not match');
+        return false;
+      }
+      return true;
+    }
   </script>
 </body>
 

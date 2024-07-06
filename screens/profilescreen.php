@@ -62,7 +62,7 @@ if ($userprofile == true) {
 
     // Check if exactly 3 images are uploaded
     if (count($filenames) != 3 || count($tempnames) != 3) {
-      echo '<script>alert("Error: You must upload exactly 3 images.");</script>';
+      echo '<script>alert("Upload atleast 3 images and make sure that the images are well lit and clear");</script>';
       exit;
     }
 
@@ -283,7 +283,7 @@ if ($userprofile == true) {
             </select>
           </div>
           <div class="input-container">
-            <label for="description">Description:</label>
+            <label for="description">Description: (100 Words Max.)</label>
             <textarea id="description" name="description" required
               style="border-radius: 10px; height: 200px; width: 40%; font-size: 15px; padding: 10px"></textarea>
           </div>
@@ -487,11 +487,12 @@ if ($userprofile == true) {
                 order_items.product_name,
                 order_items.product_price,
                 order_items.product_quantity,
-                products.filename
+                products.filename,
+                orders.delivery_status
             FROM orders
             JOIN order_items ON orders.id = order_items.order_id
             JOIN products ON order_items.product_id = products.id
-            WHERE products.email = ? AND orders.status = 'Approved'";
+            WHERE products.email = ? AND orders.status = 'Approved' AND orders.delivery_status = 'pending'";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -512,9 +513,11 @@ if ($userprofile == true) {
             <th>State</th>
             <th>ZIP</th>
             <th>Order Date</th>
+            <th>Action</th>
           </tr>
           <?php
           if ($result->num_rows > 0) {
+            
             while ($row = $result->fetch_assoc()) {
               ?>
               <tr>
@@ -531,6 +534,13 @@ if ($userprofile == true) {
                 <td><?= htmlspecialchars($row['state']) ?></td>
                 <td><?= htmlspecialchars($row['zip']) ?></td>
                 <td><?= htmlspecialchars($row['order_date']) ?></td>
+                <?php if ($row['delivery_status'] === 'pending') { ?>
+                  <td>
+                    <button class="fulfill-order-button" onclick="fulfillOrder(<?= $row['order_id'] ?>)">Fulfill Order</button>
+                  </td>
+                <?php } else { ?>
+                  <td><?= htmlspecialchars($row['delivery_status']) ?></td>
+                <?php } ?>
               </tr>
               <?php
             }
@@ -660,6 +670,28 @@ if ($userprofile == true) {
         });
 
       });
+      function fulfillOrder(orderId) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "./components/fulfill_order.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            // Order fulfilled successfully, update UI or display confirmation message
+            console.log("Order fulfilled!");
+            // Update the order status in the table (optional)
+          } else {
+            console.error("Error fulfilling order:", xhr.statusText);
+            // Handle error
+          }
+        };
+        xhr.onerror = function (error) {
+          console.error("Error fulfilling order:", error);
+          // Handle error
+        };
+        const data = `order_id=${orderId}`;
+        xhr.send(data);
+      }
+
     </script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {

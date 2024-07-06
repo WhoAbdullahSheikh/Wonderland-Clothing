@@ -908,3 +908,21 @@ td {
 .delete-button:hover {
   color: #d11a2a;
 }
+
+.fulfill-order-button {
+  background-color: #4CAF50; /* Green color */
+  border: none;
+  color: white;
+  padding: 10px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px; /* Add rounded corners */
+}
+
+.fulfill-order-button:hover {
+  background-color: #45A049; /* Darken green on hover */
+  opacity: 0.8; /* Make slightly transparent on hover */
+}
