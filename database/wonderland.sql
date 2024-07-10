@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 06, 2024 at 09:53 PM
+-- Generation Time: Jul 10, 2024 at 09:27 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -59,19 +59,20 @@ CREATE TABLE `orders` (
   `owner_email` varchar(255) DEFAULT NULL,
   `status` enum('Pending','Approved','Rejected') DEFAULT 'Pending',
   `tr_receipt` varchar(255) DEFAULT NULL,
-  `delivery_status` varchar(255) DEFAULT 'pending'
+  `delivery_status` varchar(255) DEFAULT 'pending',
+  `delivered` varchar(256) DEFAULT 'No',
+  `received` varchar(255) DEFAULT 'No'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `fullname`, `email`, `address`, `city`, `state`, `zip`, `cashondelivery`, `created_at`, `total_price`, `owner_email`, `status`, `tr_receipt`, `delivery_status`) VALUES
-(34, 'Shahid', 'abdulrehman@gmail.com', 'asldkjakls', 'rwp', 'pnj', '46000', 1, '2024-06-21 06:43:51', 2300.00, 'abdulrehman@gmail.com', 'Approved', NULL, 'shipped'),
-(35, 'Shahid', 'abdulrehman@gmail.com', 'asldkjakls', 'rwp', 'pnj', '46000', 1, '2024-06-23 14:29:05', 1200.00, 'abdulrehman@gmail.com', 'Pending', NULL, 'pending'),
-(36, 'Abdulrehman', 'abc@gmail.com', 'Islamabad, Federal', 'Rawalpindi', 'Punjab', '12312', 1, '2024-06-26 19:43:49', 3600.00, 'abdulrehman@gmail.com', 'Rejected', 'WhatsApp Image 2024-06-23 at 14.15.29.jpeg', 'pending'),
-(37, 'Abdulrehman', 'abc@gmail.com', 'Islamabad, Federal', 'Rawalpindi', 'Punjab', '12344', 1, '2024-06-26 20:00:02', 1200.00, 'abdulrehman@gmail.com', 'Approved', 'WhatsApp Image 2024-06-23 at 14.15.29.jpeg', 'shipped'),
-(38, 'Abdulrehman', 'abc@gmail.com', 'Islamabad, Federal', 'Rawalpindi', 'Punjab', '46000', 1, '2024-07-06 17:06:42', 1200.00, 'abdulrehman@gmail.com', 'Approved', '3c9d3584157b3976ee3ac37eb19f2fe6.jpg', 'pending');
+INSERT INTO `orders` (`id`, `fullname`, `email`, `address`, `city`, `state`, `zip`, `cashondelivery`, `created_at`, `total_price`, `owner_email`, `status`, `tr_receipt`, `delivery_status`, `delivered`, `received`) VALUES
+(34, 'Shahid', 'abdulrehman@gmail.com', 'asldkjakls', 'rwp', 'pnj', '46000', 1, '2024-06-21 06:43:51', 2300.00, 'abdulrehman@gmail.com', 'Pending', NULL, 'pending', '0', 'No'),
+(35, 'Shahid', 'abdulrehman@gmail.com', 'asldkjakls', 'rwp', 'pnj', '46000', 1, '2024-06-23 14:29:05', 1200.00, 'abdulrehman@gmail.com', 'Approved', NULL, 'shipped', '0', 'No'),
+(37, 'Rehman', 'abc@gmail.com', 'Islamabad, Federal', 'Rawalpindi', 'Punjab', '12344', 1, '2024-06-26 20:00:02', 1200.00, 'abdulrehman@gmail.com', 'Approved', '', 'pending', '0', 'No'),
+(38, 'Abdulrehman', 'abc@gmail.com', 'Islamabad, Federal', 'Rawalpindi', 'Punjab', '46000', 1, '2024-07-06 17:06:42', 1200.00, 'abdulrehman@gmail.com', 'Approved', '3c9d3584157b3976ee3ac37eb19f2fe6.jpg', 'pending', '0', 'Yes');
 
 -- --------------------------------------------------------
 

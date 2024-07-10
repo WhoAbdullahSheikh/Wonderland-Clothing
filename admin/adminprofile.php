@@ -385,6 +385,70 @@ $conn->close();
         </tr>
       <?php endif; ?>
     </table>
+    <br>
+    <div class="section-break">
+      <hr />
+    </div>
+    <br>
+    <h1>Order Status
+      <button onclick="location.reload();" style="margin-left: 70px; cursor: pointer;" class="refresh-button">
+        <i class="fa fa-refresh fa-spin"></i> Refresh
+      </button>
+    </h1>
+    <div class="section-break">
+      <hr />
+    </div>
+
+    <div class="order-details">
+      <?php
+      // Assuming you have session management and user ID stored in $user_id
+      // Replace with your actual database connection code
+      $servername = "localhost";
+      $username = "root";
+      $password = "";
+      $dbname = "wonderland";
+
+      // Create connection
+      $conn = new mysqli($servername, $username, $password, $dbname);
+
+      // Check connection
+      if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+      }
+
+      // Fetch orders for the logged-in user
+      $sql = "SELECT * FROM orders;";
+      $result = $conn->query($sql);
+
+      if ($result->num_rows > 0) {
+        // Display orders in a table format
+        echo "<table border='1'>
+            <tr>
+              <th>Order ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Order Status</th>
+              <th>Received</th>
+            </tr>";
+        while ($row = $result->fetch_assoc()) {
+          echo "<tr>";
+          echo "<td style='text-align: center;'>" . $row['id'] . "</td>";
+          echo "<td>" . $row['fullname'] . "</td>";
+          echo "<td>" . $row['email'] . "</td>";
+          echo "<td style='text-align: center;'>" . $row['delivery_status'] . "</td>";
+          echo "<td style='text-align: center;'>" . $row['received'] . "</td>";
+
+          echo "</tr>";
+        }
+        echo "</table>";
+      } else {
+        echo "No orders made.";
+      }
+
+      $conn->close();
+      ?>
+    </div>
+
 
 
 

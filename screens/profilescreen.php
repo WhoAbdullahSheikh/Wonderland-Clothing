@@ -19,6 +19,7 @@ if ($userprofile == true) {
     die("Connection failed: " . $conn->connect_error);
   }
 
+
   $email = $_SESSION['email'];
   $sql = "SELECT id, fullname, email, contact, dob FROM users WHERE email = ?";
   $stmt = $conn->prepare($sql);
@@ -120,6 +121,21 @@ if ($userprofile == true) {
     exit;
   }
 
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $order_id = $_POST['order_id'];
+    $received_status = $_POST['received']; // either 'yes' or 'no'
+
+    // Update received status in the database
+    $sql_update = "UPDATE orders SET received = '$received_status' WHERE id = '$order_id'";
+    if ($conn->query($sql_update) === TRUE) {
+
+      echo '<script("Received status updated successfully.");</script>';
+      header('Location: ./profilescreen.php');
+      exit();
+    } else {
+      echo "Error updating received status: " . $conn->error;
+    }
+  }
   $conn->close();
 } else {
   header("Location: loginscreen.php");
@@ -170,7 +186,7 @@ if ($userprofile == true) {
       </a>
       <a href="#" id="statusButton" onclick="toggleSections('productStatus')">
         <i class="fa fa-clock-o"></i>
-        <span>Product Status</span></span>
+        <span>Status</span></span>
       </a>
       <hr>
       <a href="./logout.php">
@@ -456,6 +472,75 @@ if ($userprofile == true) {
         }
         ?>
       </div>
+      <div class="profile-container">
+        <h2>Order Status
+          <button onclick="location.reload();" style="margin-left: 70px; cursor: pointer;" class="refresh-button">
+            <i class="fa fa-refresh fa-spin"></i> Refresh
+          </button>
+        </h2>
+        <div class="section-break">
+          <hr />
+        </div>
+
+        <div class="order-details">
+          <?php
+          // Assuming you have session management and user ID stored in $user_id
+          // Replace with your actual database connection code
+          $servername = "localhost";
+          $username = "root";
+          $password = "";
+          $dbname = "wonderland";
+
+          // Create connection
+          $conn = new mysqli($servername, $username, $password, $dbname);
+
+          // Check connection
+          if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+          }
+
+          // Fetch orders for the logged-in user
+          $sql = "SELECT * FROM orders WHERE email = '$email'";
+          $result = $conn->query($sql);
+
+          if ($result->num_rows > 0) {
+            // Display orders in a table format
+            echo "<table border='1'>
+            <tr>
+              <th>Order ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Order Status</th>
+              <th>Received</th>
+              <th>Action</th>
+            </tr>";
+            while ($row = $result->fetch_assoc()) {
+              echo "<tr>";
+              echo "<td style='text-align: center;'>" . $row['id'] . "</td>";
+              echo "<td>" . $row['fullname'] . "</td>";
+              echo "<td>" . $row['email'] . "</td>";
+              echo "<td style='text-align: center;'>" . $row['delivery_status'] . "</td>";
+              echo "<td style='text-align: center;'>" . $row['received'] . "</td>";
+              echo "<td style='text-align: center;'>
+              <form method='POST' action='./profilescreen.php'>
+                <input type='hidden' name='order_id' value='" . $row['id'] . "'>
+                <button type='submit' name='received' value='Yes'>Yes</button>
+                <button type='submit' name='received' value='No'>No</button>
+              </form>
+            </td>";
+              echo "</tr>";
+            }
+            echo "</table>";
+          } else {
+            echo "No orders made.";
+          }
+
+          $conn->close();
+          ?>
+        </div>
+
+      </div>
+
     </div>
     <div id="orders"
       style="width:100%; background-color: white; color: black; padding: 20px; padding-left: 15%; padding-top: 5%">
@@ -517,7 +602,7 @@ if ($userprofile == true) {
           </tr>
           <?php
           if ($result->num_rows > 0) {
-            
+
             while ($row = $result->fetch_assoc()) {
               ?>
               <tr>
@@ -561,6 +646,71 @@ if ($userprofile == true) {
         echo "<p>Please log in to view this page.</p>";
       }
       ?>
+      <br>
+      <div class="section-break">
+        <hr />
+      </div>
+      <br>
+      <h1>Order Status
+        <button onclick="location.reload();" style="margin-left: 70px; cursor: pointer;" class="refresh-button">
+          <i class="fa fa-refresh fa-spin"></i> Refresh
+        </button>
+      </h1>
+      <div class="section-break">
+        <hr />
+      </div>
+
+      <div class="order-details">
+        <?php
+        // Assuming you have session management and user ID stored in $user_id
+        // Replace with your actual database connection code
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "wonderland";
+
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        // Check connection
+        if ($conn->connect_error) {
+          die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Fetch orders for the logged-in user
+        $sql = "SELECT * FROM orders WHERE email = '$email'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+          // Display orders in a table format
+          echo "<table border='1'>
+            <tr>
+              <th>Order ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Order Status</th>
+              <th>Received</th>
+            </tr>";
+          while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td style='text-align: center;'>" . $row['id'] . "</td>";
+            echo "<td>" . $row['fullname'] . "</td>";
+            echo "<td>" . $row['email'] . "</td>";
+            echo "<td style='text-align: center;'>" . $row['delivery_status'] . "</td>";
+            echo "<td style='text-align: center;'>" . $row['received'] . "</td>";
+            
+            echo "</tr>";
+          }
+          echo "</table>";
+        } else {
+          echo "No orders made.";
+        }
+
+        $conn->close();
+        ?>
+      </div>
+
+
     </div>
 
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
